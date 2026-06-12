@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HatiTiga Web Solution - Template Website Profesional Siap Pakai</title>
+    <meta name="description"
+        content="Layanan pembuatan website untuk eksportir lokal, UMKM berkembang, dan perusahaan. Pilih template, dan miliki website profesional tanpa mulai dari nol.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb', // Primary Brand Blue
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Iframe Live Previews for Template Cards */
+        .preview-iframe-wrapper {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+            background: #f8fafc;
+        }
+
+        .preview-iframe-scaled {
+            width: 300%;
+            height: 300%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform: scale(0.3333);
+            transform-origin: 0 0;
+            border: none;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .preview-iframe-scaled.loaded {
+            opacity: 1;
+        }
+
+        .preview-skeleton {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+            background-size: 200% 100%;
+            animation: loadingPulse 1.5s infinite;
+            z-index: 1;
+        }
+
+        @keyframes loadingPulse {
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        .full-preview-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: #fff;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #app-wrapper {
+            display: none;
+        }
+
+        #app-wrapper.ready {
+            display: block;
+        }
+
+        /* Admin UI */
+        .admin-shell {
+            min-height: 80vh;
+            background: #f8fafc;
+        }
+
+        .admin-sidebar-btn {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: .75rem;
+            padding: .75rem 1rem;
+            border-radius: .9rem;
+            font-weight: 700;
+            color: #475569;
+            transition: .2s;
+        }
+
+        .admin-sidebar-btn:hover {
+            background: #f1f5f9;
+            color: #1d4ed8;
+        }
+
+        .admin-sidebar-btn.active {
+            background: #eff6ff;
+            color: #1d4ed8;
+            border: 1px solid #dbeafe;
+        }
+
+        .admin-card {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 1.25rem;
+            box-shadow: 0 1px 2px rgba(15, 23, 42, .04);
+        }
+
+        .admin-input {
+            width: 100%;
+            padding: .7rem .85rem;
+            border: 1px solid #cbd5e1;
+            border-radius: .85rem;
+            background: white;
+            outline: none;
+            transition: .2s;
+            font-size: 0.875rem;
+        }
+
+        .admin-input:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, .12);
+        }
+
+        .admin-label {
+            display: block;
+            font-size: .8rem;
+            font-weight: 800;
+            color: #334155;
+            margin-bottom: .35rem;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50 text-slate-800 antialiased flex flex-col min-h-screen">
+
+    <div id="app-wrapper" class="ready flex-grow flex flex-col">
+        <!-- Navbar -->
+        <nav class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between h-20">
+                    <div class="flex items-center cursor-pointer" onclick="navigate('home')">
+                        <div class="w-10 h-10 bg-brand-600 rounded-lg flex items-center justify-center mr-3 shadow-md">
+                            <i class="fa-solid fa-cube text-white text-xl"></i>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="font-extrabold text-xl tracking-tight text-slate-900 leading-tight" translate="no"
+                                id="brand-name-nav">HatiTiga</span>
+                            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Web
+                                Solution</span>
+                        </div>
+                    </div>
+
+                    <!-- Desktop Menu -->
+                    <div class="hidden xl:flex items-center space-x-6">
+                        <button onclick="navigate('home')"
+                            class="text-slate-600 hover:text-brand-600 font-bold transition whitespace-nowrap">Beranda</button>
+                        <button onclick="navigate('templates')"
+                            class="text-slate-600 hover:text-brand-600 font-bold transition whitespace-nowrap">Katalog Template</button>
+                        <button onclick="navigate('pricing')"
+                            class="text-slate-600 hover:text-brand-600 font-bold transition whitespace-nowrap">Harga</button>
+                        <button onclick="navigate('faq')"
+                            class="text-slate-600 hover:text-brand-600 font-bold transition whitespace-nowrap">FAQ</button>
+                        <div class="flex space-x-3 pl-4 border-l border-slate-200">
+                            <button
+                                onclick="openWhatsApp('Halo HatiTiga, saya ingin konsultasi gratis mengenai pembuatan website.')"
+                                class="px-5 py-2.5 text-slate-700 bg-slate-100 rounded-xl font-bold hover:bg-slate-200 transition whitespace-nowrap flex-shrink-0">Konsultasi</button>
+                            <button onclick="navigate('templates')"
+                                class="px-5 py-2.5 bg-brand-600 text-white rounded-xl font-bold hover:bg-brand-700 transition shadow-lg shadow-brand-500/30 whitespace-nowrap flex-shrink-0">Mulai
+                                Bangun</button>
+                        </div>
+                        <div id="auth-ui-container" class="flex items-center pl-4 border-l border-slate-200 ml-2 flex-shrink-0"></div>
+                    </div>
+
+                    <!-- Mobile Menu Button -->
+                    <div class="xl:hidden flex items-center">
+                        <button id="mobile-menu-btn"
+                            class="text-slate-600 hover:text-brand-600 focus:outline-none p-2 bg-slate-100 rounded-lg">
+                            <i class="fa-solid fa-bars text-xl"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile Menu Dropdown -->
+            <div id="mobile-menu"
+                class="hidden md:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-6 space-y-3 shadow-lg absolute w-full left-0 z-50">
+                <button onclick="navigate('home'); closeMobileMenu()"
+                    class="block w-full text-left px-4 py-3 bg-slate-50 rounded-xl text-slate-700 font-bold">Beranda</button>
+                <button onclick="navigate('templates'); closeMobileMenu()"
+                    class="block w-full text-left px-4 py-3 bg-slate-50 rounded-xl text-slate-700 font-bold">Katalog
+                    Template</button>
+                <button onclick="navigate('pricing'); closeMobileMenu()"
+                    class="block w-full text-left px-4 py-3 bg-slate-50 rounded-xl text-slate-700 font-bold">Harga
+                    Paket</button>
+                <button onclick="navigate('faq'); closeMobileMenu()"
+                    class="block w-full text-left px-4 py-3 bg-slate-50 rounded-xl text-slate-700 font-bold">FAQ</button>
+                <div class="grid grid-cols-2 gap-3 mt-4">
+                    <button onclick="openWhatsApp('Halo HatiTiga, saya ingin konsultasi mengenai pembuatan website.')"
+                        class="block w-full text-center py-3 bg-slate-100 text-slate-700 rounded-xl font-bold">Konsultasi</button>
+                    <button onclick="navigate('templates'); closeMobileMenu()"
+                        class="block w-full text-center py-3 bg-brand-600 text-white rounded-xl font-bold shadow-md">Mulai
+                        Bangun</button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main id="app-content" class="flex-grow fade-in w-full">
+            <!-- Dynamic content injected here -->
+        </main>
+
+        <footer class="bg-slate-900 text-slate-300 py-16 mt-auto">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-10">
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center mb-6">
+                        <div class="w-8 h-8 bg-brand-600 rounded flex items-center justify-center mr-3">
+                            <i class="fa-solid fa-cube text-white text-sm"></i>
+                        </div>
+                        <span class="font-extrabold text-2xl tracking-tight text-white" translate="no" id="brand-name-footer">HatiTiga Web Solution</span>
+                    </div>
+                    <p class="text-slate-400 mb-8 max-w-md leading-relaxed">Mitra digital terpercaya untuk eksportir
+                        lokal, UMKM, dan perusahaan. Menyediakan template website profesional siap pakai agar Anda tidak
+                        perlu memulai dari nol.</p>
+                    <div class="flex space-x-4">
+                        <a href="#"
+                            class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 hover:bg-brand-600 hover:text-white transition"><i
+                                class="fa-brands fa-instagram"></i></a>
+                        <a href="#"
+                            class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 hover:bg-brand-600 hover:text-white transition"><i
+                                class="fa-brands fa-linkedin"></i></a>
+                        <a href="#" onclick="openWhatsApp('Halo!')"
+                            class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 hover:bg-green-500 hover:text-white transition"><i
+                                class="fa-brands fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-6 uppercase tracking-wider text-sm">Layanan Kami</h4>
+                    <ul class="space-y-3 font-medium">
+                        <li><button onclick="navigate('templates')"
+                                class="text-slate-400 hover:text-white transition">Katalog Template</button></li>
+                        <li><button onclick="navigate('pricing')"
+                                class="text-slate-400 hover:text-white transition">Harga Paket</button></li>
+                        <li><button onclick="navigate('faq')" class="text-slate-400 hover:text-white transition">FAQ &
+                                Bantuan</button></li>
+                        <li><button onclick="navigate('login')" class="text-slate-400 hover:text-white transition">Admin
+                                Panel</button></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-6 uppercase tracking-wider text-sm">Hubungi Kami</h4>
+                    <ul class="space-y-4 text-slate-400">
+                        <li class="flex items-start"><i class="fa-solid fa-envelope mt-1 mr-3 text-brand-500 w-4"></i>
+                            <span id="contact-email">halo@hatitiga.com</span>
+                        </li>
+                        <li class="flex items-start"><i class="fa-brands fa-whatsapp mt-1 mr-3 text-green-500 w-4"></i>
+                            <span id="contact-phone">+62 811-2233-4455</span>
+                        </li>
+                        <li class="flex items-start"><i
+                                class="fa-solid fa-location-dot mt-1 mr-3 text-brand-500 w-4"></i> Jakarta, Indonesia
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div
+                class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-8 border-t border-slate-800 text-sm text-center text-slate-500 font-medium">
+                &copy; <span id="current-year"></span> <span id="brand-name-copy" translate="no">HatiTiga Web Solution</span>. All
+                rights reserved.
+            </div>
+        </footer>
+
+        <!-- Floating WhatsApp Button -->
+        <a href="#"
+            onclick="openWhatsApp('Halo HatiTiga Web Solution, saya butuh konsultasi untuk pembuatan website bisnis saya.')"
+            class="fixed bottom-6 right-6 bg-green-500 text-white w-14 h-14 rounded-full flex items-center justify-center text-3xl shadow-[0_10px_30px_rgba(34,197,94,0.4)] hover:scale-110 hover:bg-green-600 transition-all duration-300 z-[100] group">
+            <i class="fa-brands fa-whatsapp"></i>
+            <span
+                class="absolute right-16 bg-white text-slate-800 text-xs font-bold px-3 py-2 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition duration-300 whitespace-nowrap pointer-events-none">Konsultasi
+                Gratis</span>
+        </a>
+    </div>
+
+    <script src="js/mock_data.js"></script>
+    <script>
+        const CONFIG = {
+            brandName: "HatiTiga",
+            whatsappNumber: "6281122334455", // Dummy WA
+            email: "halo@hatitiga.com",
+            defaultCurrency: "Rp",
+        };
+
+        // Konfigurasi Kunci Storage untuk Sesi
+        const STORAGE_KEYS = {
+            session: 'webkilat_session_v1'
+        };
+
+        // State untuk melacak data user
+        let appState = {
+            user: null, // Berisi { username, role } jika sudah login
+            currentPage: 'home',
+            params: {},
+            filter: { search: '', category: 'Semua', style: '' }
+        };
+
+        // Fungsi Proses Login
+        function handleLogin(e) {
+            e.preventDefault();
+            const u = document.getElementById('username').value;
+            const p = document.getElementById('password').value;
+            const err = document.getElementById('login-error');
+
+            if (u === 'user' && p === '1234') {
+                appState.user = { id: 'user_001', username: u, email: 'user@example.com', role: 'user', verified: true };
+                localStorage.setItem(STORAGE_KEYS.session, JSON.stringify(appState.user));
+                err.classList.add('hidden');
+                updateAuthUI();
+                navigate('dashboard');
+            } else if (u === 'admin' && p === 'admin') {
+                appState.user = { id: 'admin_001', username: u, email: 'admin@hatitiga.com', role: 'admin', verified: true, permissions: ['manage_templates', 'manage_orders', 'edit_website'] };
+                localStorage.setItem(STORAGE_KEYS.session, JSON.stringify(appState.user));
+                err.classList.add('hidden');
+                updateAuthUI();
+                window.location.href = 'admin_panel.html';
+            } else {
+                err.innerText = 'Username atau password salah!';
+                err.classList.remove('hidden');
+            }
+        }
+
+        // Fungsi Proses Logout
+        function handleLogout() {
+            appState.user = null;
+            localStorage.removeItem(STORAGE_KEYS.session);
+            
+            updateAuthUI();
+            navigate('home');
+            // alert("Berhasil Logout!");
+        }
+
+        // Fungsi Update UI Navbar
+        function updateAuthUI() {
+            const authContainer = document.getElementById('auth-ui-container');
+            
+            if (appState.user) {
+                // Logged in UI
+                const isAdmin = appState.user.role === 'admin';
+                const adminName = isAdmin ? 'Admin' : 'User';
+                const initial = adminName.charAt(0).toUpperCase();
+                
+                const dashboardTarget = isAdmin ? 'admin-dashboard' : 'dashboard';
+                const dashboardLabel = isAdmin ? 'Admin Panel' : 'Dashboard Saya';
+                const dashboardIcon = isAdmin ? 'fa-earth-americas' : 'fa-chart-pie';
+                
+                if (authContainer) {
+                    const buttonAction = isAdmin ? `window.location.href='admin_panel.html'` : `navigate('${dashboardTarget}')`;
+                    authContainer.innerHTML = `
+                        <div class="flex items-center space-x-4">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-blue-100 text-blue-700 rounded-full flex items-center justify-center font-bold text-lg flex-shrink-0">
+                                    ${initial}
+                                </div>
+                                <span class="font-bold text-slate-800 text-base whitespace-nowrap hidden sm:block">${adminName}</span>
+                            </div>
+                            <button onclick="${buttonAction}" class="flex items-center px-4 py-2 bg-slate-50 text-blue-700 border border-slate-200 rounded-xl font-bold hover:bg-slate-100 transition shadow-sm text-sm whitespace-nowrap flex-shrink-0">
+                                <i class="fa-solid ${dashboardIcon} mr-2"></i> ${dashboardLabel}
+                            </button>
+                            <button onclick="handleLogout()" class="text-red-500 hover:text-red-600 font-medium transition text-sm whitespace-nowrap flex-shrink-0">Logout</button>
+                        </div>
+                    `;
+                }
+            } else {
+                // Logged out UI
+                if (authContainer) {
+                    authContainer.innerHTML = `
+                        <button onclick="navigate('login')" class="px-6 py-2.5 bg-slate-900 text-white rounded-xl font-bold hover:bg-slate-800 transition shadow-lg text-sm whitespace-nowrap flex-shrink-0">
+                            Login
+                        </button>
+                    `;
+                }
+            }
+        }
+
+        // Contoh cara mengecek status login saat halaman pertama kali dimuat
+        function checkSessionOnLoad() {
+            const savedSession = localStorage.getItem(STORAGE_KEYS.session);
+            if (savedSession) {
+                appState.user = JSON.parse(savedSession);
+            }
+        }
+
+        function initApp() {
+            checkSessionOnLoad();
+            updateAuthUI();
+            document.getElementById('contact-phone').innerText = '+' + CONFIG.whatsappNumber.replace(/(\d{2})(\d{3})(\d{4})(\d+)/, '$1 $2-$3-$4');
+            document.getElementById('current-year').innerText = new Date().getFullYear();
+
+            // Mobile menu toggle
+            document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+                document.getElementById('mobile-menu').classList.toggle('hidden');
+            });
+
+            renderPage();
+        }
+
+        function navigate(page, params = {}) {
+            const protectedUserRoutes = ['dashboard', 'my-orders', 'upload-assets'];
+
+            if (page === 'admin-dashboard' || page === 'admin-templates' || page === 'admin-orders') {
+                window.location.href = 'admin_panel.html';
+                return;
+            }
+
+            if (protectedUserRoutes.includes(page)) {
+                if (!appState.user) {
+                    alert('Silakan login terlebih dahulu.');
+                    page = 'login';
+                }
+            }
+
+            appState.currentPage = page;
+            appState.params = params;
+            if (page !== 'templates') appState.filter = { search: '', category: 'Semua', style: '' };
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            renderPage();
+        }
+
+        function closeMobileMenu() {
+            document.getElementById('mobile-menu').classList.add('hidden');
+        }
+
+        function openWhatsApp(message) {
+            const encodedMsg = encodeURIComponent(message);
+            window.open(`https://wa.me/${CONFIG.whatsappNumber}?text=${encodedMsg}`, '_blank');
+        }
+
+        const components = {
+            badge: (text) => {
+                let colorClass = "bg-slate-100 text-slate-700";
+                if (text.includes("Export") || text.includes("SEO")) colorClass = "bg-blue-100 text-blue-700";
+                else if (text.includes("Premium") || text.includes("Corporate")) colorClass = "bg-slate-800 text-white";
+                else if (text.includes("Popular")) colorClass = "bg-amber-100 text-amber-700";
+                else if (text.includes("Mobile") || text.includes("Fast")) colorClass = "bg-green-100 text-green-700";
+
+                return `<span class="inline-block px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider rounded-md ${colorClass} mr-2 mb-2 border border-black/5 shadow-sm">${text}</span>`;
+            },
+
+            // Live Iframe Builder referencing actual HTML files
+            previewBuilder: (tpl) => {
+                return `
+                    <div class="preview-iframe-wrapper bg-white">
+                        <div class="preview-header relative z-10 shadow-sm border-b border-slate-200">
+                            <div class="preview-dot r"></div>
+                            <div class="preview-dot y"></div>
+                            <div class="preview-dot g"></div>
+                            <span class="text-[9px] text-slate-400 font-medium ml-2 relative top-[1px] tracking-widest uppercase">${tpl.fileUrl}</span>
+                        </div>
+                        <div class="preview-skeleton" id="skeleton-${tpl.id}"></div>
+                        <iframe 
+                            src="${tpl.fileUrl}" 
+                            class="preview-iframe-scaled"
+                            scrolling="no"
+                            onload="this.classList.add('loaded'); document.getElementById('skeleton-${tpl.id}').style.display='none';"
+                            title="Preview ${tpl.name}"
+                        ></iframe>
+                    </div>
+                `;
+            },
+
+            templateCard: (tpl) => `
+                <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden hover:border-brand-400 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col h-full group cursor-pointer" onclick="navigate('template-detail', {id: '${tpl.id}'})">
+                    <div class="relative overflow-hidden aspect-[16/11] bg-slate-100 border-b border-slate-100">
+                        <div class="w-full h-full transform group-hover:scale-105 transition-transform duration-500 ease-out">
+                            ${components.previewBuilder(tpl)}
+                        </div>
+                        <div class="absolute top-3 left-3 flex flex-wrap z-20">
+                            ${tpl.badges.map(b => components.badge(b)).join('')}
+                        </div>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col bg-white">
+                        <div class="flex justify-between items-start mb-3">
+                            <div class="text-[10px] font-bold text-brand-600 uppercase tracking-wider bg-brand-50 px-2 py-1 rounded border border-brand-100">${tpl.category}</div>
+                        </div>
+                        <h3 class="text-xl font-extrabold text-slate-900 mb-2 leading-tight">${tpl.name}</h3>
+                        <p class="text-sm text-slate-500 line-clamp-2 mb-4 leading-relaxed">${tpl.description}</p>
+                        
+                        <div class="flex gap-3 mt-auto pt-4 border-t border-slate-100">
+                            <button onclick="event.stopPropagation(); navigate('template-detail', {id: '${tpl.id}'})" class="w-full py-3 bg-brand-600 text-white rounded-xl text-sm font-bold hover:bg-brand-700 transition shadow-md flex items-center justify-center">Lihat Detail <i class="fa-solid fa-arrow-right ml-2 text-xs"></i></button>
+                        </div>
+                    </div>
+                </div>
+            `,
+
+            pricingCard: (pkg) => `
+                <div class="bg-white rounded-2xl border ${pkg.highlight ? 'border-brand-500 shadow-2xl relative scale-105 z-10' : 'border-slate-200 shadow-sm'} p-8 flex flex-col h-full transition duration-300">
+                    ${pkg.highlight ? '<div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-brand-500 text-white px-6 py-1.5 rounded-full text-sm font-bold shadow-lg uppercase tracking-wider">Paling Sering Dipilih</div>' : ''}
+                    <h3 class="text-2xl font-extrabold text-slate-900 mb-2">${pkg.name}</h3>
+                    <p class="text-sm text-slate-500 font-medium mb-6 h-10 border-b border-slate-100 pb-4">${pkg.target}</p>
+                    <div class="mb-6">
+                        <span class="text-sm text-slate-500 font-bold uppercase tracking-wider">Mulai dari</span>
+                        <div class="flex items-baseline mt-1">
+                            <span class="text-2xl font-bold text-slate-900 mr-1">${CONFIG.defaultCurrency}</span>
+                            <span class="text-4xl font-black text-slate-900 tracking-tight">${pkg.price}</span>
+                        </div>
+                    </div>
+                    <ul class="space-y-4 mb-8 flex-grow text-sm text-slate-700">
+                        ${pkg.features.map(f => `<li class="flex items-start"><i class="fa-solid fa-circle-check text-green-500 mt-0.5 mr-3 text-lg"></i><span class="leading-relaxed font-medium">${f}</span></li>`).join('')}
+                        <li class="flex items-start pt-3 border-t border-slate-100"><i class="fa-solid fa-server text-brand-500 mt-0.5 mr-3 text-lg"></i><span class="font-bold leading-relaxed">${pkg.hosting}</span></li>
+                        <li class="flex items-start"><i class="fa-solid fa-pen-ruler text-brand-500 mt-0.5 mr-3 text-lg"></i><span class="leading-relaxed">${pkg.revision}</span></li>
+                        <li class="flex items-start"><i class="fa-solid fa-clock text-brand-500 mt-0.5 mr-3 text-lg"></i><span class="leading-relaxed">Pengerjaan: <span class="font-bold">${pkg.time}</span></span></li>
+                    </ul>
+                    <button onclick="navigate('templates')" class="w-full py-4 rounded-xl font-bold text-center transition ${pkg.highlight ? 'bg-brand-600 text-white hover:bg-brand-700 shadow-lg shadow-brand-500/30' : 'bg-slate-100 text-slate-900 hover:bg-slate-200'}">Pilih Template Sekarang</button>
+                </div>
+            `
+        };
+
+        const contentDiv = document.getElementById('app-content');
+
+        function renderPage() {
+            let html = '';
+            contentDiv.innerHTML = '<div class="flex justify-center items-center h-[60vh]"><i class="fa-solid fa-circle-notch fa-spin text-5xl text-brand-500"></i></div>';
+
+            setTimeout(() => {
+                switch (appState.currentPage) {
+                    case 'home': html = pages.home(); break;
+                    case 'templates': html = pages.templates(); break;
+                    case 'template-detail': html = pages.templateDetail(appState.params.id); break;
+                    case 'order': html = pages.order(appState.params.id); break;
+                    case 'pricing': html = pages.pricing(); break;
+                    case 'faq': html = pages.faq(); break;
+                    case 'login': html = pages.login(); break;
+                    case 'dashboard': html = pages.userDashboard(); break;
+                    default: html = pages.home();
+                }
+
+                contentDiv.innerHTML = html;
+
+                if (appState.currentPage === 'templates') bindTemplateEvents();
+                if (appState.currentPage === 'order') bindOrderEvents();
+
+                contentDiv.classList.remove('fade-in');
+                void contentDiv.offsetWidth;
+                contentDiv.classList.add('fade-in');
+            }, 100);
+        }
+
+        const pages = {
+            home: () => `
+                <!-- Hero Section -->
+                <section class="bg-white overflow-hidden relative border-b border-slate-100">
+                    <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-[0.03]"></div>
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-20 relative z-10">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                            <div>
+                                <div class="inline-flex items-center mb-6 px-4 py-2 rounded-full bg-brand-50 border border-brand-100 text-brand-700 text-sm font-bold shadow-sm">
+                                    <i class="fa-solid fa-rocket mr-2 text-brand-500"></i> Platform Pembuatan Website
+                                </div>
+                                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight mb-6 leading-[1.15]">
+                                    Website Profesional <br>Siap Pakai untuk <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-blue-400">Eksportir & UMKM</span>
+                                </h1>
+                                <p class="text-lg md:text-xl text-slate-600 mb-8 leading-relaxed max-w-xl">
+                                    Pilih template desain premium, tentukan domain & hosting, dan tim HatiTiga akan menyulapnya menjadi website siap pakai. Cepat, hemat, dan profesional untuk menjangkau pembeli luar negeri.
+                                </p>
+                                
+                                <div class="flex flex-col sm:flex-row gap-4 mb-8">
+                                    <button onclick="navigate('templates')" class="w-full sm:w-auto px-8 py-4 bg-brand-600 text-white rounded-xl font-bold text-lg hover:bg-brand-700 transition shadow-[0_10px_20px_rgba(37,99,235,0.2)]">Lihat Template</button>
+                                    <button onclick="openWhatsApp('Halo HatiTiga, saya mau konsultasi buat website.')" class="w-full sm:w-auto px-8 py-4 bg-white text-slate-800 border-2 border-slate-200 rounded-xl font-bold text-lg hover:bg-slate-50 transition flex items-center justify-center"><i class="fa-brands fa-whatsapp text-green-500 text-xl mr-2"></i> Konsultasi Gratis</button>
+                                </div>
+                                
+                                <div class="flex items-center text-sm font-bold text-slate-500 gap-4">
+                                    <span class="flex items-center"><i class="fa-solid fa-check text-green-500 mr-1.5"></i> Harga Terjangkau</span>
+                                    <span class="flex items-center"><i class="fa-solid fa-check text-green-500 mr-1.5"></i> Desain Premium</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Hero Visual Mockup using pure CSS Engine -->
+                            <div class="relative w-full h-80 sm:h-[450px] hidden lg:block perspective-1000">
+                                <!-- Desktop Mockup -->
+                                <div class="absolute right-0 top-4 w-[90%] h-64 sm:h-[320px] bg-slate-800 rounded-t-2xl rounded-b p-2.5 shadow-2xl transform rotate-2 hover:rotate-0 transition duration-500 z-10 border-b-[8px] border-slate-900">
+                                    <div class="w-full h-full bg-white overflow-hidden rounded-lg">
+                                        ${components.previewBuilder(DB.templates[0])}
+                                    </div>
+                                </div>
+                                <!-- Mobile Mockup -->
+                                <div class="absolute left-4 bottom-0 w-[35%] h-[280px] bg-slate-900 rounded-[2rem] p-2.5 shadow-[0_20px_50px_rgba(0,0,0,0.3)] transform -rotate-3 hover:rotate-0 transition duration-500 z-20 border-[6px] border-slate-800">
+                                    <div class="w-full h-full bg-white overflow-hidden rounded-[1.2rem]">
+                                         ${components.previewBuilder(DB.templates[6])}
+                                    </div>
+                                    <div class="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-10 h-1 bg-slate-700 rounded-full"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Problem Section -->
+                <section class="py-24 bg-slate-50">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div class="text-center mb-16 max-w-3xl mx-auto">
+                            <span class="text-red-500 font-bold tracking-wider uppercase text-sm mb-2 block">Identifikasi Masalah</span>
+                            <h2 class="text-3xl md:text-4xl font-black text-slate-900 mb-6 leading-tight">Tantangan Terbesar Bisnis Lokal Menembus Pasar Global</h2>
+                            <p class="text-lg text-slate-600">Menembus pasar internasional membutuhkan lebih dari sekadar produk yang bagus. Kredibilitas digital di mata pembeli asing adalah kuncinya.</p>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                            ${[
+                    { title: "Importir Cari via Google", desc: "Importir luar negeri lebih sering mencari supplier melalui Google, bukan hanya sosmed.", icon: "fa-magnifying-glass-location" },
+                    { title: "IG & WA Belum Cukup", desc: "Instagram & WhatsApp saja belum cukup membangun kepercayaan pembeli internasional.", icon: "fa-instagram" },
+                    { title: "UMKM Tanpa Web", desc: "Banyak bisnis UMKM potensial terhambat karena belum memiliki profil digital profesional.", icon: "fa-globe" },
+                    { title: "Web Custom Mahal", desc: "Membangun website custom dari nol seringkali butuh biaya mahal dan waktu yang sangat lama.", icon: "fa-money-bill-trend-up" }
+                ].map(p => `
+                                <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 hover:-translate-y-1 transition duration-300">
+                                    <div class="w-14 h-14 bg-red-50 text-red-500 rounded-xl flex items-center justify-center text-2xl mb-6 shadow-inner"><i class="fa-solid ${p.icon}"></i></div>
+                                    <h4 class="text-xl font-bold text-slate-900 mb-3">${p.title}</h4>
+                                    <p class="text-slate-600 text-sm leading-relaxed">${p.desc}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Solution Section -->
+                <section class="py-24 bg-slate-900 text-white relative overflow-hidden">
+                    <div class="absolute top-0 right-0 -mr-20 -mt-20 w-[500px] h-[500px] bg-brand-600 rounded-full blur-[100px] opacity-20"></div>
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                            <div>
+                                <span class="text-brand-400 font-bold tracking-wider uppercase text-sm mb-3 block">Solusi HatiTiga</span>
+                                <h2 class="text-3xl md:text-5xl font-black mb-6 leading-tight text-white">Website Ekspor Profesional Tanpa Mulai Dari Nol</h2>
+                                <p class="text-slate-300 mb-10 text-lg leading-relaxed">Kami memangkas waktu dan biaya pengembangan dengan menyediakan ratusan template premium yang siap dikustomisasi untuk identitas bisnis Anda.</p>
+                                
+                                <ul class="space-y-6">
+                                    ${[
+                    { t: "Ratusan Template Siap Pakai", d: "Pilih dari berbagai desain yang telah dioptimasi untuk konversi & B2B." },
+                    { t: "Bebas Kustomisasi", d: "Bisa custom warna, font, gambar, logo, produk, dan konten sesuai brand." },
+                    { t: "Terjangkau & Cepat", d: "Harga jauh lebih bersahabat dan selesai dalam hitungan hari, bukan bulan." },
+                    { t: "Cocok untuk Berbagai Bisnis", d: "Mulai dari eksportir, UMKM, company profile, hingga online shop." }
+                ].map(s => `
+                                        <li class="flex items-start">
+                                            <div class="w-8 h-8 rounded-full bg-brand-500/20 text-brand-400 flex items-center justify-center mr-4 flex-shrink-0 mt-1 border border-brand-500/30"><i class="fa-solid fa-check text-sm"></i></div>
+                                            <div>
+                                                <h4 class="font-bold text-lg text-white mb-1">${s.t}</h4>
+                                                <p class="text-slate-400 text-sm leading-relaxed">${s.d}</p>
+                                            </div>
+                                        </li>
+                                    `).join('')}
+                                </ul>
+                            </div>
+                            <div class="relative lg:pl-10">
+                                <div class="aspect-square w-full max-w-md mx-auto relative">
+                                    <div class="absolute inset-0 border-2 border-brand-500/30 rounded-full animate-ping opacity-20"></div>
+                                    <div class="w-full h-full bg-slate-800 rounded-3xl p-6 border border-slate-700 shadow-2xl flex flex-col relative z-10">
+                                        <div class="flex gap-2 mb-6">
+                                            <div class="w-3 h-3 rounded-full bg-red-500"></div><div class="w-3 h-3 rounded-full bg-yellow-500"></div><div class="w-3 h-3 rounded-full bg-green-500"></div>
+                                        </div>
+                                        <div class="flex-grow bg-slate-900 rounded-xl border border-slate-700 relative overflow-hidden flex items-center justify-center">
+                                             <div class="text-center p-4">
+                                                 <i class="fa-solid fa-wand-magic-sparkles text-5xl text-brand-400 mb-4"></i>
+                                                 <h4 class="font-bold text-white text-lg">Website Builder Magic</h4>
+                                                 <p class="text-slate-400 text-xs mt-2">Template siap diisi dengan konten Anda</p>
+                                             </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Template Categories -->
+                <section class="py-24 bg-white border-b border-slate-100">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div class="text-center mb-16">
+                            <h2 class="text-3xl font-black text-slate-900 mb-4">Kategori Industri</h2>
+                            <p class="text-slate-600 max-w-2xl mx-auto text-lg">Setiap bisnis punya kebutuhan berbeda. Kami mengelompokkan template berdasarkan industri untuk memudahkan pencarian Anda.</p>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                            ${categoryCards.map(cat => `
+                                <div onclick="appState.filter.category='${cat.name}'; navigate('templates')" class="group cursor-pointer bg-slate-50 border border-slate-200 rounded-2xl p-6 text-center hover:bg-brand-600 hover:border-brand-600 transition-all duration-300">
+                                    <div class="w-16 h-16 mx-auto bg-white rounded-2xl shadow-sm flex items-center justify-center text-3xl text-brand-600 mb-5 group-hover:scale-110 transition-transform">
+                                        <i class="fa-solid ${cat.icon}"></i>
+                                    </div>
+                                    <h4 class="font-bold text-slate-900 text-lg mb-2 group-hover:text-white transition-colors">${cat.name}</h4>
+                                    <p class="text-slate-500 text-sm group-hover:text-brand-100 transition-colors">${cat.desc}</p>
+                                    <div class="mt-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <span class="text-xs font-bold text-white uppercase tracking-wider">Lihat Template <i class="fa-solid fa-arrow-right ml-1"></i></span>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Featured Templates -->
+                <section class="py-24 bg-slate-50">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
+                            <div>
+                                <h2 class="text-3xl font-black text-slate-900 mb-3">Template Profesional Pilihan</h2>
+                                <p class="text-slate-600 text-lg">Beberapa desain terbaik yang dirancang khusus untuk meningkatkan kepercayaan (trust) bisnis Anda.</p>
+                            </div>
+                            <button onclick="navigate('templates')" class="hidden md:inline-flex items-center px-6 py-3 bg-white border border-slate-300 rounded-xl font-bold text-slate-700 hover:bg-slate-100 transition whitespace-nowrap">Lihat Semua Katalog <i class="fa-solid fa-arrow-right ml-2"></i></button>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                            ${DB.templates.filter(t => t.status === 'published').slice(0, 4).map(tpl => components.templateCard(tpl)).join('')}
+                        </div>
+                        <div class="mt-10 text-center md:hidden">
+                            <button onclick="navigate('templates')" class="w-full py-4 bg-white border border-slate-300 rounded-xl font-bold text-slate-700 hover:bg-slate-100 transition">Lihat Semua Katalog</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- How It Works Stepper -->
+                <section class="py-24 bg-white border-t border-slate-100">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div class="text-center mb-20">
+                            <h2 class="text-3xl font-black text-slate-900 mb-4">Proses Sederhana Tanpa Pusing</h2>
+                            <p class="text-slate-600 max-w-2xl mx-auto text-lg">Tidak perlu paham teknis coding atau server. Cukup ikuti alur ini dan website Anda siap online.</p>
+                        </div>
+                        
+                        <div class="relative max-w-5xl mx-auto">
+                            <!-- Connecting Line -->
+                            <div class="hidden lg:block absolute top-10 left-[10%] right-[10%] h-1 bg-slate-100 z-0 rounded-full"></div>
+                            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-10 text-center relative z-10">
+                                ${[
+                    { s: "1", t: "Pilih Domain", d: "Tentukan alamat website (.com/.id) bisnis Anda." },
+                    { s: "2", t: "Pilih Template", d: "Eksplorasi katalog dan pilih desain yang sesuai." },
+                    { s: "3", t: "Pilih Hosting", d: "Tentukan paket layanan sesuai kapasitas yang dibutuhkan." },
+                    { s: "4", t: "Bayar", d: "Lakukan pembayaran aman untuk memulai proyek." },
+                    { s: "5", t: "Dikustomisasi", d: "Tim kami menyulap template menjadi web bisnis Anda." }
+                ].map((step, idx) => `
+                                    <div class="flex flex-col items-center">
+                                        <div class="w-20 h-20 bg-white border-4 ${idx === 4 ? 'border-brand-500 bg-brand-50' : 'border-slate-100'} text-${idx === 4 ? 'brand-600' : 'slate-400'} rounded-full flex items-center justify-center text-2xl font-black shadow-sm mb-5 z-10">
+                                            ${idx === 4 ? '<i class="fa-solid fa-flag-checkered"></i>' : step.s}
+                                        </div>
+                                        <h4 class="font-bold text-slate-900 mb-2 text-lg">${step.t}</h4>
+                                        <p class="text-sm text-slate-500 leading-relaxed">${step.d}</p>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Why Choose Us -->
+                <section class="py-24 bg-brand-50 border-y border-brand-100">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                            <div class="order-2 lg:order-1 relative">
+                                <!-- Abstract Composition -->
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div class="bg-white p-6 rounded-3xl shadow-lg transform translate-y-8">
+                                        <div class="w-12 h-12 bg-green-100 text-green-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-bolt"></i></div>
+                                        <h4 class="font-bold text-slate-900 mb-2">Lebih Cepat</h4>
+                                        <p class="text-xs text-slate-500">Website live dalam 3-10 hari tanpa coding dari awal.</p>
+                                    </div>
+                                    <div class="bg-white p-6 rounded-3xl shadow-lg">
+                                        <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-wallet"></i></div>
+                                        <h4 class="font-bold text-slate-900 mb-2">Lebih Hemat</h4>
+                                        <p class="text-xs text-slate-500">Harga masuk akal untuk UMKM dengan kualitas enterprise.</p>
+                                    </div>
+                                    <div class="bg-white p-6 rounded-3xl shadow-lg transform translate-y-8">
+                                        <div class="w-12 h-12 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-palette"></i></div>
+                                        <h4 class="font-bold text-slate-900 mb-2">Desain Premium</h4>
+                                        <p class="text-xs text-slate-500">Ratusan template yang dirancang khusus untuk konversi.</p>
+                                    </div>
+                                    <div class="bg-white p-6 rounded-3xl shadow-lg">
+                                        <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-headset"></i></div>
+                                        <h4 class="font-bold text-slate-900 mb-2">Support Penuh</h4>
+                                        <p class="text-xs text-slate-500">Dibantu sampai website siap tayang & tutorial CMS.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="order-1 lg:order-2">
+                                <h2 class="text-3xl md:text-4xl font-black text-slate-900 mb-6 leading-tight">Partner Digital Anda Menjangkau Pembeli Luar Negeri</h2>
+                                <p class="text-lg text-slate-600 mb-8 leading-relaxed">Kami mengerti bahwa membangun website dari nol itu mahal dan melelahkan. HatiTiga hadir menawarkan "jalan pintas" dengan menyediakan framework desain siap pakai yang bisa disesuaikan penuh dengan identitas brand Anda.</p>
+                                <button onclick="openWhatsApp('Halo HatiTiga, saya butuh bantuan untuk memilih website yang cocok.')" class="px-8 py-4 bg-slate-900 text-white rounded-xl font-bold text-lg hover:bg-slate-800 transition shadow-lg">Ngobrol dengan Konsultan Kami</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Trust Section -->
+                <section class="py-12 bg-white border-b border-slate-100">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div class="flex flex-wrap justify-center gap-8 md:gap-16 text-center">
+                            ${[
+                    { icon: "fa-magnifying-glass", t: "SEO Friendly" },
+                    { icon: "fa-mobile-screen", t: "Mobile Responsive" },
+                    { icon: "fa-rocket", t: "Fast Loading" },
+                    { icon: "fa-server", t: "Domain & Hosting" },
+                    { icon: "fa-pen-to-square", t: "Bisa Custom Konten" },
+                    { icon: "fa-box-open", t: "Support Katalog" },
+                    { icon: "fa-google", t: "Google Search Ready" }
+                ].map(item => `
+                                <div class="flex flex-col items-center opacity-70 hover:opacity-100 transition duration-300">
+                                    <i class="fa-solid ${item.icon} text-3xl text-slate-400 mb-3"></i>
+                                    <span class="text-xs font-bold text-slate-600 uppercase tracking-wider">${item.t}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Pricing Preview -->
+                <section class="py-24 bg-slate-50">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div class="text-center mb-16">
+                            <h2 class="text-3xl font-black text-slate-900 mb-4">Investasi Website di Bawah 6 Juta</h2>
+                            <p class="text-slate-600 max-w-2xl mx-auto text-lg">Pilih paket sesuai skala bisnis. Harga sudah termasuk template, kustomisasi awal, domain, dan hosting tahun pertama.</p>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                            ${DB.pricing.map(pkg => components.pricingCard(pkg)).join('')}
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Final CTA -->
+                <section class="py-24 bg-slate-900 text-center px-4 relative overflow-hidden">
+                    <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20"></div>
+                    <div class="relative z-10 max-w-3xl mx-auto">
+                        <h2 class="text-4xl md:text-5xl font-black text-white mb-6">Mulai Bangun Website Bisnis Anda Hari Ini</h2>
+                        <p class="text-slate-300 mb-10 text-xl leading-relaxed">Jangan biarkan pembeli internasional lari ke kompetitor karena bisnis Anda tidak memiliki jejak digital yang profesional.</p>
+                        <div class="flex flex-col sm:flex-row justify-center gap-4">
+                            <button onclick="navigate('templates')" class="px-10 py-5 bg-brand-600 text-white rounded-2xl font-bold text-lg hover:bg-brand-700 transition shadow-[0_10px_30px_rgba(37,99,235,0.4)]">Lihat Template Sekarang</button>
+                            <button onclick="openWhatsApp('Halo HatiTiga, mari mulai bangun website untuk bisnis saya.')" class="px-10 py-5 bg-white text-slate-900 rounded-2xl font-bold text-lg hover:bg-slate-100 transition shadow-lg"><i class="fa-brands fa-whatsapp text-green-500 mr-2 text-xl"></i> Konsultasi Sekarang</button>
+                        </div>
+                    </div>
+                </section>
+            `,
+
+            templates: () => {
+                const query = appState.filter.search.toLowerCase();
+                const catFilter = appState.filter.category;
+                const styleFilter = appState.filter.style;
+
+                const filteredTemplates = DB.templates.filter(tpl => {
+                    if (tpl.status !== 'published') return false;
+                    const matchSearch = tpl.name.toLowerCase().includes(query) || tpl.description.toLowerCase().includes(query);
+                    const matchCat = catFilter === 'Semua' || tpl.category === catFilter;
+                    const matchStyle = styleFilter === '' || tpl.style === styleFilter;
+                    return matchSearch && matchCat && matchStyle;
+                });
+
+                return `
+                <div class="bg-white border-b border-slate-200 py-10 shadow-sm relative z-10">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <h1 class="text-3xl md:text-4xl font-black text-slate-900 mb-4">Katalog Template Siap Pakai</h1>
+                        <p class="text-lg text-slate-600 max-w-3xl">Pilih desain foundation untuk website Anda. Tim kami akan menyesuaikan warna, font, dan memasukkan konten bisnis Anda ke dalamnya.</p>
+                    </div>
+                </div>
+
+                <div class="bg-slate-50 min-h-screen">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex flex-col lg:flex-row gap-10 items-start">
+                        <!-- Sidebar Filters -->
+                        <aside class="w-full lg:w-72 flex-shrink-0 space-y-8 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm lg:sticky lg:top-28">
+                            <div>
+                                <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Pencarian</h3>
+                                <div class="relative">
+                                    <input type="text" id="filter-search" value="${appState.filter.search}" placeholder="Ketik kata kunci..." class="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none text-sm transition">
+                                    <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-slate-400"></i>
+                                </div>
+                            </div>
+
+                            <div>
+                                <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Kategori Industri</h3>
+                                <div class="space-y-3 max-h-60 overflow-y-auto pr-2 custom-scrollbar">
+                                    ${DB.categories.map(cat => `
+                                        <label class="flex items-center cursor-pointer group">
+                                            <input type="radio" name="filter-cat" value="${cat}" ${catFilter === cat ? 'checked' : ''} class="w-4 h-4 text-brand-600 border-slate-300 focus:ring-brand-500">
+                                            <span class="ml-3 text-sm font-medium ${catFilter === cat ? 'text-brand-700 font-bold' : 'text-slate-600 group-hover:text-brand-600'} transition">${cat}</span>
+                                        </label>
+                                    `).join('')}
+                                </div>
+                            </div>
+
+                            <div>
+                                <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Gaya Desain</h3>
+                                <select id="filter-style" class="w-full border border-slate-300 rounded-xl p-3 text-sm text-slate-700 focus:ring-brand-500 focus:border-brand-500 font-medium bg-white">
+                                    <option value="">Semua Gaya</option>
+                                    ${DB.styles.map(style => `
+                                        <option value="${style}" ${styleFilter === style ? 'selected' : ''}>${style}</option>
+                                    `).join('')}
+                                </select>
+                            </div>
+                            
+                            <button id="reset-filters" class="w-full py-3 border border-slate-300 rounded-xl text-sm font-bold text-slate-600 hover:bg-slate-100 transition">Reset Filter</button>
+                        </aside>
+
+                        <!-- Template Grid -->
+                        <div class="flex-grow w-full">
+                            <div class="mb-6 flex justify-between items-center">
+                                <div class="text-sm text-slate-500 font-medium">Menampilkan <span class="font-bold text-slate-900">${filteredTemplates.length}</span> template siap pakai</div>
+                            </div>
+                            
+                            ${filteredTemplates.length > 0 ? `
+                                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                                    ${filteredTemplates.map(tpl => components.templateCard(tpl)).join('')}
+                                </div>
+                            ` : `
+                                <div class="text-center py-24 bg-white rounded-2xl border border-slate-200 shadow-sm">
+                                    <i class="fa-solid fa-box-open text-6xl text-slate-200 mb-4"></i>
+                                    <h3 class="text-xl font-bold text-slate-900 mb-2">Template tidak ditemukan</h3>
+                                    <p class="text-slate-500">Coba gunakan kata kunci atau pilih kategori yang berbeda.</p>
+                                    <button onclick="appState.filter={search:'',category:'Semua',style:''}; renderPage();" class="mt-6 px-6 py-2 bg-slate-100 text-slate-700 font-bold rounded-lg hover:bg-slate-200 transition">Reset Semua Filter</button>
+                                </div>
+                            `}
+                        </div>
+                    </div>
+                </div>
+                `;
+            },
+
+            templateDetail: (id) => {
+                const tpl = DB.templates.find(t => t.id === id);
+                if (!tpl) return `<div class="text-center py-32 text-2xl font-bold text-slate-700 bg-slate-50 min-h-screen">Template tidak ditemukan.</div>`;
+
+                return `
+                <div class="bg-slate-50 min-h-screen pb-24 fade-in">
+                    <!-- Top Action Bar -->
+                    <div class="bg-white border-b border-slate-200 sticky top-20 z-40 shadow-sm">
+                        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+                            <button onclick="navigate('templates')" class="text-slate-500 hover:text-slate-900 font-bold flex items-center transition"><i class="fa-solid fa-arrow-left mr-2"></i> Kembali ke Katalog</button>
+                            <div class="flex gap-3 w-full sm:w-auto">
+                                <button onclick="openWhatsApp('Halo, saya tertarik dengan template *${tpl.name}*. Ingin konsultasi dulu.')" class="flex-1 sm:flex-none px-6 py-2.5 border-2 border-slate-200 text-slate-700 rounded-xl font-bold hover:bg-slate-50 transition whitespace-nowrap"><i class="fa-brands fa-whatsapp text-green-500 mr-2 text-lg"></i> Tanya via WA</button>
+                                <button onclick="navigate('order', {id: '${tpl.id}'})" class="flex-1 sm:flex-none px-8 py-2.5 bg-brand-600 text-white rounded-xl font-bold hover:bg-brand-700 transition shadow-[0_5px_15px_rgba(37,99,235,0.3)] whitespace-nowrap">Pilih Template Ini</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10">
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+                            <!-- Left: Presentation -->
+                            <div class="lg:col-span-2 space-y-8">
+                                <div class="bg-white p-3 rounded-3xl border border-slate-200 shadow-sm">
+                                    <div class="w-full aspect-[16/10] bg-slate-100 rounded-2xl overflow-hidden relative border border-slate-200">
+                                        <div class="absolute top-4 left-4 bg-slate-900/80 backdrop-blur text-white text-xs px-3 py-1.5 rounded-lg uppercase tracking-widest z-30 font-bold shadow-lg flex items-center"><i class="fa-solid fa-desktop mr-2"></i> Real Time Preview</div>
+                                        <a href="${tpl.fileUrl}" target="_blank" class="absolute inset-0 z-20 flex flex-col items-center justify-center bg-black/60 opacity-0 hover:opacity-100 transition-opacity duration-300">
+                                            <div class="bg-brand-600 text-white font-bold px-6 py-3 rounded-xl shadow-xl flex items-center transform hover:scale-105 transition-transform"><i class="fa-solid fa-external-link-alt mr-3"></i> Buka Full Preview di Tab Baru</div>
+                                        </a>
+                                        <div class="preview-skeleton" id="detail-skeleton-${tpl.id}"></div>
+                                        <iframe 
+                                            src="${tpl.fileUrl}" 
+                                            class="full-preview-iframe"
+                                            onload="document.getElementById('detail-skeleton-${tpl.id}').style.display='none';"
+                                        ></iframe>
+                                    </div>
+                                    <div class="mt-4 flex justify-end">
+                                        <a href="${tpl.fileUrl}" target="_blank" class="text-sm font-bold text-brand-600 hover:text-brand-800 flex items-center"><i class="fa-solid fa-expand mr-2"></i> Buka Layar Penuh</a>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
+                                    <h3 class="text-2xl font-black text-slate-900 mb-6 border-b border-slate-100 pb-4">Struktur Halaman Web</h3>
+                                    <p class="text-slate-600 mb-6">Template ini telah dirancang dengan struktur halaman standar untuk industrinya, namun tetap bisa ditambah atau dikurangi sesuai kebutuhan bisnis Anda.</p>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                        ${tpl.pagesIncluded.map(p => `
+                                            <div class="flex items-center p-4 bg-slate-50 rounded-xl border border-slate-100">
+                                                <div class="w-10 h-10 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-brand-500 mr-4 shadow-sm">
+                                                    <i class="fa-regular fa-file-lines text-lg"></i>
+                                                </div>
+                                                <span class="font-bold text-slate-700">${p}</span>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Right: Template Info -->
+                            <div class="space-y-6">
+                                <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm lg:sticky lg:top-40">
+                                    <div class="flex flex-wrap gap-2 mb-6">
+                                        ${tpl.badges.map(b => components.badge(b)).join('')}
+                                    </div>
+                                    <h1 class="text-3xl font-black text-slate-900 mb-3 leading-tight">${tpl.name}</h1>
+                                    <p class="text-slate-500 mb-8 text-base leading-relaxed">${tpl.description}</p>
+                                    
+                                    <div class="space-y-6 mb-8">
+                                        <div>
+                                            <div class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Kategori Industri</div>
+                                            <div class="font-bold text-slate-800 bg-slate-100 border border-slate-200 inline-block px-4 py-1.5 rounded-lg text-sm">${tpl.category}</div>
+                                        </div>
+                                        <div>
+                                            <div class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Sangat Direkomendasikan Untuk</div>
+                                            <div class="flex flex-wrap gap-2">
+                                                ${tpl.recommendedFor.map(r => `<span class="bg-brand-50 text-brand-700 px-3 py-1.5 rounded-lg text-xs font-bold border border-brand-100">${r}</span>`).join('')}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="border-t border-slate-100 pt-6 mb-8">
+                                        <h4 class="font-bold text-slate-900 mb-4 uppercase tracking-wider text-xs">Fitur Kunci Template</h4>
+                                        <ul class="space-y-4">
+                                            ${tpl.features.map(f => `
+                                                <li class="flex items-center text-slate-700 font-medium text-sm">
+                                                    <div class="w-6 h-6 rounded-full bg-green-100 text-green-600 flex items-center justify-center mr-3 flex-shrink-0">
+                                                        <i class="fa-solid fa-check text-[10px]"></i>
+                                                    </div>
+                                                    ${f}
+                                                </li>
+                                            `).join('')}
+                                        </ul>
+                                    </div>
+
+                                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 mb-8">
+                                        <div class="flex items-start">
+                                            <i class="fa-solid fa-circle-info text-brand-500 mt-0.5 mr-3"></i>
+                                            <p class="text-xs text-slate-600 leading-relaxed">Warna, teks, font, dan gambar pada template ini 100% bisa disesuaikan dengan identitas brand Anda saat proses kustomisasi.</p>
+                                        </div>
+                                    </div>
+
+                                    <button onclick="navigate('order', {id: '${tpl.id}'})" class="w-full py-4 bg-brand-600 text-white rounded-xl font-bold text-lg hover:bg-brand-700 transition shadow-[0_10px_20px_rgba(37,99,235,0.3)]">Gunakan Desain Ini</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `;
+            },
+
+            order: (id) => {
+                const tpl = DB.templates.find(t => t.id === id);
+                if (!tpl) return `<div class="text-center py-32 font-bold text-2xl">Silakan pilih template terlebih dahulu dari Katalog.</div>`;
+
+                return `
+                <div class="bg-slate-50 min-h-screen py-16">
+                    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                        
+                        <div class="text-center mb-10">
+                            <span class="text-brand-600 font-bold tracking-wider uppercase text-sm mb-2 block">Langkah 1 dari 2</span>
+                            <h1 class="text-3xl font-black text-slate-900">Form Permintaan Pembuatan Website</h1>
+                            <p class="text-slate-500 mt-2">Isi data dasar bisnis Anda. Kami akan menghubungi Anda via WhatsApp untuk konsultasi teknis tanpa komitmen pembayaran di awal.</p>
+                        </div>
+
+                        <!-- Selected Template Summary -->
+                        <div class="bg-white rounded-3xl shadow-sm border border-brand-200 overflow-hidden mb-8 p-6 flex flex-col sm:flex-row items-center justify-between gap-6 bg-gradient-to-r from-brand-50 to-white">
+                            <div class="flex items-center gap-6 w-full">
+                                <div class="w-32 h-24 bg-white rounded-xl border border-slate-200 overflow-hidden hidden sm:block flex-shrink-0 relative">
+                                    <div class="absolute inset-0 transform scale-[0.4] origin-top-left w-[250%] h-[250%] pointer-events-none">
+                                        ${components.previewBuilder(tpl)}
+                                    </div>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-brand-600 font-bold uppercase tracking-widest mb-1">Desain Terpilih</p>
+                                    <h3 class="text-2xl font-black text-slate-900 leading-tight">${tpl.name}</h3>
+                                    <p class="text-sm text-slate-500 mt-1 font-medium">${tpl.category} &bull; ${tpl.style}</p>
+                                </div>
+                            </div>
+                            <button onclick="navigate('templates')" class="w-full sm:w-auto text-sm px-5 py-3 bg-white border border-slate-300 rounded-xl text-slate-700 font-bold hover:bg-slate-50 transition whitespace-nowrap">Ganti Template</button>
+                        </div>
+
+                        <!-- Form -->
+                        <form id="order-form" class="bg-white rounded-3xl shadow-sm border border-slate-200 p-8 md:p-10 space-y-10">
+                            <!-- Identitas -->
+                            <div>
+                                <h3 class="text-xl font-black text-slate-900 border-b border-slate-100 pb-3 mb-6 flex items-center"><i class="fa-solid fa-user text-brand-500 mr-3"></i> Informasi Kontak</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label class="block text-sm font-bold text-slate-700 mb-2">Nama Lengkap *</label>
+                                        <input type="text" id="f-nama" required placeholder="Cth: Budi Santoso" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-bold text-slate-700 mb-2">Nomor WhatsApp *</label>
+                                        <input type="tel" id="f-wa" required placeholder="Cth: 08123456789" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Bisnis -->
+                            <div>
+                                <h3 class="text-xl font-black text-slate-900 border-b border-slate-100 pb-3 mb-6 flex items-center"><i class="fa-solid fa-briefcase text-brand-500 mr-3"></i> Informasi Bisnis</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                    <div>
+                                        <label class="block text-sm font-bold text-slate-700 mb-2">Nama Bisnis / Perusahaan *</label>
+                                        <input type="text" id="f-bisnis" required placeholder="PT HatiTiga Global" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-bold text-slate-700 mb-2">Detail Industri</label>
+                                        <input type="text" id="f-industri" placeholder="Cth: Eksportir Kopi Arabika" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition">
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-8">
+                                    <label class="block text-sm font-bold text-slate-700 mb-3">Pilih Paket Layanan *</label>
+                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                        ${DB.pricing.map((pkg, idx) => `
+                                            <label class="border-2 ${pkg.highlight ? 'border-brand-500 bg-brand-50/50' : 'border-slate-200 bg-white'} rounded-2xl p-5 cursor-pointer hover:border-brand-400 transition relative flex flex-col h-full">
+                                                <input type="radio" name="f-paket" value="${pkg.name}" required ${pkg.highlight ? 'checked' : ''} class="absolute top-5 right-5 w-5 h-5 text-brand-600 focus:ring-brand-500">
+                                                <div class="font-black text-slate-900 mb-1 text-lg pr-8">${pkg.name}</div>
+                                                <div class="text-sm text-brand-600 font-bold mb-3">${CONFIG.defaultCurrency} ${pkg.price}</div>
+                                                <div class="text-xs text-slate-500 leading-relaxed mt-auto border-t border-slate-200/60 pt-3">${pkg.target}</div>
+                                            </label>
+                                        `).join('')}
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                    <div>
+                                        <label class="block text-sm font-bold text-slate-700 mb-2">Status Domain Web</label>
+                                        <select id="f-domain" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition">
+                                            <option value="Butuh Domain Baru">Belum Punya (Bantu Carikan)</option>
+                                            <option value="Sudah Punya Domain">Sudah Punya Domain Sendiri</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-bold text-slate-700 mb-2">Bahasa Website</label>
+                                        <select id="f-bahasa" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition">
+                                            <option value="Indonesia">Bahasa Indonesia</option>
+                                            <option value="English">English (Internasional)</option>
+                                            <option value="Bilingual (ID & EN)">Bilingual (Keduanya)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-bold text-slate-700 mb-2">Catatan Kebutuhan Khusus (Opsional)</label>
+                                    <textarea id="f-catatan" rows="4" placeholder="Misal: Saya ingin warna websitenya didominasi hijau tua, dan butuh halaman khusus untuk menampilkan sertifikat HACCP..." class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="pt-8 border-t border-slate-200 flex flex-col-reverse sm:flex-row items-center justify-between gap-6">
+                                <p class="text-xs text-slate-500 leading-relaxed max-w-sm text-center sm:text-left"><i class="fa-solid fa-shield-halved text-brand-500 mr-1"></i> Data Anda aman. Mengirim form ini akan membuka chat WhatsApp dengan konsultan HatiTiga.</p>
+                                <button type="submit" id="submit-btn" class="w-full sm:w-auto px-10 py-4 bg-brand-600 text-white rounded-xl font-bold text-lg hover:bg-brand-700 transition shadow-[0_10px_20px_rgba(37,99,235,0.3)] whitespace-nowrap">Kirim via WhatsApp <i class="fa-brands fa-whatsapp ml-2"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                `;
+            },
+
+            pricing: () => `
+                <div class="bg-slate-900 pt-24 pb-40 text-center relative overflow-hidden">
+                    <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
+                    <div class="max-w-3xl mx-auto px-4 relative z-10">
+                        <span class="text-brand-400 font-bold tracking-wider uppercase text-sm mb-3 block">Transparan & Masuk Akal</span>
+                        <h1 class="text-4xl md:text-5xl font-black text-white mb-6 leading-tight">Satu Harga, <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-blue-300">Website Siap Pakai</span></h1>
+                        <p class="text-slate-300 text-lg leading-relaxed">Semua paket sudah termasuk template premium, biaya setup, domain, cloud hosting 1 tahun, dan bantuan input konten awal.</p>
+                    </div>
+                </div>
+                
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-24 relative z-20 mb-24">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                        ${DB.pricing.map(pkg => components.pricingCard(pkg)).join('')}
+                    </div>
+                </div>
+
+                <div class="max-w-4xl mx-auto px-4 mb-24 text-center bg-white rounded-3xl p-12 border border-slate-200 shadow-sm">
+                    <div class="w-16 h-16 bg-brand-50 text-brand-600 rounded-full flex items-center justify-center text-2xl mx-auto mb-6"><i class="fa-solid fa-code"></i></div>
+                    <h3 class="text-2xl font-black text-slate-900 mb-4">Butuh Sistem Custom yang Lebih Kompleks?</h3>
+                    <p class="text-slate-600 mb-8 max-w-2xl mx-auto text-lg leading-relaxed">Jika kebutuhan bisnis Anda melebihi fitur template (misal: butuh portal B2B custom, integrasi sistem ERP/API, atau web application), tim developer HatiTiga siap membantu.</p>
+                    <button onclick="openWhatsApp('Halo HatiTiga, saya ingin konsultasi pembuatan Custom Web App yang lebih spesifik.')" class="px-8 py-4 bg-slate-900 text-white rounded-xl font-bold hover:bg-slate-800 transition shadow-lg">Konsultasi Custom Development</button>
+                </div>
+            `,
+
+            faq: () => {
+                const faqs = [
+                    { q: "Apakah template bisa diubah warna dan gambarnya?", a: "Tentu saja. Anda memilih template sebagai fondasi tata letak (layout). Warna utama, jenis font, teks, gambar, dan logo akan kami sesuaikan sepenuhnya agar cocok dengan identitas brand bisnis Anda." },
+                    { q: "Apakah cocok untuk eksportir?", a: "Sangat cocok. Kami memiliki kategori khusus template B2B Eksportir yang dilengkapi struktur konten standar internasional, seperti halaman fasilitas pabrik, info sertifikasi, kapasitas produksi, dan form inquiry spesifik untuk buyer global." },
+                    { q: "Apakah bisa pakai domain sendiri?", a: "Bisa. Jika Anda sudah memiliki nama domain (seperti namabisnis.com), Anda cukup menginfokannya kepada tim kami. Kami akan memandu proses sinkronisasinya." },
+                    { q: "Apakah harga sudah termasuk hosting?", a: "Ya. Semua paket harga HatiTiga sudah mencakup Cloud Hosting berkecepatan tinggi gratis untuk tahun pertama, memastikan website Anda selalu dapat diakses dengan cepat dari seluruh dunia." },
+                    { q: "Berapa lama website selesai?", a: "Proses setup dan kustomisasi memakan waktu rata-rata 3 hingga 14 hari kerja, tergantung paket yang dipilih dan seberapa cepat Anda memberikan materi konten (foto/teks) kepada tim kami." },
+                    { q: "Apakah bisa menampilkan katalog produk?", a: "Bisa. Tersedia halaman khusus Katalog Produk di mana Anda bisa menampilkan foto, spesifikasi detail, dan tombol langsung menuju WhatsApp atau form pemesanan." }
+                ];
+
+                return `
+                <div class="py-20 bg-slate-50 min-h-[80vh]">
+                    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div class="text-center mb-16">
+                            <h1 class="text-4xl font-black text-slate-900 mb-6">Pertanyaan Umum (FAQ)</h1>
+                            <p class="text-lg text-slate-600 leading-relaxed">Jawaban untuk beberapa pertanyaan yang paling sering ditanyakan oleh klien HatiTiga.</p>
+                        </div>
+
+                        <div class="space-y-4">
+                            ${faqs.map((f, i) => `
+                                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden transition-all duration-300 hover:border-brand-300">
+                                    <button class="w-full text-left px-6 py-5 font-bold text-slate-900 flex justify-between items-center focus:outline-none text-lg" onclick="document.getElementById('faq-${i}').classList.toggle('hidden'); this.querySelector('.fa-chevron-down').classList.toggle('rotate-180');">
+                                        <span class="pr-6">${f.q}</span>
+                                        <i class="fa-solid fa-chevron-down text-brand-500 transition-transform duration-300"></i>
+                                    </button>
+                                    <div id="faq-${i}" class="hidden px-6 pb-6 text-slate-600 leading-relaxed border-t border-slate-100 pt-4">
+                                        ${f.a}
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        
+                        <div class="mt-16 text-center bg-brand-50 p-8 rounded-3xl border border-brand-100">
+                            <h4 class="font-bold text-slate-900 mb-2">Masih punya pertanyaan spesifik?</h4>
+                            <p class="text-slate-600 mb-6 text-sm">Tim konsultan kami siap membantu Anda kapan saja.</p>
+                            <button onclick="openWhatsApp('Halo HatiTiga, saya ada pertanyaan sebelum memesan website.')" class="px-6 py-3 bg-white border border-slate-200 text-slate-700 font-bold rounded-xl hover:bg-slate-50 transition shadow-sm"><i class="fa-brands fa-whatsapp text-green-500 mr-2 text-lg"></i> Chat kami di WhatsApp</button>
+                        </div>
+                    </div>
+                </div>
+                `;
+            },
+
+            login: () => `
+                <div class="flex items-center justify-center min-h-[75vh] bg-slate-50 relative overflow-hidden fade-in py-12">
+                    <!-- Elemen Dekoratif -->
+                    <div class="absolute w-96 h-96 bg-brand-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 -top-10 -left-10"></div>
+                    <div class="absolute w-96 h-96 bg-purple-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 bottom-10 right-10"></div>
+
+                    <div class="relative z-10 w-full max-w-md p-8 mx-4 bg-white/70 backdrop-blur-xl border border-white rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                        <div class="text-center mb-8">
+                            <div class="w-16 h-16 bg-brand-100 text-brand-600 rounded-2xl flex items-center justify-center mx-auto mb-4 transform -rotate-6 shadow-sm">
+                                <i class="fa-solid fa-lock text-2xl"></i>
+                            </div>
+                            <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">Selamat Datang</h2>
+                            <p class="text-slate-500 mt-2 text-sm font-medium">Silakan login ke akun Anda</p>
+                        </div>
+
+                        <form id="login-form" class="space-y-5" onsubmit="handleLogin(event)">
+                            <div id="login-error" class="hidden bg-red-50 text-red-600 text-sm p-3 rounded-xl border border-red-100 text-center font-medium"></div>
+                            
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-1.5 ml-1">Username</label>
+                                <input type="text" id="username" required class="w-full px-4 py-3.5 bg-white/50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-all placeholder:text-slate-400" placeholder="Masukkan username">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-1.5 ml-1">Password</label>
+                                <input type="password" id="password" required class="w-full px-4 py-3.5 bg-white/50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-all placeholder:text-slate-400" placeholder="Masukkan password">
+                            </div>
+                            
+                            <button type="submit" class="w-full py-4 mt-4 bg-brand-600 text-white rounded-2xl font-bold hover:bg-brand-700 transition-all shadow-lg shadow-brand-500/30 active:scale-[0.98]">
+                                Masuk ke Akun
+                            </button>
+                        </form>
+                        
+                        <div class="mt-6 text-center border-t border-slate-100 pt-4">
+                            <p class="text-xs text-slate-500">Akun demo:</p>
+                            <p class="text-xs font-bold text-slate-700 mt-1">user / 1234 &nbsp;|&nbsp; admin / admin</p>
+                        </div>
+                    </div>
+                </div>
+            `,
+
+            userDashboard: () => `
+                <div class="bg-brand-600 pb-32">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex justify-between items-center">
+                        <div>
+                            <h1 class="text-3xl font-black text-white">Dashboard Saya</h1>
+                            <p class="text-brand-100 mt-2">Selamat datang kembali! Pantau progress website Anda di sini.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-24 mb-20 fade-in relative z-10">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <!-- Profil Customer -->
+                        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+                            <div class="flex items-center gap-4 mb-6">
+                                <div class="w-16 h-16 bg-blue-100 text-blue-700 rounded-full flex items-center justify-center text-2xl font-bold">U</div>
+                                <div>
+                                    <h2 class="text-xl font-bold text-slate-900">User Customer</h2>
+                                    <p class="text-slate-500 text-sm">PT Makmur Jaya</p>
+                                </div>
+                            </div>
+                            <div class="space-y-3 mb-6 border-t border-slate-100 pt-6">
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-slate-500">Email</span>
+                                    <span class="font-bold text-slate-800">user@example.com</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-slate-500">Telepon</span>
+                                    <span class="font-bold text-slate-800">0812-3456-7890</span>
+                                </div>
+                            </div>
+                            <button class="w-full py-3 bg-white border border-slate-300 rounded-xl text-sm font-bold text-slate-700 hover:bg-slate-50 transition shadow-sm">Edit Profil</button>
+                        </div>
+
+                        <!-- Progress Project -->
+                        <div class="lg:col-span-2 space-y-8">
+                            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
+                                <div class="flex justify-between items-center mb-6">
+                                    <h3 class="text-xl font-black text-slate-900">Project Saat Ini</h3>
+                                    <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-lg text-xs font-bold uppercase tracking-wider">In Progress</span>
+                                </div>
+                                <div class="bg-slate-50 rounded-xl border border-slate-100 p-6 flex flex-col sm:flex-row gap-6 mb-8">
+                                    <div class="w-full sm:w-1/3 aspect-[16/10] bg-slate-200 rounded-lg overflow-hidden relative shadow-inner">
+                                        <div class="absolute inset-0 transform scale-[0.35] origin-top-left w-[300%] h-[300%] pointer-events-none">
+                                            ${components.previewBuilder(DB.templates[0])}
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow">
+                                        <p class="text-xs font-bold text-brand-600 uppercase tracking-widest mb-1">Template Pilihan</p>
+                                        <h4 class="text-2xl font-black text-slate-900 mb-2">LokalAja UMKM Shop</h4>
+                                        <p class="text-sm text-slate-600 mb-4">Website toko online untuk PT Makmur Jaya.</p>
+                                        <div class="w-full bg-slate-200 rounded-full h-2.5 mb-2">
+                                            <div class="bg-brand-600 h-2.5 rounded-full" style="width: 45%"></div>
+                                        </div>
+                                        <p class="text-xs text-slate-500 font-medium text-right">Tahap 2: Desain & Input Konten (45%)</p>
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                    <button class="py-3 px-4 bg-brand-50 border border-brand-200 text-brand-700 rounded-xl font-bold text-sm hover:bg-brand-100 transition shadow-sm flex items-center justify-center gap-2"><i class="fa-solid fa-cloud-arrow-up"></i> Upload Asset</button>
+                                    <button class="py-3 px-4 bg-amber-50 border border-amber-200 text-amber-700 rounded-xl font-bold text-sm hover:bg-amber-100 transition shadow-sm flex items-center justify-center gap-2"><i class="fa-solid fa-comment-dots"></i> Request Revisi</button>
+                                    <button onclick="openWhatsApp('Halo HatiTiga, saya ingin menanyakan progres website saya.')" class="py-3 px-4 bg-white border border-slate-300 text-slate-700 rounded-xl font-bold text-sm hover:bg-slate-50 transition shadow-sm flex items-center justify-center gap-2"><i class="fa-brands fa-whatsapp text-green-500"></i> Hubungi Tim</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `
+        };
+
+        function bindTemplateEvents() {
+            const searchInput = document.getElementById('filter-search');
+            const styleSelect = document.getElementById('filter-style');
+            const catRadios = document.querySelectorAll('input[name="filter-cat"]');
+            const btnReset = document.getElementById('reset-filters');
+
+            if (searchInput) {
+                searchInput.addEventListener('input', (e) => {
+                    appState.filter.search = e.target.value;
+                    renderPage();
+                });
+            }
+
+            if (styleSelect) {
+                styleSelect.addEventListener('change', (e) => {
+                    appState.filter.style = e.target.value;
+                    renderPage();
+                });
+            }
+
+            if (catRadios) {
+                catRadios.forEach(radio => {
+                    radio.addEventListener('change', (e) => {
+                        if (e.target.checked) {
+                            appState.filter.category = e.target.value;
+                            renderPage();
+                        }
+                    });
+                });
+            }
+
+            if (btnReset) {
+                btnReset.addEventListener('click', () => {
+                    appState.filter = { search: '', category: 'Semua', style: '' };
+                    renderPage();
+                });
+            }
+        }
+
+        function bindOrderEvents() {
+            const form = document.getElementById('order-form');
+            if (form) {
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+
+                    const btn = document.getElementById('submit-btn');
+                    const originalText = btn.innerHTML;
+
+                    btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin mr-2"></i> Membuka WhatsApp...';
+                    btn.disabled = true;
+
+                    setTimeout(() => {
+                        const tplName = DB.templates.find(t => t.id === appState.params.id)?.name || 'Unknown';
+                        const nama = document.getElementById('f-nama').value;
+                        const wa = document.getElementById('f-wa').value;
+                        const bisnis = document.getElementById('f-bisnis').value;
+                        const industri = document.getElementById('f-industri').value;
+                        const paket = document.querySelector('input[name="f-paket"]:checked')?.value || '-';
+                        const domain = document.getElementById('f-domain').value;
+                        const bahasa = document.getElementById('f-bahasa').value;
+                        const catatan = document.getElementById('f-catatan').value;
+
+                        const msg = `*Halo HatiTiga, saya ingin pesan website:*%0A%0A*📦 PAKET:* ${paket}%0A*🎨 TEMPLATE:* ${tplName}%0A%0A*Data Pemesan:*%0A- Nama: ${nama}%0A- WA: ${wa}%0A%0A*Data Bisnis:*%0A- Bisnis: ${bisnis}%0A- Industri: ${industri}%0A- Status Domain: ${domain}%0A- Bahasa Web: ${bahasa}%0A%0A*Catatan:*%0A${catatan || '-'}`;
+
+                        window.open(`https://wa.me/${CONFIG.whatsappNumber}?text=${msg}`, '_blank');
+
+                        btn.innerHTML = originalText;
+                        btn.disabled = false;
+                    }, 800);
+                });
+            }
+        }
+
+        window.onload = () => {
+            initApp();
+        };
+
+    </script>
+</body>
+
+</html>

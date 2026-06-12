@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CorpTrust — Company Profile Profesional</title>
+    <meta name="description"
+        content="CorpTrust adalah perusahaan jasa profesional yang membangun kepercayaan melalui kualitas layanan dan komitmen tinggi terhadap setiap klien.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        corp: {
+                            50: '#f0fdfa', 100: '#ccfbf1', 200: '#99f6e4',
+                            300: '#5eead4', 400: '#2dd4bf', 500: '#14b8a6',
+                            600: '#0f766e', 700: '#0d5f58', 800: '#042f2e',
+                            900: '#021716'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.7s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .hero-overlay {
+            background: linear-gradient(135deg, rgba(4, 47, 46, 0.92), rgba(15, 118, 110, 0.7));
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f0fdfa;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #14b8a6;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0f766e;
+        }
+    </style>
+</head>
+
+<body class="bg-white text-slate-800 antialiased">
+
+    <!-- Header -->
+    <header class="fixed w-full top-0 z-50 bg-white/95 backdrop-blur-sm shadow-sm transition-all" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center cursor-pointer" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+                    <div class="w-11 h-11 bg-corp-600 rounded-xl flex items-center justify-center mr-3 shadow-md">
+                        <i class="fa-solid fa-building text-white text-xl"></i>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="font-black text-2xl tracking-tight text-corp-800 leading-tight">CorpTrust</span>
+                        <span class="text-[9px] font-bold text-slate-400 uppercase tracking-[.2em]">Professional
+                            Services</span>
+                    </div>
+                </div>
+                <nav class="hidden md:flex space-x-7 items-center">
+                    <a href="#home" class="text-slate-600 hover:text-corp-600 font-semibold transition">Beranda</a>
+                    <a href="#about" class="text-slate-600 hover:text-corp-600 font-semibold transition">Tentang</a>
+                    <a href="#services" class="text-slate-600 hover:text-corp-600 font-semibold transition">Layanan</a>
+                    <a href="#portfolio"
+                        class="text-slate-600 hover:text-corp-600 font-semibold transition">Portofolio</a>
+                    <a href="#team" class="text-slate-600 hover:text-corp-600 font-semibold transition">Tim</a>
+                    <a href="#contact"
+                        class="bg-corp-600 hover:bg-corp-700 text-white px-6 py-2.5 rounded-full font-bold transition shadow-md hover:shadow-lg">Hubungi
+                        Kami</a>
+                </nav>
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-slate-600 hover:text-corp-600 p-2 bg-slate-100 rounded-lg">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-menu"
+            class="hidden md:hidden bg-white border-t border-slate-100 absolute w-full shadow-lg px-4 pt-2 pb-6 space-y-1">
+            <a href="#home"
+                class="mobile-link block px-3 py-3 rounded-xl text-slate-700 font-semibold hover:bg-corp-50">Beranda</a>
+            <a href="#about"
+                class="mobile-link block px-3 py-3 rounded-xl text-slate-700 font-semibold hover:bg-corp-50">Tentang</a>
+            <a href="#services"
+                class="mobile-link block px-3 py-3 rounded-xl text-slate-700 font-semibold hover:bg-corp-50">Layanan</a>
+            <a href="#portfolio"
+                class="mobile-link block px-3 py-3 rounded-xl text-slate-700 font-semibold hover:bg-corp-50">Portofolio</a>
+            <a href="#team"
+                class="mobile-link block px-3 py-3 rounded-xl text-slate-700 font-semibold hover:bg-corp-50">Tim</a>
+            <a href="#contact"
+                class="mobile-link block w-full text-center mt-3 bg-corp-600 text-white px-5 py-3 rounded-xl font-bold">Hubungi
+                Kami</a>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section id="home" class="relative min-h-screen flex items-center pt-20">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1920&q=80"
+                alt="Office" class="w-full h-full object-cover">
+            <div class="absolute inset-0 hero-overlay"></div>
+        </div>
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-20">
+            <div class="max-w-2xl reveal active">
+                <div
+                    class="inline-flex items-center mb-6 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-sm font-bold">
+                    <i class="fa-solid fa-shield-halved text-corp-400 mr-2"></i> Terpercaya Sejak 2010
+                </div>
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-[1.1] mb-6">
+                    Membangun Kepercayaan Melalui <span class="text-corp-300">Kualitas Layanan</span>
+                </h1>
+                <p class="text-lg md:text-xl text-gray-200 mb-8 max-w-xl leading-relaxed">
+                    Kami adalah mitra bisnis profesional yang berkomitmen memberikan solusi terbaik untuk pertumbuhan
+                    perusahaan Anda.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="#services"
+                        class="bg-corp-500 hover:bg-corp-400 text-white px-8 py-4 rounded-full font-bold text-center transition shadow-lg hover:shadow-xl transform hover:-translate-y-1">Layanan
+                        Kami</a>
+                    <a href="#about"
+                        class="bg-white/10 hover:bg-white/20 backdrop-blur border border-white/30 text-white px-8 py-4 rounded-full font-bold text-center transition">Tentang
+                        Kami</a>
+                </div>
+                <div class="mt-10 flex items-center gap-6 text-white/80 text-sm font-semibold">
+                    <span class="flex items-center"><i class="fa-solid fa-check-circle text-corp-400 mr-2"></i>150+
+                        Klien Aktif</span>
+                    <span class="flex items-center"><i class="fa-solid fa-check-circle text-corp-400 mr-2"></i>ISO
+                        Certified</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="py-24 bg-white scroll-mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="relative reveal">
+                    <div class="grid grid-cols-2 gap-4">
+                        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80"
+                            alt="Team" class="rounded-3xl w-full h-64 object-cover shadow-lg translate-y-8">
+                        <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=600&q=80"
+                            alt="Meeting" class="rounded-3xl w-full h-64 object-cover shadow-lg">
+                    </div>
+                    <div
+                        class="absolute -bottom-6 -left-6 bg-corp-800 text-white p-6 rounded-2xl shadow-xl border-4 border-white">
+                        <div class="text-4xl font-black text-corp-400 mb-1">14+</div>
+                        <div class="text-sm font-medium">Tahun<br>Pengalaman</div>
+                    </div>
+                </div>
+                <div class="reveal">
+                    <h2 class="text-corp-600 font-bold tracking-wider uppercase text-sm mb-3">Tentang Kami</h2>
+                    <h3 class="text-3xl md:text-4xl font-black text-slate-900 mb-6 leading-tight">Solusi Profesional
+                        untuk Pertumbuhan Bisnis Anda.</h3>
+                    <p class="text-gray-600 mb-6 leading-relaxed">CorpTrust didirikan dengan visi menjadi mitra
+                        strategis bagi perusahaan lokal maupun nasional. Kami menyediakan layanan konsultasi, manajemen
+                        proyek, dan solusi digital yang terukur.</p>
+                    <p class="text-gray-600 mb-8 leading-relaxed">Dengan tim berpengalaman dan pendekatan berbasis data,
+                        kami memastikan setiap proyek memberikan dampak nyata bagi klien kami.</p>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 mb-8">
+                        <div class="text-center"><span class="text-3xl font-black text-corp-800 block">150+</span><span
+                                class="text-xs text-gray-500 font-semibold">Klien Aktif</span></div>
+                        <div class="text-center"><span class="text-3xl font-black text-corp-800 block">500+</span><span
+                                class="text-xs text-gray-500 font-semibold">Proyek Selesai</span></div>
+                        <div class="text-center"><span class="text-3xl font-black text-corp-800 block">35+</span><span
+                                class="text-xs text-gray-500 font-semibold">Profesional</span></div>
+                        <div class="text-center"><span class="text-3xl font-black text-corp-800 block">98%</span><span
+                                class="text-xs text-gray-500 font-semibold">Kepuasan</span></div>
+                    </div>
+                    <a href="#contact"
+                        class="inline-flex items-center text-corp-600 font-bold hover:text-corp-800 transition">Diskusikan
+                        kebutuhan Anda <i class="fa-solid fa-arrow-right ml-2"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Visi Misi -->
+    <section class="py-20 bg-corp-800 text-white relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10"
+            style="background-image:url('data:image/svg+xml,%3Csvg width=60 height=60 viewBox=%220 0 60 60%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cg fill=%22%23ffffff%22 fill-opacity=%221%22%3E%3Cpath d=%22M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z%22/%3E%3C/g%3E%3C/svg%3E');">
+        </div>
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 reveal">
+                <div class="bg-white/10 backdrop-blur border border-white/20 rounded-3xl p-10">
+                    <div
+                        class="w-14 h-14 bg-corp-500/30 rounded-2xl flex items-center justify-center text-corp-300 text-2xl mb-6">
+                        <i class="fa-solid fa-eye"></i></div>
+                    <h3 class="text-2xl font-black mb-4">Visi Kami</h3>
+                    <p class="text-gray-300 leading-relaxed">Menjadi perusahaan penyedia layanan profesional terdepan di
+                        Indonesia yang dikenal atas integritas, inovasi, dan komitmen terhadap keberhasilan setiap
+                        klien.</p>
+                </div>
+                <div class="bg-white/10 backdrop-blur border border-white/20 rounded-3xl p-10">
+                    <div
+                        class="w-14 h-14 bg-corp-500/30 rounded-2xl flex items-center justify-center text-corp-300 text-2xl mb-6">
+                        <i class="fa-solid fa-bullseye"></i></div>
+                    <h3 class="text-2xl font-black mb-4">Misi Kami</h3>
+                    <ul class="text-gray-300 space-y-3 leading-relaxed">
+                        <li class="flex items-start"><i class="fa-solid fa-check text-corp-400 mr-3 mt-1"></i>Memberikan
+                            solusi bisnis berkualitas tinggi yang terukur dan berdampak.</li>
+                        <li class="flex items-start"><i
+                                class="fa-solid fa-check text-corp-400 mr-3 mt-1"></i>Mengembangkan SDM unggul melalui
+                            pelatihan dan budaya kerja kolaboratif.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-corp-400 mr-3 mt-1"></i>Membangun
+                            kemitraan jangka panjang berbasis kepercayaan dan transparansi.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section id="services" class="py-24 bg-corp-50 scroll-mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <h2 class="text-corp-600 font-bold tracking-wider uppercase text-sm mb-3">Layanan Kami</h2>
+                <h3 class="text-3xl md:text-4xl font-black text-slate-900 mb-4">Solusi Lengkap untuk Bisnis Anda</h3>
+                <p class="text-gray-600">Kami menyediakan berbagai layanan profesional yang dirancang untuk membantu
+                    perusahaan Anda tumbuh dan bersaing di pasar.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div
+                    class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 hover:-translate-y-2 transition-all duration-300 reveal">
+                    <div
+                        class="w-14 h-14 bg-corp-100 rounded-2xl flex items-center justify-center text-corp-600 text-2xl mb-6">
+                        <i class="fa-solid fa-chart-line"></i></div>
+                    <h4 class="text-xl font-bold text-slate-900 mb-3">Konsultasi Bisnis</h4>
+                    <p class="text-gray-500 text-sm leading-relaxed">Analisis mendalam dan rekomendasi strategis untuk
+                        meningkatkan efisiensi operasional dan profitabilitas bisnis Anda.</p>
+                </div>
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 hover:-translate-y-2 transition-all duration-300 reveal"
+                    style="transition-delay:100ms">
+                    <div
+                        class="w-14 h-14 bg-corp-100 rounded-2xl flex items-center justify-center text-corp-600 text-2xl mb-6">
+                        <i class="fa-solid fa-laptop-code"></i></div>
+                    <h4 class="text-xl font-bold text-slate-900 mb-3">Solusi Digital</h4>
+                    <p class="text-gray-500 text-sm leading-relaxed">Transformasi digital end-to-end mulai dari website,
+                        sistem informasi, hingga automasi proses bisnis perusahaan.</p>
+                </div>
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 hover:-translate-y-2 transition-all duration-300 reveal"
+                    style="transition-delay:200ms">
+                    <div
+                        class="w-14 h-14 bg-corp-100 rounded-2xl flex items-center justify-center text-corp-600 text-2xl mb-6">
+                        <i class="fa-solid fa-helmet-safety"></i></div>
+                    <h4 class="text-xl font-bold text-slate-900 mb-3">Manajemen Proyek</h4>
+                    <p class="text-gray-500 text-sm leading-relaxed">Pengelolaan proyek konstruksi, infrastruktur, dan
+                        pengembangan dengan metodologi terstruktur dan tepat waktu.</p>
+                </div>
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 hover:-translate-y-2 transition-all duration-300 reveal"
+                    style="transition-delay:300ms">
+                    <div
+                        class="w-14 h-14 bg-corp-100 rounded-2xl flex items-center justify-center text-corp-600 text-2xl mb-6">
+                        <i class="fa-solid fa-people-group"></i></div>
+                    <h4 class="text-xl font-bold text-slate-900 mb-3">Pengembangan SDM</h4>
+                    <p class="text-gray-500 text-sm leading-relaxed">Program pelatihan, workshop, dan coaching untuk
+                        meningkatkan kapabilitas tim dan kepemimpinan organisasi.</p>
+                </div>
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 hover:-translate-y-2 transition-all duration-300 reveal"
+                    style="transition-delay:400ms">
+                    <div
+                        class="w-14 h-14 bg-corp-100 rounded-2xl flex items-center justify-center text-corp-600 text-2xl mb-6">
+                        <i class="fa-solid fa-scale-balanced"></i></div>
+                    <h4 class="text-xl font-bold text-slate-900 mb-3">Legal & Compliance</h4>
+                    <p class="text-gray-500 text-sm leading-relaxed">Pendampingan hukum, perizinan usaha, dan kepatuhan
+                        regulasi untuk memastikan bisnis Anda berjalan aman.</p>
+                </div>
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 hover:-translate-y-2 transition-all duration-300 reveal"
+                    style="transition-delay:500ms">
+                    <div
+                        class="w-14 h-14 bg-corp-100 rounded-2xl flex items-center justify-center text-corp-600 text-2xl mb-6">
+                        <i class="fa-solid fa-bullhorn"></i></div>
+                    <h4 class="text-xl font-bold text-slate-900 mb-3">Branding & Marketing</h4>
+                    <p class="text-gray-500 text-sm leading-relaxed">Strategi pemasaran digital, branding korporat, dan
+                        kampanye yang meningkatkan visibilitas perusahaan Anda.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio -->
+    <section id="portfolio" class="py-24 bg-white scroll-mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <h2 class="text-corp-600 font-bold tracking-wider uppercase text-sm mb-3">Portofolio</h2>
+                <h3 class="text-3xl md:text-4xl font-black text-slate-900 mb-4">Proyek Unggulan Kami</h3>
+                <p class="text-gray-600">Beberapa proyek terbaru yang telah kami selesaikan dengan hasil memuaskan bagi
+                    klien.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div
+                    class="group rounded-3xl overflow-hidden shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 reveal">
+                    <div class="relative h-56 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=600&q=80"
+                            alt="Project 1"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                        <div class="absolute bottom-4 left-4 right-4 text-white">
+                            <span class="text-xs font-bold bg-corp-600 px-3 py-1 rounded-full">Konstruksi</span>
+                        </div>
+                    </div>
+                    <div class="p-6 bg-white">
+                        <h4 class="text-lg font-bold text-slate-900 mb-2">Gedung Perkantoran Terpadu</h4>
+                        <p class="text-gray-500 text-sm mb-3">Manajemen proyek pembangunan 12 lantai di Jakarta Selatan,
+                            selesai 2 minggu lebih cepat.</p>
+                        <span class="text-corp-600 font-bold text-sm">PT. Maju Bersama</span>
+                    </div>
+                </div>
+                <div class="group rounded-3xl overflow-hidden shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 reveal"
+                    style="transition-delay:100ms">
+                    <div class="relative h-56 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80"
+                            alt="Project 2"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                        <div class="absolute bottom-4 left-4 right-4 text-white">
+                            <span class="text-xs font-bold bg-corp-600 px-3 py-1 rounded-full">Digital</span>
+                        </div>
+                    </div>
+                    <div class="p-6 bg-white">
+                        <h4 class="text-lg font-bold text-slate-900 mb-2">Sistem ERP Terintegrasi</h4>
+                        <p class="text-gray-500 text-sm mb-3">Implementasi sistem ERP untuk perusahaan manufaktur dengan
+                            200+ karyawan.</p>
+                        <span class="text-corp-600 font-bold text-sm">CV. Industri Prima</span>
+                    </div>
+                </div>
+                <div class="group rounded-3xl overflow-hidden shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 reveal"
+                    style="transition-delay:200ms">
+                    <div class="relative h-56 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=600&q=80"
+                            alt="Project 3"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                        <div class="absolute bottom-4 left-4 right-4 text-white">
+                            <span class="text-xs font-bold bg-corp-600 px-3 py-1 rounded-full">Konsultasi</span>
+                        </div>
+                    </div>
+                    <div class="p-6 bg-white">
+                        <h4 class="text-lg font-bold text-slate-900 mb-2">Restrukturisasi Organisasi</h4>
+                        <p class="text-gray-500 text-sm mb-3">Konsultasi transformasi organisasi untuk perusahaan BUMN
+                            sektor energi.</p>
+                        <span class="text-corp-600 font-bold text-sm">PT. Energi Nusantara</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team -->
+    <section id="team" class="py-24 bg-corp-50 scroll-mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <h2 class="text-corp-600 font-bold tracking-wider uppercase text-sm mb-3">Tim Kami</h2>
+                <h3 class="text-3xl md:text-4xl font-black text-slate-900 mb-4">Profesional Berpengalaman</h3>
+                <p class="text-gray-600">Dipimpin oleh para ahli di bidangnya dengan pengalaman puluhan tahun di
+                    industri.</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div
+                    class="bg-white rounded-3xl overflow-hidden shadow-sm border border-slate-100 text-center hover:-translate-y-2 transition-all duration-300 reveal">
+                    <div class="h-48 overflow-hidden"><img
+                            src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80"
+                            alt="CEO" class="w-full h-full object-cover"></div>
+                    <div class="p-6">
+                        <h4 class="font-bold text-slate-900 text-lg">Ahmad Pratama</h4>
+                        <p class="text-corp-600 text-sm font-semibold mb-3">CEO & Founder</p>
+                        <div class="flex justify-center gap-3"><a href="#"
+                                class="text-slate-400 hover:text-corp-600 transition"><i
+                                    class="fa-brands fa-linkedin"></i></a><a href="#"
+                                class="text-slate-400 hover:text-corp-600 transition"><i
+                                    class="fa-solid fa-envelope"></i></a></div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-3xl overflow-hidden shadow-sm border border-slate-100 text-center hover:-translate-y-2 transition-all duration-300 reveal"
+                    style="transition-delay:100ms">
+                    <div class="h-48 overflow-hidden"><img
+                            src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80"
+                            alt="COO" class="w-full h-full object-cover"></div>
+                    <div class="p-6">
+                        <h4 class="font-bold text-slate-900 text-lg">Sari Wulandari</h4>
+                        <p class="text-corp-600 text-sm font-semibold mb-3">Chief Operations</p>
+                        <div class="flex justify-center gap-3"><a href="#"
+                                class="text-slate-400 hover:text-corp-600 transition"><i
+                                    class="fa-brands fa-linkedin"></i></a><a href="#"
+                                class="text-slate-400 hover:text-corp-600 transition"><i
+                                    class="fa-solid fa-envelope"></i></a></div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-3xl overflow-hidden shadow-sm border border-slate-100 text-center hover:-translate-y-2 transition-all duration-300 reveal"
+                    style="transition-delay:200ms">
+                    <div class="h-48 overflow-hidden"><img
+                            src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80"
+                            alt="CTO" class="w-full h-full object-cover"></div>
+                    <div class="p-6">
+                        <h4 class="font-bold text-slate-900 text-lg">Budi Setiawan</h4>
+                        <p class="text-corp-600 text-sm font-semibold mb-3">Head of Technology</p>
+                        <div class="flex justify-center gap-3"><a href="#"
+                                class="text-slate-400 hover:text-corp-600 transition"><i
+                                    class="fa-brands fa-linkedin"></i></a><a href="#"
+                                class="text-slate-400 hover:text-corp-600 transition"><i
+                                    class="fa-solid fa-envelope"></i></a></div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-3xl overflow-hidden shadow-sm border border-slate-100 text-center hover:-translate-y-2 transition-all duration-300 reveal"
+                    style="transition-delay:300ms">
+                    <div class="h-48 overflow-hidden"><img
+                            src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80"
+                            alt="CMO" class="w-full h-full object-cover"></div>
+                    <div class="p-6">
+                        <h4 class="font-bold text-slate-900 text-lg">Diana Putri</h4>
+                        <p class="text-corp-600 text-sm font-semibold mb-3">Marketing Director</p>
+                        <div class="flex justify-center gap-3"><a href="#"
+                                class="text-slate-400 hover:text-corp-600 transition"><i
+                                    class="fa-brands fa-linkedin"></i></a><a href="#"
+                                class="text-slate-400 hover:text-corp-600 transition"><i
+                                    class="fa-solid fa-envelope"></i></a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-corp-600 font-bold tracking-wider uppercase text-sm mb-3">Testimoni</h2>
+                <h3 class="text-3xl md:text-4xl font-black text-slate-900">Apa Kata Klien Kami</h3>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-corp-50 p-8 rounded-3xl relative reveal">
+                    <i class="fa-solid fa-quote-right text-4xl text-corp-200 absolute top-8 right-8"></i>
+                    <div class="flex text-yellow-400 mb-4 text-sm"><i class="fa-solid fa-star"></i><i
+                            class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                            class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                    <p class="text-gray-700 mb-6 italic leading-relaxed">"CorpTrust berhasil menyelesaikan proyek
+                        infrastruktur kami tepat waktu dengan kualitas yang melebihi ekspektasi. Sangat profesional."
+                    </p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-corp-200 rounded-full mr-4 overflow-hidden"><img
+                                src="https://i.pravatar.cc/150?img=15" alt="Avatar" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h5 class="font-bold text-slate-900 text-sm">Hendra Wijaya</h5><span
+                                class="text-xs text-gray-500">Direktur, PT. Bangun Karya</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-corp-50 p-8 rounded-3xl relative reveal" style="transition-delay:100ms">
+                    <i class="fa-solid fa-quote-right text-4xl text-corp-200 absolute top-8 right-8"></i>
+                    <div class="flex text-yellow-400 mb-4 text-sm"><i class="fa-solid fa-star"></i><i
+                            class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                            class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                    <p class="text-gray-700 mb-6 italic leading-relaxed">"Konsultasi bisnis dari tim CorpTrust sangat
+                        membantu kami dalam melakukan restrukturisasi yang efektif dan efisien."</p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-corp-200 rounded-full mr-4 overflow-hidden"><img
+                                src="https://i.pravatar.cc/150?img=26" alt="Avatar" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h5 class="font-bold text-slate-900 text-sm">Rina Susanti</h5><span
+                                class="text-xs text-gray-500">CEO, Nusantara Group</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-corp-50 p-8 rounded-3xl relative reveal" style="transition-delay:200ms">
+                    <i class="fa-solid fa-quote-right text-4xl text-corp-200 absolute top-8 right-8"></i>
+                    <div class="flex text-yellow-400 mb-4 text-sm"><i class="fa-solid fa-star"></i><i
+                            class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                            class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                    <p class="text-gray-700 mb-6 italic leading-relaxed">"Sistem ERP yang diimplementasikan CorpTrust
+                        telah meningkatkan produktivitas tim kami hingga 40%. Luar biasa!"</p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-corp-200 rounded-full mr-4 overflow-hidden"><img
+                                src="https://i.pravatar.cc/150?img=53" alt="Avatar" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h5 class="font-bold text-slate-900 text-sm">Arief Rahman</h5><span
+                                class="text-xs text-gray-500">CTO, MegaTech Indonesia</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="py-24 bg-corp-50/50 scroll-mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white rounded-[3rem] shadow-xl overflow-hidden reveal">
+                <div class="grid grid-cols-1 lg:grid-cols-2">
+                    <div
+                        class="bg-corp-800 text-white p-12 lg:p-16 flex flex-col justify-center relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-64 h-64 bg-corp-600 rounded-full blur-[80px] opacity-30">
+                        </div>
+                        <div class="relative z-10">
+                            <h2 class="text-3xl md:text-4xl font-black mb-4">Hubungi Kami</h2>
+                            <p class="text-gray-300 mb-10 leading-relaxed">Siap untuk memulai proyek bersama? Tim kami
+                                siap membantu Anda kapan saja.</p>
+                            <div class="space-y-6">
+                                <div class="flex items-center">
+                                    <div
+                                        class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center mr-4">
+                                        <i class="fa-brands fa-whatsapp text-xl"></i></div>
+                                    <div>
+                                        <p class="text-sm text-gray-400">WhatsApp</p>
+                                        <p class="font-bold text-lg">+62 812 3456 7890</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center">
+                                    <div
+                                        class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center mr-4">
+                                        <i class="fa-regular fa-envelope text-xl"></i></div>
+                                    <div>
+                                        <p class="text-sm text-gray-400">Email</p>
+                                        <p class="font-bold text-lg">info@corptrust.co.id</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center">
+                                    <div
+                                        class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center mr-4">
+                                        <i class="fa-solid fa-location-dot text-xl"></i></div>
+                                    <div>
+                                        <p class="text-sm text-gray-400">Kantor Pusat</p>
+                                        <p class="font-bold">Jl. Sudirman No. 88, Jakarta Selatan</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-12 lg:p-16">
+                        <h3 class="text-2xl font-bold text-slate-900 mb-6">Kirim Pesan</h3>
+                        <form onsubmit="event.preventDefault();" class="space-y-4">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div><label class="block text-sm font-medium text-gray-700 mb-1">Nama
+                                        Lengkap</label><input type="text"
+                                        class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-corp-500 focus:border-corp-500 outline-none transition"
+                                        placeholder="Nama Anda"></div>
+                                <div><label class="block text-sm font-medium text-gray-700 mb-1">Email</label><input
+                                        type="email"
+                                        class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-corp-500 focus:border-corp-500 outline-none transition"
+                                        placeholder="email@company.com"></div>
+                            </div>
+                            <div><label class="block text-sm font-medium text-gray-700 mb-1">Perusahaan</label><input
+                                    type="text"
+                                    class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-corp-500 focus:border-corp-500 outline-none transition"
+                                    placeholder="Nama perusahaan"></div>
+                            <div><label class="block text-sm font-medium text-gray-700 mb-1">Pesan</label><textarea
+                                    rows="4"
+                                    class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-corp-500 focus:border-corp-500 outline-none transition"
+                                    placeholder="Ceritakan kebutuhan Anda..."></textarea></div>
+                            <button
+                                class="w-full bg-corp-600 hover:bg-corp-700 text-white font-bold py-3.5 rounded-xl transition shadow-md mt-2">Kirim
+                                Pesan</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-corp-800 pt-20 pb-10 border-t-4 border-corp-600">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+                <div>
+                    <div class="flex items-center mb-6">
+                        <div class="w-10 h-10 bg-corp-600 rounded-xl flex items-center justify-center mr-3"><i
+                                class="fa-solid fa-building text-white"></i></div><span
+                            class="font-black text-2xl text-white">CorpTrust</span>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6">Mitra bisnis profesional terpercaya untuk
+                        konsultasi, manajemen proyek, dan solusi digital perusahaan Anda.</p>
+                    <div class="flex space-x-3">
+                        <a href="#"
+                            class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-corp-600 transition"><i
+                                class="fa-brands fa-linkedin-in"></i></a>
+                        <a href="#"
+                            class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-corp-600 transition"><i
+                                class="fa-brands fa-instagram"></i></a>
+                        <a href="#"
+                            class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-green-500 transition"><i
+                                class="fa-brands fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-6">Perusahaan</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="#about" class="text-gray-400 hover:text-white transition">Tentang Kami</a></li>
+                        <li><a href="#services" class="text-gray-400 hover:text-white transition">Layanan</a></li>
+                        <li><a href="#portfolio" class="text-gray-400 hover:text-white transition">Portofolio</a></li>
+                        <li><a href="#team" class="text-gray-400 hover:text-white transition">Tim Kami</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-6">Layanan</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="#services" class="text-gray-400 hover:text-white transition">Konsultasi Bisnis</a>
+                        </li>
+                        <li><a href="#services" class="text-gray-400 hover:text-white transition">Solusi Digital</a>
+                        </li>
+                        <li><a href="#services" class="text-gray-400 hover:text-white transition">Manajemen Proyek</a>
+                        </li>
+                        <li><a href="#services" class="text-gray-400 hover:text-white transition">Legal & Compliance</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-6">Kontak</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li class="flex items-start"><i
+                                class="fa-solid fa-envelope mt-1 mr-3 text-corp-500 w-4"></i>info@corptrust.co.id</li>
+                        <li class="flex items-start"><i
+                                class="fa-brands fa-whatsapp mt-1 mr-3 text-green-500 w-4"></i>+62 812 3456 7890</li>
+                        <li class="flex items-start"><i
+                                class="fa-solid fa-location-dot mt-1 mr-3 text-corp-500 w-4"></i>Jakarta, Indonesia</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-500 text-sm">&copy; 2024 CorpTrust. All rights reserved.</p>
+                <div class="flex space-x-6 text-sm mt-4 md:mt-0"><a href="#"
+                        class="text-gray-500 hover:text-white transition">Privacy Policy</a><a href="#"
+                        class="text-gray-500 hover:text-white transition">Terms of Service</a></div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating WhatsApp -->
+    <a href="https://wa.me/6281234567890?text=Halo%20CorpTrust%2C%20saya%20ingin%20konsultasi." target="_blank"
+        class="fixed bottom-6 right-6 bg-green-500 text-white w-14 h-14 rounded-full flex items-center justify-center text-3xl shadow-[0_10px_30px_rgba(34,197,94,0.4)] hover:scale-110 hover:bg-green-600 transition-all duration-300 z-[100] group">
+        <i class="fa-brands fa-whatsapp"></i>
+        <span
+            class="absolute right-16 bg-white text-slate-800 text-xs font-bold px-3 py-2 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition duration-300 whitespace-nowrap pointer-events-none">Chat
+            WhatsApp</span>
+    </a>
+
+    <script>
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        btn.addEventListener('click', () => menu.classList.toggle('hidden'));
+        mobileLinks.forEach(link => link.addEventListener('click', () => menu.classList.add('hidden')));
+
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 20) { navbar.classList.add('shadow-md'); navbar.classList.replace('bg-white/95', 'bg-white'); }
+            else { navbar.classList.remove('shadow-md'); navbar.classList.replace('bg-white', 'bg-white/95'); }
+        });
+
+        function reveal() {
+            document.querySelectorAll('.reveal').forEach(el => {
+                if (el.getBoundingClientRect().top < window.innerHeight - 100) el.classList.add('active');
+            });
+        }
+        window.addEventListener('scroll', reveal);
+        reveal();
+    </script>
+</body>
+
+</html>

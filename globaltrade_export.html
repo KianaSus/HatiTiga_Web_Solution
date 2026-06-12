@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlobalTrade Pro — B2B Export Company</title>
+    <meta name="description"
+        content="GlobalTrade Pro is a trusted Indonesian export company specializing in high-quality commodities for international buyers worldwide.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        navy: {
+                            50: '#eff6ff', 100: '#dbeafe', 200: '#bfdbfe',
+                            300: '#93c5fd', 400: '#60a5fa', 500: '#3b82f6',
+                            600: '#2563eb', 700: '#1d4ed8', 800: '#1e40af',
+                            900: '#1e3a8a', 950: '#0f172a'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.7s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .hero-overlay {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 58, 138, 0.75));
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #eff6ff;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #3b82f6;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #1d4ed8;
+        }
+
+        .grid-pattern {
+            background-image: radial-gradient(circle, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+    </style>
+</head>
+
+<body class="bg-white text-slate-800 antialiased">
+
+    <!-- Header -->
+    <header class="fixed w-full top-0 z-50 bg-white/95 backdrop-blur-sm shadow-sm transition-all" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center cursor-pointer" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+                    <div class="w-11 h-11 bg-navy-900 rounded-xl flex items-center justify-center mr-3 shadow-md">
+                        <i class="fa-solid fa-earth-americas text-navy-400 text-xl"></i>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="font-black text-2xl tracking-tight text-navy-950 leading-tight">GlobalTrade</span>
+                        <span class="text-[9px] font-bold text-slate-400 uppercase tracking-[.2em]">Export
+                            Company</span>
+                    </div>
+                </div>
+                <nav class="hidden md:flex space-x-7 items-center">
+                    <a href="#home" class="text-slate-600 hover:text-navy-600 font-semibold transition">Home</a>
+                    <a href="#about" class="text-slate-600 hover:text-navy-600 font-semibold transition">About</a>
+                    <a href="#products" class="text-slate-600 hover:text-navy-600 font-semibold transition">Products</a>
+                    <a href="#certifications"
+                        class="text-slate-600 hover:text-navy-600 font-semibold transition">Certifications</a>
+                    <a href="#inquiry"
+                        class="bg-navy-900 hover:bg-navy-800 text-white px-6 py-2.5 rounded-full font-bold transition shadow-md">Get
+                        Quote</a>
+                </nav>
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-slate-600 hover:text-navy-600 p-2 bg-slate-100 rounded-lg">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-menu"
+            class="hidden md:hidden bg-white border-t border-slate-100 absolute w-full shadow-lg px-4 pt-2 pb-6 space-y-1">
+            <a href="#home"
+                class="mobile-link block px-3 py-3 rounded-xl text-slate-700 font-semibold hover:bg-navy-50">Home</a>
+            <a href="#about"
+                class="mobile-link block px-3 py-3 rounded-xl text-slate-700 font-semibold hover:bg-navy-50">About</a>
+            <a href="#products"
+                class="mobile-link block px-3 py-3 rounded-xl text-slate-700 font-semibold hover:bg-navy-50">Products</a>
+            <a href="#certifications"
+                class="mobile-link block px-3 py-3 rounded-xl text-slate-700 font-semibold hover:bg-navy-50">Certifications</a>
+            <a href="#inquiry"
+                class="mobile-link block w-full text-center mt-3 bg-navy-900 text-white px-5 py-3 rounded-xl font-bold">Get
+                Quote</a>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section id="home" class="relative min-h-screen flex items-center pt-20">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1494412574643-ff11b0a5eb19?auto=format&fit=crop&w=1920&q=80"
+                alt="Cargo Ship" class="w-full h-full object-cover">
+            <div class="absolute inset-0 hero-overlay"></div>
+            <div class="absolute inset-0 grid-pattern"></div>
+        </div>
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-20">
+            <div class="max-w-3xl reveal active">
+                <div
+                    class="inline-flex items-center mb-6 px-4 py-2 rounded-full bg-navy-500/20 backdrop-blur border border-navy-400/30 text-white text-sm font-bold">
+                    <i class="fa-solid fa-globe text-navy-300 mr-2"></i> Trusted Indonesian Export Partner
+                </div>
+                <h1 class="text-4xl md:text-5xl lg:text-7xl font-black text-white leading-[1.05] mb-6">
+                    Your Reliable <span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-navy-400 to-blue-300">Supply
+                        Chain</span> Partner from Indonesia
+                </h1>
+                <p class="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl leading-relaxed">
+                    We connect global buyers with premium Indonesian commodities. Certified quality, reliable logistics,
+                    and transparent business practices since 2008.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 mb-10">
+                    <a href="#products"
+                        class="bg-navy-500 hover:bg-navy-400 text-white px-8 py-4 rounded-full font-bold text-center transition shadow-lg hover:shadow-xl transform hover:-translate-y-1">View
+                        Product Catalog</a>
+                    <a href="#inquiry"
+                        class="bg-white/10 hover:bg-white/20 backdrop-blur border border-white/30 text-white px-8 py-4 rounded-full font-bold text-center transition">Request
+                        Quotation</a>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-6">
+                    <div class="text-center"><span class="text-3xl font-black text-white block">25+</span><span
+                            class="text-xs text-gray-400 font-semibold uppercase tracking-wider">Countries</span></div>
+                    <div class="text-center"><span class="text-3xl font-black text-white block">500+</span><span
+                            class="text-xs text-gray-400 font-semibold uppercase tracking-wider">Active Buyers</span>
+                    </div>
+                    <div class="text-center"><span class="text-3xl font-black text-white block">10K+</span><span
+                            class="text-xs text-gray-400 font-semibold uppercase tracking-wider">Tons/Year</span></div>
+                    <div class="text-center"><span class="text-3xl font-black text-white block">16+</span><span
+                            class="text-xs text-gray-400 font-semibold uppercase tracking-wider">Years Exp.</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="py-24 bg-white scroll-mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="reveal">
+                    <h2 class="text-navy-600 font-bold tracking-wider uppercase text-sm mb-3">About Our Company</h2>
+                    <h3 class="text-3xl md:text-4xl font-black text-slate-900 mb-6 leading-tight">Bridging Indonesian
+                        Quality to the World Market</h3>
+                    <p class="text-gray-600 mb-6 leading-relaxed">GlobalTrade Pro has been a leading Indonesian export
+                        company since 2008, specializing in sourcing, processing, and distributing premium commodities
+                        to buyers across Asia, Europe, Middle East, and Americas.</p>
+                    <p class="text-gray-600 mb-8 leading-relaxed">Our state-of-the-art processing facilities,
+                        ISO-certified operations, and dedicated quality control team ensure every shipment meets
+                        international standards.</p>
+                    <div class="grid grid-cols-2 gap-6 mb-8">
+                        <div class="bg-navy-50 p-5 rounded-2xl border border-navy-100">
+                            <i class="fa-solid fa-industry text-navy-600 text-2xl mb-3"></i>
+                            <h4 class="font-bold text-slate-900 mb-1">Modern Facilities</h4>
+                            <p class="text-gray-500 text-sm">12,000 sqm processing plant with automated quality systems.
+                            </p>
+                        </div>
+                        <div class="bg-navy-50 p-5 rounded-2xl border border-navy-100">
+                            <i class="fa-solid fa-truck-fast text-navy-600 text-2xl mb-3"></i>
+                            <h4 class="font-bold text-slate-900 mb-1">End-to-End Logistics</h4>
+                            <p class="text-gray-500 text-sm">From sourcing to FOB/CIF delivery with real-time tracking.
+                            </p>
+                        </div>
+                    </div>
+                    <a href="#inquiry"
+                        class="inline-flex items-center bg-navy-900 text-white px-6 py-3 rounded-full font-bold hover:bg-navy-800 transition shadow-md">Schedule
+                        a Call <i class="fa-solid fa-arrow-right ml-2"></i></a>
+                </div>
+                <div class="relative reveal">
+                    <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=700&q=80"
+                        alt="Factory" class="rounded-3xl shadow-2xl border-8 border-white">
+                    <div
+                        class="absolute -bottom-6 -right-6 bg-navy-900 text-white p-6 rounded-2xl shadow-xl border-4 border-white">
+                        <div class="text-4xl font-black text-navy-400 mb-1">ISO</div>
+                        <div class="text-sm font-medium">9001:2015<br>Certified</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products -->
+    <section id="products" class="py-24 bg-slate-50 scroll-mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <h2 class="text-navy-600 font-bold tracking-wider uppercase text-sm mb-3">Product Catalog</h2>
+                <h3 class="text-3xl md:text-4xl font-black text-slate-900 mb-4">Premium Export Commodities</h3>
+                <p class="text-gray-600">All products are sourced from certified suppliers, processed in our modern
+                    facilities, and meet global food safety and quality standards.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div
+                    class="bg-white rounded-3xl overflow-hidden shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group reveal">
+                    <div class="relative h-52 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=600&q=80"
+                            alt="Coffee"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div
+                            class="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-navy-700">
+                            Grade A</div>
+                    </div>
+                    <div class="p-6">
+                        <h4 class="text-xl font-bold text-slate-900 mb-2">Arabica Coffee Beans</h4>
+                        <p class="text-gray-500 text-sm mb-3">Premium Gayo & Toraja origin. Specialty grade, wet-hulled
+                            process.</p>
+                        <div class="flex justify-between items-center text-sm"><span
+                                class="text-navy-600 font-bold">MOQ: 1 FCL</span><span class="text-gray-400">HS:
+                                0901.21</span></div>
+                        <button onclick="document.getElementById('inquiry').scrollIntoView({behavior:'smooth'})"
+                            class="w-full mt-4 border-2 border-navy-100 text-navy-700 hover:bg-navy-900 hover:text-white hover:border-navy-900 py-2.5 rounded-xl font-bold transition">Request
+                            Quote</button>
+                    </div>
+                </div>
+                <div class="bg-white rounded-3xl overflow-hidden shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group reveal"
+                    style="transition-delay:100ms">
+                    <div class="relative h-52 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1615485500704-8e990f9900f7?auto=format&fit=crop&w=600&q=80"
+                            alt="Coconut Oil"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div
+                            class="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-navy-700">
+                            Refined</div>
+                    </div>
+                    <div class="p-6">
+                        <h4 class="text-xl font-bold text-slate-900 mb-2">Coconut Oil (RBD)</h4>
+                        <p class="text-gray-500 text-sm mb-3">Refined, bleached, deodorized. Bulk & flexi-tank
+                            available.</p>
+                        <div class="flex justify-between items-center text-sm"><span
+                                class="text-navy-600 font-bold">MOQ: 20 MT</span><span class="text-gray-400">HS:
+                                1513.11</span></div>
+                        <button onclick="document.getElementById('inquiry').scrollIntoView({behavior:'smooth'})"
+                            class="w-full mt-4 border-2 border-navy-100 text-navy-700 hover:bg-navy-900 hover:text-white hover:border-navy-900 py-2.5 rounded-xl font-bold transition">Request
+                            Quote</button>
+                    </div>
+                </div>
+                <div class="bg-white rounded-3xl overflow-hidden shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group reveal"
+                    style="transition-delay:200ms">
+                    <div class="relative h-52 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=600&q=80"
+                            alt="Spices"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div
+                            class="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-navy-700">
+                            Organic</div>
+                    </div>
+                    <div class="p-6">
+                        <h4 class="text-xl font-bold text-slate-900 mb-2">Spices & Herbs</h4>
+                        <p class="text-gray-500 text-sm mb-3">Cloves, nutmeg, cinnamon, black pepper. ASTA certified
+                            grades.</p>
+                        <div class="flex justify-between items-center text-sm"><span
+                                class="text-navy-600 font-bold">MOQ: 5 MT</span><span class="text-gray-400">HS:
+                                0907.10</span></div>
+                        <button onclick="document.getElementById('inquiry').scrollIntoView({behavior:'smooth'})"
+                            class="w-full mt-4 border-2 border-navy-100 text-navy-700 hover:bg-navy-900 hover:text-white hover:border-navy-900 py-2.5 rounded-xl font-bold transition">Request
+                            Quote</button>
+                    </div>
+                </div>
+                <div class="bg-white rounded-3xl overflow-hidden shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group reveal"
+                    style="transition-delay:300ms">
+                    <div class="relative h-52 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?auto=format&fit=crop&w=600&q=80"
+                            alt="Cocoa"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div
+                            class="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-navy-700">
+                            Premium</div>
+                    </div>
+                    <div class="p-6">
+                        <h4 class="text-xl font-bold text-slate-900 mb-2">Cocoa Beans</h4>
+                        <p class="text-gray-500 text-sm mb-3">Sulawesi & Sumatra origin. Fermented & dried. Export
+                            quality.</p>
+                        <div class="flex justify-between items-center text-sm"><span
+                                class="text-navy-600 font-bold">MOQ: 1 FCL</span><span class="text-gray-400">HS:
+                                1801.00</span></div>
+                        <button onclick="document.getElementById('inquiry').scrollIntoView({behavior:'smooth'})"
+                            class="w-full mt-4 border-2 border-navy-100 text-navy-700 hover:bg-navy-900 hover:text-white hover:border-navy-900 py-2.5 rounded-xl font-bold transition">Request
+                            Quote</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certifications -->
+    <section id="certifications" class="py-24 bg-navy-950 text-white relative overflow-hidden scroll-mt-20">
+        <div class="absolute inset-0 grid-pattern"></div>
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <h2 class="text-navy-400 font-bold tracking-wider uppercase text-sm mb-3">Certifications & Compliance
+                </h2>
+                <h3 class="text-3xl md:text-4xl font-black mb-4">Internationally Recognized Standards</h3>
+                <p class="text-gray-400">All our operations and products comply with the strictest international
+                    quality, safety, and sustainability standards.</p>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+                <div
+                    class="bg-white/5 backdrop-blur border border-white/10 rounded-2xl p-6 text-center hover:bg-white/10 transition reveal">
+                    <div
+                        class="w-16 h-16 bg-navy-800 rounded-2xl flex items-center justify-center mx-auto mb-4 text-navy-400 text-2xl">
+                        <i class="fa-solid fa-certificate"></i></div>
+                    <h4 class="font-bold text-sm">ISO 9001</h4>
+                    <p class="text-gray-500 text-xs mt-1">Quality Mgmt</p>
+                </div>
+                <div class="bg-white/5 backdrop-blur border border-white/10 rounded-2xl p-6 text-center hover:bg-white/10 transition reveal"
+                    style="transition-delay:50ms">
+                    <div
+                        class="w-16 h-16 bg-navy-800 rounded-2xl flex items-center justify-center mx-auto mb-4 text-navy-400 text-2xl">
+                        <i class="fa-solid fa-shield-halved"></i></div>
+                    <h4 class="font-bold text-sm">HACCP</h4>
+                    <p class="text-gray-500 text-xs mt-1">Food Safety</p>
+                </div>
+                <div class="bg-white/5 backdrop-blur border border-white/10 rounded-2xl p-6 text-center hover:bg-white/10 transition reveal"
+                    style="transition-delay:100ms">
+                    <div
+                        class="w-16 h-16 bg-navy-800 rounded-2xl flex items-center justify-center mx-auto mb-4 text-navy-400 text-2xl">
+                        <i class="fa-solid fa-leaf"></i></div>
+                    <h4 class="font-bold text-sm">Organic</h4>
+                    <p class="text-gray-500 text-xs mt-1">USDA/EU Cert</p>
+                </div>
+                <div class="bg-white/5 backdrop-blur border border-white/10 rounded-2xl p-6 text-center hover:bg-white/10 transition reveal"
+                    style="transition-delay:150ms">
+                    <div
+                        class="w-16 h-16 bg-navy-800 rounded-2xl flex items-center justify-center mx-auto mb-4 text-navy-400 text-2xl">
+                        <i class="fa-solid fa-star-of-david"></i></div>
+                    <h4 class="font-bold text-sm">Halal</h4>
+                    <p class="text-gray-500 text-xs mt-1">MUI Certified</p>
+                </div>
+                <div class="bg-white/5 backdrop-blur border border-white/10 rounded-2xl p-6 text-center hover:bg-white/10 transition reveal"
+                    style="transition-delay:200ms">
+                    <div
+                        class="w-16 h-16 bg-navy-800 rounded-2xl flex items-center justify-center mx-auto mb-4 text-navy-400 text-2xl">
+                        <i class="fa-solid fa-scale-balanced"></i></div>
+                    <h4 class="font-bold text-sm">Fair Trade</h4>
+                    <p class="text-gray-500 text-xs mt-1">Ethical Sourcing</p>
+                </div>
+                <div class="bg-white/5 backdrop-blur border border-white/10 rounded-2xl p-6 text-center hover:bg-white/10 transition reveal"
+                    style="transition-delay:250ms">
+                    <div
+                        class="w-16 h-16 bg-navy-800 rounded-2xl flex items-center justify-center mx-auto mb-4 text-navy-400 text-2xl">
+                        <i class="fa-solid fa-file-circle-check"></i></div>
+                    <h4 class="font-bold text-sm">SNI</h4>
+                    <p class="text-gray-500 text-xs mt-1">National Standard</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="reveal">
+                    <h2 class="text-navy-600 font-bold tracking-wider uppercase text-sm mb-3">Why Choose Us</h2>
+                    <h3 class="text-3xl md:text-4xl font-black text-slate-900 mb-6 leading-tight">The GlobalTrade
+                        Advantage</h3>
+                    <p class="text-gray-600 mb-8 leading-relaxed">With over 16 years in the export industry, we
+                        understand what international buyers need: consistency, transparency, and reliability.</p>
+                    <div class="space-y-6">
+                        <div class="flex items-start">
+                            <div
+                                class="w-12 h-12 bg-navy-100 rounded-xl flex items-center justify-center text-navy-600 mr-4 flex-shrink-0">
+                                <i class="fa-solid fa-microscope text-xl"></i></div>
+                            <div>
+                                <h4 class="font-bold text-slate-900 mb-1">Strict Quality Control</h4>
+                                <p class="text-gray-500 text-sm">Every batch undergoes rigorous lab testing and
+                                    inspection before shipment.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div
+                                class="w-12 h-12 bg-navy-100 rounded-xl flex items-center justify-center text-navy-600 mr-4 flex-shrink-0">
+                                <i class="fa-solid fa-ship text-xl"></i></div>
+                            <div>
+                                <h4 class="font-bold text-slate-900 mb-1">Flexible Shipping Terms</h4>
+                                <p class="text-gray-500 text-sm">FOB, CIF, and CNF options with reliable freight
+                                    partners worldwide.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div
+                                class="w-12 h-12 bg-navy-100 rounded-xl flex items-center justify-center text-navy-600 mr-4 flex-shrink-0">
+                                <i class="fa-solid fa-handshake text-xl"></i></div>
+                            <div>
+                                <h4 class="font-bold text-slate-900 mb-1">Long-Term Partnership</h4>
+                                <p class="text-gray-500 text-sm">We build sustainable relationships with transparent
+                                    pricing and dedicated account managers.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div
+                                class="w-12 h-12 bg-navy-100 rounded-xl flex items-center justify-center text-navy-600 mr-4 flex-shrink-0">
+                                <i class="fa-solid fa-language text-xl"></i></div>
+                            <div>
+                                <h4 class="font-bold text-slate-900 mb-1">Multilingual Support</h4>
+                                <p class="text-gray-500 text-sm">Our team communicates fluently in English, Mandarin,
+                                    and Bahasa Indonesia.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="reveal">
+                    <div class="bg-navy-50 rounded-3xl p-10 border border-navy-100">
+                        <h4 class="text-lg font-black text-navy-900 mb-6 uppercase tracking-wider text-sm">Global Reach
+                        </h4>
+                        <div class="grid grid-cols-2 gap-6">
+                            <div class="bg-white p-5 rounded-2xl shadow-sm border border-navy-100 text-center"><i
+                                    class="fa-solid fa-earth-asia text-navy-500 text-3xl mb-3"></i>
+                                <h5 class="font-bold text-slate-900">Asia Pacific</h5>
+                                <p class="text-gray-500 text-xs mt-1">Japan, Korea, China, India, Malaysia</p>
+                            </div>
+                            <div class="bg-white p-5 rounded-2xl shadow-sm border border-navy-100 text-center"><i
+                                    class="fa-solid fa-earth-europe text-navy-500 text-3xl mb-3"></i>
+                                <h5 class="font-bold text-slate-900">Europe</h5>
+                                <p class="text-gray-500 text-xs mt-1">Germany, Netherlands, UK, Italy</p>
+                            </div>
+                            <div class="bg-white p-5 rounded-2xl shadow-sm border border-navy-100 text-center"><i
+                                    class="fa-solid fa-earth-americas text-navy-500 text-3xl mb-3"></i>
+                                <h5 class="font-bold text-slate-900">Americas</h5>
+                                <p class="text-gray-500 text-xs mt-1">USA, Canada, Brazil</p>
+                            </div>
+                            <div class="bg-white p-5 rounded-2xl shadow-sm border border-navy-100 text-center"><i
+                                    class="fa-solid fa-earth-africa text-navy-500 text-3xl mb-3"></i>
+                                <h5 class="font-bold text-slate-900">Middle East</h5>
+                                <p class="text-gray-500 text-xs mt-1">UAE, Saudi Arabia, Turkey</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Inquiry Form -->
+    <section id="inquiry" class="py-24 bg-navy-50 scroll-mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white rounded-[3rem] shadow-xl overflow-hidden reveal">
+                <div class="grid grid-cols-1 lg:grid-cols-2">
+                    <div
+                        class="bg-navy-950 text-white p-12 lg:p-16 flex flex-col justify-center relative overflow-hidden">
+                        <div class="absolute inset-0 grid-pattern"></div>
+                        <div class="absolute top-0 right-0 w-64 h-64 bg-navy-600 rounded-full blur-[80px] opacity-30">
+                        </div>
+                        <div class="relative z-10">
+                            <h2 class="text-3xl md:text-4xl font-black mb-4">Send Your Inquiry</h2>
+                            <p class="text-gray-400 mb-10 leading-relaxed">Interested in our products? Fill out the
+                                inquiry form and our export team will respond within 24 business hours with a detailed
+                                quotation.</p>
+                            <div class="space-y-6">
+                                <div class="flex items-center">
+                                    <div
+                                        class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center mr-4">
+                                        <i class="fa-brands fa-whatsapp text-xl"></i></div>
+                                    <div>
+                                        <p class="text-sm text-gray-400">WhatsApp</p>
+                                        <p class="font-bold text-lg">+62 811 2233 4455</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center">
+                                    <div
+                                        class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center mr-4">
+                                        <i class="fa-regular fa-envelope text-xl"></i></div>
+                                    <div>
+                                        <p class="text-sm text-gray-400">Export Division</p>
+                                        <p class="font-bold text-lg">export@globaltradepro.co.id</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center">
+                                    <div
+                                        class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center mr-4">
+                                        <i class="fa-solid fa-location-dot text-xl"></i></div>
+                                    <div>
+                                        <p class="text-sm text-gray-400">Head Office</p>
+                                        <p class="font-bold">Export Tower, Tanjung Priok<br>Jakarta, Indonesia</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-12 lg:p-16">
+                        <h3 class="text-2xl font-bold text-slate-900 mb-6">Buyer Inquiry Form</h3>
+                        <form onsubmit="event.preventDefault();" class="space-y-4">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div><label class="block text-sm font-medium text-gray-700 mb-1">Full Name
+                                        *</label><input type="text"
+                                        class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-navy-500 focus:border-navy-500 outline-none transition"
+                                        placeholder="John Doe"></div>
+                                <div><label class="block text-sm font-medium text-gray-700 mb-1">Company Name
+                                        *</label><input type="text"
+                                        class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-navy-500 focus:border-navy-500 outline-none transition"
+                                        placeholder="Company Ltd."></div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div><label class="block text-sm font-medium text-gray-700 mb-1">Email *</label><input
+                                        type="email"
+                                        class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-navy-500 focus:border-navy-500 outline-none transition"
+                                        placeholder="buyer@company.com"></div>
+                                <div><label class="block text-sm font-medium text-gray-700 mb-1">Country *</label><input
+                                        type="text"
+                                        class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-navy-500 focus:border-navy-500 outline-none transition"
+                                        placeholder="e.g. Germany"></div>
+                            </div>
+                            <div><label class="block text-sm font-medium text-gray-700 mb-1">Product of Interest</label>
+                                <select
+                                    class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-navy-500 focus:border-navy-500 outline-none transition bg-white">
+                                    <option>Arabica Coffee Beans</option>
+                                    <option>Coconut Oil (RBD)</option>
+                                    <option>Spices & Herbs</option>
+                                    <option>Cocoa Beans</option>
+                                    <option>Other</option>
+                                </select>
+                            </div>
+                            <div><label class="block text-sm font-medium text-gray-700 mb-1">Inquiry
+                                    Details</label><textarea rows="4"
+                                    class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-navy-500 focus:border-navy-500 outline-none transition"
+                                    placeholder="Specify quantity, specifications, shipping terms, etc."></textarea>
+                            </div>
+                            <button
+                                class="w-full bg-navy-900 hover:bg-navy-800 text-white font-bold py-3.5 rounded-xl transition shadow-md mt-2">Submit
+                                Inquiry</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-navy-950 pt-20 pb-10 border-t-4 border-navy-600">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+                <div>
+                    <div class="flex items-center mb-6">
+                        <div class="w-10 h-10 bg-navy-800 rounded-xl flex items-center justify-center mr-3"><i
+                                class="fa-solid fa-earth-americas text-navy-400"></i></div><span
+                            class="font-black text-2xl text-white">GlobalTrade</span>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6">Your trusted Indonesian export partner for
+                        premium commodities. Certified quality, reliable logistics, transparent business.</p>
+                    <div class="flex space-x-3">
+                        <a href="#"
+                            class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-navy-600 transition"><i
+                                class="fa-brands fa-linkedin-in"></i></a>
+                        <a href="#"
+                            class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-navy-600 transition"><i
+                                class="fa-brands fa-instagram"></i></a>
+                        <a href="#"
+                            class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-green-500 transition"><i
+                                class="fa-brands fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-6">Company</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="#about" class="text-gray-400 hover:text-white transition">About Us</a></li>
+                        <li><a href="#products" class="text-gray-400 hover:text-white transition">Products</a></li>
+                        <li><a href="#certifications"
+                                class="text-gray-400 hover:text-white transition">Certifications</a></li>
+                        <li><a href="#inquiry" class="text-gray-400 hover:text-white transition">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-6">Products</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="#products" class="text-gray-400 hover:text-white transition">Coffee Beans</a></li>
+                        <li><a href="#products" class="text-gray-400 hover:text-white transition">Coconut Oil</a></li>
+                        <li><a href="#products" class="text-gray-400 hover:text-white transition">Spices & Herbs</a>
+                        </li>
+                        <li><a href="#products" class="text-gray-400 hover:text-white transition">Cocoa Beans</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-6">Contact</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li class="flex items-start"><i
+                                class="fa-solid fa-envelope mt-1 mr-3 text-navy-500 w-4"></i>export@globaltradepro.co.id
+                        </li>
+                        <li class="flex items-start"><i
+                                class="fa-brands fa-whatsapp mt-1 mr-3 text-green-500 w-4"></i>+62 811 2233 4455</li>
+                        <li class="flex items-start"><i
+                                class="fa-solid fa-location-dot mt-1 mr-3 text-navy-500 w-4"></i>Jakarta, Indonesia</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-500 text-sm">&copy; 2024 GlobalTrade Pro. All rights reserved.</p>
+                <div class="flex space-x-6 text-sm mt-4 md:mt-0"><a href="#"
+                        class="text-gray-500 hover:text-white transition">Privacy Policy</a><a href="#"
+                        class="text-gray-500 hover:text-white transition">Terms of Service</a></div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating WhatsApp -->
+    <a href="https://wa.me/6281122334455?text=Hello%20GlobalTrade%2C%20I%20would%20like%20to%20inquire%20about%20your%20products."
+        target="_blank"
+        class="fixed bottom-6 right-6 bg-green-500 text-white w-14 h-14 rounded-full flex items-center justify-center text-3xl shadow-[0_10px_30px_rgba(34,197,94,0.4)] hover:scale-110 hover:bg-green-600 transition-all duration-300 z-[100] group">
+        <i class="fa-brands fa-whatsapp"></i>
+        <span
+            class="absolute right-16 bg-white text-slate-800 text-xs font-bold px-3 py-2 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition duration-300 whitespace-nowrap pointer-events-none">Chat
+            WhatsApp</span>
+    </a>
+
+    <script>
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        btn.addEventListener('click', () => menu.classList.toggle('hidden'));
+        mobileLinks.forEach(link => link.addEventListener('click', () => menu.classList.add('hidden')));
+
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 20) { navbar.classList.add('shadow-md'); navbar.classList.replace('bg-white/95', 'bg-white'); }
+            else { navbar.classList.remove('shadow-md'); navbar.classList.replace('bg-white', 'bg-white/95'); }
+        });
+
+        function reveal() {
+            document.querySelectorAll('.reveal').forEach(el => {
+                if (el.getBoundingClientRect().top < window.innerHeight - 100) el.classList.add('active');
+            });
+        }
+        window.addEventListener('scroll', reveal);
+        reveal();
+    </script>
+</body>
+
+</html>

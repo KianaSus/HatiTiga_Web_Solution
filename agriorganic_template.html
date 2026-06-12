@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriOrganic | Professional Organic Agriculture</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        agri: {
+                            primary: '#2d6a4f',   /* Deep organic green */
+                            light: '#40916c',     /* Lighter green */
+                            dark: '#1b4332',      /* Very dark green */
+                            cream: '#fbf8f1',     /* Off-white / cream */
+                            earth: '#8c7851',     /* Earthy brown */
+                            leaf: '#d8f3dc'       /* Very light green */
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styles & Animations */
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #333;
+        }
+        
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Hero Image Overlay */
+        .hero-overlay {
+            background: linear-gradient(to right, rgba(27, 67, 50, 0.9), rgba(27, 67, 50, 0.4));
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #fbf8f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #40916c;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #2d6a4f;
+        }
+    </style>
+</head>
+<body class="bg-agri-cream antialiased selection:bg-agri-light selection:text-white">
+
+    <!-- Header / Navigation -->
+    <header class="fixed w-full top-0 z-50 bg-white/95 backdrop-blur-sm shadow-sm transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <i class="fa-solid fa-leaf text-agri-primary text-3xl mr-2"></i>
+                    <span class="font-bold text-2xl text-agri-dark tracking-tight">Agri<span class="text-agri-primary">Organic</span></span>
+                </div>
+
+                <!-- Desktop Menu -->
+                <nav class="hidden md:flex space-x-8 items-center">
+                    <a href="#home" class="text-gray-600 hover:text-agri-primary font-medium transition-colors">Home</a>
+                    <a href="#about" class="text-gray-600 hover:text-agri-primary font-medium transition-colors">About</a>
+                    <a href="#products" class="text-gray-600 hover:text-agri-primary font-medium transition-colors">Products</a>
+                    <a href="#services" class="text-gray-600 hover:text-agri-primary font-medium transition-colors">Services</a>
+                    <a href="#sustainability" class="text-gray-600 hover:text-agri-primary font-medium transition-colors">Sustainability</a>
+                    <a href="#blog" class="text-gray-600 hover:text-agri-primary font-medium transition-colors">Blog</a>
+                    <a href="#contact" class="bg-agri-primary hover:bg-agri-dark text-white px-6 py-2.5 rounded-full font-medium transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5">Get Quote</a>
+                </nav>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-600 hover:text-agri-primary focus:outline-none p-2">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 absolute w-full shadow-lg transition-all">
+            <div class="px-4 pt-2 pb-6 space-y-1">
+                <a href="#home" class="mobile-link block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-agri-primary hover:bg-agri-leaf">Home</a>
+                <a href="#about" class="mobile-link block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-agri-primary hover:bg-agri-leaf">About</a>
+                <a href="#products" class="mobile-link block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-agri-primary hover:bg-agri-leaf">Products</a>
+                <a href="#services" class="mobile-link block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-agri-primary hover:bg-agri-leaf">Services</a>
+                <a href="#sustainability" class="mobile-link block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-agri-primary hover:bg-agri-leaf">Sustainability</a>
+                <a href="#blog" class="mobile-link block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-agri-primary hover:bg-agri-leaf">Blog</a>
+                <a href="#contact" class="mobile-link block w-full text-center mt-4 bg-agri-primary text-white px-5 py-3 rounded-xl font-medium">Contact Us</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative h-screen min-h-[600px] flex items-center pt-20">
+        <!-- Background Image -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1500937386664-56d1dfef3854?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Organic Farm" class="w-full h-full object-cover" />
+            <div class="absolute inset-0 hero-overlay"></div>
+        </div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            <div class="max-w-2xl reveal active">
+                <div class="inline-block bg-agri-light/20 backdrop-blur-md border border-agri-light/30 text-white px-4 py-1.5 rounded-full text-sm font-semibold mb-6 flex items-center w-max">
+                    <i class="fa-solid fa-certificate text-yellow-400 mr-2"></i> 100% Certified Organic
+                </div>
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
+                    Organic Agriculture Solutions for a <span class="text-agri-light">Healthier Future</span>
+                </h1>
+                <p class="text-lg md:text-xl text-gray-200 mb-8 max-w-xl leading-relaxed">
+                    We provide premium, sustainable, and ethically sourced organic produce and agricultural solutions for local and global markets.
+                </p>
+                <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                    <a href="#products" class="bg-agri-primary hover:bg-agri-light text-white px-8 py-3.5 rounded-full font-semibold text-center transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                        Explore Products
+                    </a>
+                    <a href="#about" class="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 text-white px-8 py-3.5 rounded-full font-semibold text-center transition-all">
+                        Learn More
+                    </a>
+                </div>
+                
+                <div class="mt-12 flex items-center space-x-6 text-white/80 text-sm font-medium">
+                    <div class="flex items-center"><i class="fa-solid fa-check-circle text-agri-primary mr-2"></i> Sustainable Farming</div>
+                    <div class="flex items-center"><i class="fa-solid fa-check-circle text-agri-primary mr-2"></i> Trusted Supplier</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 bg-white relative scroll-mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                
+                <!-- About Images -->
+                <div class="relative reveal">
+                    <div class="grid grid-cols-2 gap-4">
+                        <img src="https://images.unsplash.com/photo-1595825833444-a0dc3381aeb3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Farmer" class="rounded-3xl w-full h-64 object-cover shadow-lg transform translate-y-8">
+                        <img src="https://images.unsplash.com/photo-1605000797499-95a51c5269ae?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Harvest" class="rounded-3xl w-full h-64 object-cover shadow-lg">
+                    </div>
+                    <!-- Floating Badge -->
+                    <div class="absolute -bottom-6 -left-6 bg-agri-dark text-white p-6 rounded-2xl shadow-xl border-4 border-white">
+                        <div class="text-4xl font-bold text-agri-light mb-1">10+</div>
+                        <div class="text-sm font-medium">Years of Farming<br>Excellence</div>
+                    </div>
+                </div>
+
+                <!-- About Content -->
+                <div class="reveal">
+                    <h2 class="text-agri-primary font-bold tracking-wider uppercase text-sm mb-3">About AgriOrganic</h2>
+                    <h3 class="text-3xl md:text-4xl font-bold text-agri-dark mb-6 leading-tight">Cultivating Nature's Best for Your Well-being.</h3>
+                    <p class="text-gray-600 mb-6 leading-relaxed">
+                        At AgriOrganic, we believe that the best food comes directly from nature, untouched by harmful chemicals. Our mission is to bridge the gap between sustainable organic farming and healthy living.
+                    </p>
+                    <p class="text-gray-600 mb-8 leading-relaxed">
+                        Working hand-in-hand with local farming communities, we ensure fair trade practices, soil vitality preservation, and top-tier export-quality harvests that meet global organic standards.
+                    </p>
+                    
+                    <div class="grid grid-cols-2 gap-6 mb-8">
+                        <div class="flex flex-col">
+                            <span class="text-3xl font-bold text-agri-dark mb-1">500+</span>
+                            <span class="text-sm text-gray-500 font-medium">Partner Farmers</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-3xl font-bold text-agri-dark mb-1">100%</span>
+                            <span class="text-sm text-gray-500 font-medium">Organic Focus</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-3xl font-bold text-agri-dark mb-1">50+</span>
+                            <span class="text-sm text-gray-500 font-medium">Product Varieties</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-3xl font-bold text-agri-dark mb-1">24/7</span>
+                            <span class="text-sm text-gray-500 font-medium">Export Ready</span>
+                        </div>
+                    </div>
+
+                    <a href="#contact" class="inline-flex items-center text-agri-primary font-semibold hover:text-agri-dark transition-colors">
+                        Partner with us <i class="fa-solid fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="py-24 bg-agri-cream scroll-mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <h2 class="text-agri-primary font-bold tracking-wider uppercase text-sm mb-3">Our Harvest</h2>
+                <h3 class="text-3xl md:text-4xl font-bold text-agri-dark mb-4">Premium Organic Products</h3>
+                <p class="text-gray-600">Fresh from the farm to your table. We offer a wide range of certified organic produce tailored for retail and B2B needs.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Product 1 -->
+                <div class="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group reveal">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Organic Vegetables" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-agri-primary">Fresh</div>
+                    </div>
+                    <div class="p-6">
+                        <h4 class="text-xl font-bold text-agri-dark mb-2">Organic Vegetables</h4>
+                        <p class="text-gray-500 text-sm mb-4">Crisp, nutrient-dense greens and root vegetables grown without pesticides.</p>
+                        <button class="w-full border-2 border-agri-leaf text-agri-dark hover:bg-agri-primary hover:border-agri-primary hover:text-white py-2 rounded-xl font-medium transition-colors">View Details</button>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group reveal" style="transition-delay: 100ms;">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1610832958506-aa56368176cf?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Fresh Fruits" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-agri-earth">Export Quality</div>
+                    </div>
+                    <div class="p-6">
+                        <h4 class="text-xl font-bold text-agri-dark mb-2">Tropical Fruits</h4>
+                        <p class="text-gray-500 text-sm mb-4">Naturally ripened, sweet tropical fruits packed with vitamins and flavor.</p>
+                        <button class="w-full border-2 border-agri-leaf text-agri-dark hover:bg-agri-primary hover:border-agri-primary hover:text-white py-2 rounded-xl font-medium transition-colors">View Details</button>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group reveal" style="transition-delay: 200ms;">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1586201375761-83865001e8ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Rice & Grains" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-agri-primary">Organic</div>
+                    </div>
+                    <div class="p-6">
+                        <h4 class="text-xl font-bold text-agri-dark mb-2">Rice & Grains</h4>
+                        <p class="text-gray-500 text-sm mb-4">High-fiber organic rice, quinoa, and ancient grains for wholesome meals.</p>
+                        <button class="w-full border-2 border-agri-leaf text-agri-dark hover:bg-agri-primary hover:border-agri-primary hover:text-white py-2 rounded-xl font-medium transition-colors">View Details</button>
+                    </div>
+                </div>
+
+                <!-- Product 4 -->
+                <div class="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group reveal" style="transition-delay: 300ms;">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Herbs & Spices" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-agri-primary">Aromatic</div>
+                    </div>
+                    <div class="p-6">
+                        <h4 class="text-xl font-bold text-agri-dark mb-2">Herbs & Spices</h4>
+                        <p class="text-gray-500 text-sm mb-4">Aromatic, sun-dried spices and fresh herbs to elevate your culinary creations.</p>
+                        <button class="w-full border-2 border-agri-leaf text-agri-dark hover:bg-agri-primary hover:border-agri-primary hover:text-white py-2 rounded-xl font-medium transition-colors">View Details</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-12 text-center reveal">
+                <a href="#products" class="inline-block bg-transparent border-2 border-agri-primary text-agri-primary hover:bg-agri-primary hover:text-white px-8 py-3 rounded-xl font-semibold transition-all">View All Catalog</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-24 bg-white scroll-mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                
+                <div class="lg:col-span-1 reveal">
+                    <h2 class="text-agri-primary font-bold tracking-wider uppercase text-sm mb-3">Our Services</h2>
+                    <h3 class="text-3xl md:text-4xl font-bold text-agri-dark mb-6">More Than Just a Supplier.</h3>
+                    <p class="text-gray-600 mb-8">We provide comprehensive solutions across the agricultural supply chain. From farming partnerships to global distribution, we ensure quality at every step.</p>
+                    <a href="#contact" class="bg-agri-dark hover:bg-agri-primary text-white px-6 py-3 rounded-full font-medium transition-all shadow-md inline-block">Consult With Us</a>
+                </div>
+
+                <div class="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Service 1 -->
+                    <div class="p-8 rounded-3xl bg-agri-cream border border-agri-leaf hover:-translate-y-2 transition-transform duration-300 reveal">
+                        <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shadow-sm mb-6 text-agri-primary text-2xl">
+                            <i class="fa-solid fa-truck-fast"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-agri-dark mb-3">B2B Distribution</h4>
+                        <p class="text-gray-600 text-sm">Reliable and timely supply of bulk organic produce for supermarkets, restaurants, and food processors.</p>
+                    </div>
+
+                    <!-- Service 2 -->
+                    <div class="p-8 rounded-3xl bg-agri-cream border border-agri-leaf hover:-translate-y-2 transition-transform duration-300 reveal" style="transition-delay: 100ms;">
+                        <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shadow-sm mb-6 text-agri-primary text-2xl">
+                            <i class="fa-solid fa-ship"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-agri-dark mb-3">Export Support</h4>
+                        <p class="text-gray-600 text-sm">End-to-end export services including handling of documentation, certifications, and international logistics.</p>
+                    </div>
+
+                    <!-- Service 3 -->
+                    <div class="p-8 rounded-3xl bg-agri-cream border border-agri-leaf hover:-translate-y-2 transition-transform duration-300 reveal" style="transition-delay: 200ms;">
+                        <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shadow-sm mb-6 text-agri-primary text-2xl">
+                            <i class="fa-solid fa-handshake"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-agri-dark mb-3">Farm Partnership</h4>
+                        <p class="text-gray-600 text-sm">Collaborative programs empowering local farmers with modern organic techniques and fair market access.</p>
+                    </div>
+
+                    <!-- Service 4 -->
+                    <div class="p-8 rounded-3xl bg-agri-cream border border-agri-leaf hover:-translate-y-2 transition-transform duration-300 reveal" style="transition-delay: 300ms;">
+                        <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shadow-sm mb-6 text-agri-primary text-2xl">
+                            <i class="fa-solid fa-seedling"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-agri-dark mb-3">Sustainable Consulting</h4>
+                        <p class="text-gray-600 text-sm">Expert advice on transitioning to sustainable farming methods and obtaining organic certifications.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Sustainability Section -->
+    <section id="sustainability" class="py-24 bg-agri-dark relative overflow-hidden text-white scroll-mt-20">
+        <!-- Background Pattern -->
+        <div class="absolute inset-0 opacity-10" style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'#ffffff\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+        
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                <div class="reveal">
+                    <h2 class="text-agri-light font-bold tracking-wider uppercase text-sm mb-3">Our Commitment</h2>
+                    <h3 class="text-3xl md:text-5xl font-bold mb-6 leading-tight">Nurturing the Earth for Tomorrow.</h3>
+                    <p class="text-gray-300 mb-6 text-lg">
+                        Sustainability isn't just a buzzword for us; it's the foundation of everything we do. We are dedicated to regenerative agriculture that restores ecosystems rather than depleting them.
+                    </p>
+                    
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-start">
+                            <i class="fa-solid fa-leaf text-agri-light mt-1 mr-4"></i>
+                            <div>
+                                <h4 class="font-bold text-white">Eco-friendly Production</h4>
+                                <p class="text-sm text-gray-400">Zero synthetic pesticides or harmful chemical fertilizers.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa-solid fa-droplet text-agri-light mt-1 mr-4"></i>
+                            <div>
+                                <h4 class="font-bold text-white">Water Conservation</h4>
+                                <p class="text-sm text-gray-400">Advanced drip irrigation systems minimizing water waste.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa-solid fa-users text-agri-light mt-1 mr-4"></i>
+                            <div>
+                                <h4 class="font-bold text-white">Farmer Empowerment</h4>
+                                <p class="text-sm text-gray-400">Fair wages, education, and community development.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="relative reveal">
+                    <img src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Sustainable Farm" class="rounded-[2rem] shadow-2xl border-8 border-white/10">
+                    <div class="absolute -top-6 -right-6 bg-agri-primary w-24 h-24 rounded-full flex items-center justify-center text-white shadow-xl rotate-12">
+                        <div class="text-center">
+                            <span class="block font-bold text-xl">100%</span>
+                            <span class="block text-[10px] uppercase tracking-wider">Eco<br>Friendly</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section id="why-us" class="py-24 bg-agri-earth/20 scroll-mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <h2 class="text-agri-primary font-bold tracking-wider uppercase text-sm mb-3">Why Choose Us</h2>
+                <h3 class="text-3xl md:text-4xl font-bold text-agri-dark mb-4">The AgriOrganic Advantage</h3>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Point 1 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm flex items-start reveal">
+                    <div class="bg-agri-leaf p-3 rounded-xl text-agri-primary mr-4 shrink-0">
+                        <i class="fa-solid fa-certificate text-xl"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-agri-dark mb-2">Certified Organic</h4>
+                        <p class="text-sm text-gray-600">Internationally recognized certifications ensuring true organic integrity.</p>
+                    </div>
+                </div>
+                <!-- Point 2 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm flex items-start reveal" style="transition-delay: 100ms;">
+                    <div class="bg-agri-leaf p-3 rounded-xl text-agri-primary mr-4 shrink-0">
+                        <i class="fa-solid fa-link text-xl"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-agri-dark mb-2">Transparent Supply Chain</h4>
+                        <p class="text-sm text-gray-600">Full traceability from seed to shelf, ensuring accountability.</p>
+                    </div>
+                </div>
+                <!-- Point 3 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm flex items-start reveal" style="transition-delay: 200ms;">
+                    <div class="bg-agri-leaf p-3 rounded-xl text-agri-primary mr-4 shrink-0">
+                        <i class="fa-solid fa-star text-xl"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-agri-dark mb-2">High-Quality Harvest</h4>
+                        <p class="text-sm text-gray-600">Rigorous quality control for freshness, taste, and visual appeal.</p>
+                    </div>
+                </div>
+                <!-- Point 4 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm flex items-start reveal" style="transition-delay: 300ms;">
+                    <div class="bg-agri-leaf p-3 rounded-xl text-agri-primary mr-4 shrink-0">
+                        <i class="fa-solid fa-building text-xl"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-agri-dark mb-2">Reliable B2B Supply</h4>
+                        <p class="text-sm text-gray-600">Consistent volume and on-time delivery for business partners.</p>
+                    </div>
+                </div>
+                <!-- Point 5 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm flex items-start reveal" style="transition-delay: 400ms;">
+                    <div class="bg-agri-leaf p-3 rounded-xl text-agri-primary mr-4 shrink-0">
+                        <i class="fa-solid fa-scale-balanced text-xl"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-agri-dark mb-2">Ethical Farming</h4>
+                        <p class="text-sm text-gray-600">Fair trade practices prioritizing farmer welfare and rights.</p>
+                    </div>
+                </div>
+                <!-- Point 6 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm flex items-start reveal" style="transition-delay: 500ms;">
+                    <div class="bg-agri-leaf p-3 rounded-xl text-agri-primary mr-4 shrink-0">
+                        <i class="fa-solid fa-comments text-xl"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-agri-dark mb-2">Easy Communication</h4>
+                        <p class="text-sm text-gray-600">Responsive customer service and simplified ordering processes.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="py-24 bg-white scroll-mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-agri-primary font-bold tracking-wider uppercase text-sm mb-3">Testimonials</h2>
+                <h3 class="text-3xl md:text-4xl font-bold text-agri-dark">Trusted by Partners Worldwide</h3>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="bg-agri-cream p-8 rounded-[2rem] relative reveal">
+                    <i class="fa-solid fa-quote-right text-4xl text-agri-leaf absolute top-8 right-8"></i>
+                    <div class="flex text-yellow-400 mb-4 text-sm">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-gray-700 mb-6 italic">"AgriOrganic has been our most reliable supplier for organic vegetables. Their consistency in quality and volume helps us keep our supermarket shelves stocked with the best."</p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-gray-300 rounded-full mr-4 overflow-hidden">
+                            <img src="https://i.pravatar.cc/150?img=32" alt="Avatar" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h5 class="font-bold text-agri-dark text-sm">Sarah Jenkins</h5>
+                            <span class="text-xs text-gray-500">Procurement Manager, FreshFoods Inc.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 2 -->
+                <div class="bg-agri-cream p-8 rounded-[2rem] relative reveal" style="transition-delay: 100ms;">
+                    <i class="fa-solid fa-quote-right text-4xl text-agri-leaf absolute top-8 right-8"></i>
+                    <div class="flex text-yellow-400 mb-4 text-sm">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-gray-700 mb-6 italic">"Their export support is phenomenal. We import their tropical fruits and spices to Europe, and the products always arrive fresh, well-packaged, and fully certified."</p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-gray-300 rounded-full mr-4 overflow-hidden">
+                            <img src="https://i.pravatar.cc/150?img=11" alt="Avatar" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h5 class="font-bold text-agri-dark text-sm">Marcus Van Der Berg</h5>
+                            <span class="text-xs text-gray-500">Director, EuroNaturals</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 3 -->
+                <div class="bg-agri-cream p-8 rounded-[2rem] relative reveal" style="transition-delay: 200ms;">
+                    <i class="fa-solid fa-quote-right text-4xl text-agri-leaf absolute top-8 right-8"></i>
+                    <div class="flex text-yellow-400 mb-4 text-sm">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-gray-700 mb-6 italic">"Partnering with AgriOrganic changed my farm. They taught us sustainable methods and gave us a guaranteed market at fair prices. I am proud of what we grow now."</p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-gray-300 rounded-full mr-4 overflow-hidden">
+                            <img src="https://i.pravatar.cc/150?img=68" alt="Avatar" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h5 class="font-bold text-agri-dark text-sm">Budi Santoso</h5>
+                            <span class="text-xs text-gray-500">Head of Local Farmers Co-op</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section id="blog" class="py-24 bg-agri-earth/10 scroll-mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-agri-primary font-bold tracking-wider uppercase text-sm mb-3">Insights & News</h2>
+                <h3 class="text-3xl md:text-4xl font-bold text-agri-dark mb-4">Latest from AgriOrganic</h3>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Blog Card 1 -->
+                <div class="reveal bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 group">
+                    <div class="overflow-hidden h-56">
+                        <img src="https://images.unsplash.com/photo-1500937386664-56d1dfef3854?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Organic Farming" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    </div>
+                    <div class="p-8">
+                        <div class="text-sm text-agri-primary font-semibold mb-3">Farming Methods</div>
+                        <h4 class="text-xl font-bold text-agri-dark mb-3 group-hover:text-agri-primary transition-colors">The Benefits of Regenerative Organic Agriculture</h4>
+                        <p class="text-gray-500 text-sm mb-6 line-clamp-3">Discover how regenerative practices are not only producing healthier crops but also restoring soil vitality and combating climate change.</p>
+                        <a href="#blog" class="text-agri-dark font-bold hover:text-agri-primary inline-flex items-center transition-colors text-sm uppercase tracking-wide">Read Article <i class="fa-solid fa-arrow-right ml-2"></i></a>
+                    </div>
+                </div>
+
+                <!-- Blog Card 2 -->
+                <div class="reveal bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 group" style="transition-delay: 100ms;">
+                    <div class="overflow-hidden h-56">
+                        <img src="https://images.unsplash.com/photo-1610348723531-9e563065e156?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Fresh Produce" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    </div>
+                    <div class="p-8">
+                        <div class="text-sm text-agri-primary font-semibold mb-3">Market Trends</div>
+                        <h4 class="text-xl font-bold text-agri-dark mb-3 group-hover:text-agri-primary transition-colors">Export Potential of Southeast Asian Organic Products</h4>
+                        <p class="text-gray-500 text-sm mb-6 line-clamp-3">An analysis of the growing global demand for tropical organic fruits and spices, and how local farmers are meeting the standard.</p>
+                        <a href="#blog" class="text-agri-dark font-bold hover:text-agri-primary inline-flex items-center transition-colors text-sm uppercase tracking-wide">Read Article <i class="fa-solid fa-arrow-right ml-2"></i></a>
+                    </div>
+                </div>
+
+                <!-- Blog Card 3 -->
+                <div class="reveal bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 group" style="transition-delay: 200ms;">
+                    <div class="overflow-hidden h-56">
+                        <img src="https://images.unsplash.com/photo-1595825833444-a0dc3381aeb3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Choosing Products" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    </div>
+                    <div class="p-8">
+                        <div class="text-sm text-agri-primary font-semibold mb-3">Consumer Guide</div>
+                        <h4 class="text-xl font-bold text-agri-dark mb-3 group-hover:text-agri-primary transition-colors">How to Verify Authentic Organic Certifications</h4>
+                        <p class="text-gray-500 text-sm mb-6 line-clamp-3">A practical guide for B2B buyers and consumers on understanding organic labels, traceability, and ensuring true product quality.</p>
+                        <a href="#blog" class="text-agri-dark font-bold hover:text-agri-primary inline-flex items-center transition-colors text-sm uppercase tracking-wide">Read Article <i class="fa-solid fa-arrow-right ml-2"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact / CTA Section -->
+    <section id="contact" class="py-24 bg-agri-earth/40 scroll-mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white rounded-[3rem] shadow-xl overflow-hidden reveal">
+                <div class="grid grid-cols-1 lg:grid-cols-2">
+                    <!-- Contact Info -->
+                    <div class="bg-agri-dark text-white p-12 lg:p-16 flex flex-col justify-center relative overflow-hidden">
+                        <div class="absolute inset-0 opacity-10" style="background-image: url('data:image/svg+xml,%3Csvg width=\'20\' height=\'20\' viewBox=\'0 0 20 20\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'#ffffff\' fill-opacity=\'1\' fill-rule=\'evenodd\'%3E%3Ccircle cx=\'3\' cy=\'3\' r=\'3\'/%3E%3Ccircle cx=\'13\' cy=\'13\' r=\'3\'/%3E%3C/g%3E%3C/svg%3E');"></div>
+                        
+                        <div class="relative z-10">
+                            <h2 class="text-3xl md:text-4xl font-bold mb-4">Ready to Grow with AgriOrganic?</h2>
+                            <p class="text-gray-300 mb-10">Whether you are looking for premium organic supplies, partnership opportunities, or consultation, our team is ready to assist you.</p>
+                            
+                            <div class="space-y-6">
+                                <div class="flex items-center">
+                                    <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center mr-4 shrink-0">
+                                        <i class="fa-brands fa-whatsapp text-xl"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-400">WhatsApp / Phone</p>
+                                        <p class="font-bold text-lg">+62 812 3456 7890</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center mr-4 shrink-0">
+                                        <i class="fa-regular fa-envelope text-xl"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-400">Email Address</p>
+                                        <p class="font-bold text-lg">hello@agriorganic.com</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center mr-4 shrink-0">
+                                        <i class="fa-solid fa-location-dot text-xl"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-400">Headquarters</p>
+                                        <p class="font-bold">AgriCenter Bldg, Green Avenue No. 42,<br>Jakarta, Indonesia</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contact Form -->
+                    <div class="p-12 lg:p-16">
+                        <h3 class="text-2xl font-bold text-agri-dark mb-6">Send us a message</h3>
+                        <form onsubmit="event.preventDefault();" class="space-y-4">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                                    <input type="text" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-agri-primary focus:border-agri-primary outline-none transition-all" placeholder="John Doe">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                                    <input type="email" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-agri-primary focus:border-agri-primary outline-none transition-all" placeholder="john@company.com">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Company Name</label>
+                                <input type="text" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-agri-primary focus:border-agri-primary outline-none transition-all" placeholder="Company Ltd.">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Message</label>
+                                <textarea rows="4" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-agri-primary focus:border-agri-primary outline-none transition-all" placeholder="How can we help you?"></textarea>
+                            </div>
+                            <button class="w-full bg-agri-primary hover:bg-agri-dark text-white font-bold py-3.5 rounded-xl transition-colors shadow-md mt-4">
+                                Send Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-agri-dark pt-20 pb-10 border-t-4 border-agri-primary">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+                <!-- Brand Info -->
+                <div class="lg:col-span-1">
+                    <div class="flex items-center mb-6">
+                        <i class="fa-solid fa-leaf text-agri-primary text-3xl mr-2"></i>
+                        <span class="font-bold text-2xl text-white tracking-tight">Agri<span class="text-agri-primary">Organic</span></span>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6">
+                        Providing the world with premium, sustainably grown organic agricultural products. Healthy soil, healthy food, healthy people.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-agri-primary transition-colors"><i class="fa-brands fa-linkedin-in"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-agri-primary transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-agri-primary transition-colors"><i class="fa-brands fa-facebook-f"></i></a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-white font-bold mb-6">Company</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="#about" class="text-gray-400 hover:text-agri-light transition-colors">About Us</a></li>
+                        <li><a href="#services" class="text-gray-400 hover:text-agri-light transition-colors">Our Services</a></li>
+                        <li><a href="#sustainability" class="text-gray-400 hover:text-agri-light transition-colors">Sustainability</a></li>
+                        <li><a href="#blog" class="text-gray-400 hover:text-agri-light transition-colors">Blog & News</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-agri-light transition-colors">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <!-- Products -->
+                <div>
+                    <h4 class="text-white font-bold mb-6">Products</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="#products" class="text-gray-400 hover:text-agri-light transition-colors">Organic Vegetables</a></li>
+                        <li><a href="#products" class="text-gray-400 hover:text-agri-light transition-colors">Fresh Tropical Fruits</a></li>
+                        <li><a href="#products" class="text-gray-400 hover:text-agri-light transition-colors">Rice & Grains</a></li>
+                        <li><a href="#products" class="text-gray-400 hover:text-agri-light transition-colors">Herbs & Spices</a></li>
+                        <li><a href="#products" class="text-gray-400 hover:text-agri-light transition-colors">Bio Fertilizers</a></li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter -->
+                <div>
+                    <h4 class="text-white font-bold mb-6">Newsletter</h4>
+                    <p class="text-gray-400 text-sm mb-4">Subscribe to receive updates on harvest seasons and agricultural insights.</p>
+                    <form onsubmit="event.preventDefault();" class="flex">
+                        <input type="email" placeholder="Your email address" class="w-full px-4 py-2 rounded-l-lg bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-agri-primary">
+                        <button class="bg-agri-primary hover:bg-agri-light px-4 py-2 rounded-r-lg text-white transition-colors">
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-500 text-sm mb-4 md:mb-0">&copy; 2024 AgriOrganic. All rights reserved.</p>
+                <div class="flex space-x-6 text-sm">
+                    <a href="#" class="text-gray-500 hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="#" class="text-gray-500 hover:text-white transition-colors">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Mobile Menu Toggle
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu when clicking a link
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.add('hidden');
+            });
+        });
+
+        // Sticky Navbar Effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 20) {
+                navbar.classList.add('shadow-md');
+                navbar.classList.replace('bg-white/95', 'bg-white');
+            } else {
+                navbar.classList.remove('shadow-md');
+                navbar.classList.replace('bg-white', 'bg-white/95');
+            }
+        });
+
+        // Scroll Reveal Animation (Intersection Observer)
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100; // when to trigger
+
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+
+        // Initialize observer
+        window.addEventListener("scroll", reveal);
+        // Trigger once on load
+        reveal();
+    </script>
+</body>
+</html>
