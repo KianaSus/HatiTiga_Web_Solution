@@ -513,6 +513,7 @@
 
             // Live Iframe Builder referencing actual HTML files
             previewBuilder: (tpl) => {
+                const uniqueId = 'skeleton-' + tpl.id + '-' + Math.random().toString(36).substr(2, 9);
                 return `
                     <div class="preview-iframe-wrapper bg-white">
                         <div class="preview-header relative z-10 shadow-sm border-b border-slate-200">
@@ -521,12 +522,12 @@
                             <div class="preview-dot g"></div>
                             <span class="text-[9px] text-slate-400 font-medium ml-2 relative top-[1px] tracking-widest uppercase">${tpl.fileUrl}</span>
                         </div>
-                        <div class="preview-skeleton" id="skeleton-${tpl.id}"></div>
+                        <div class="preview-skeleton" id="${uniqueId}"></div>
                         <iframe 
                             src="${tpl.fileUrl}" 
                             class="preview-iframe-scaled"
                             scrolling="no"
-                            onload="this.classList.add('loaded'); document.getElementById('skeleton-${tpl.id}').style.display='none';"
+                            onload="this.classList.add('loaded'); document.getElementById('${uniqueId}').style.display='none';"
                             title="Preview ${tpl.name}"
                         ></iframe>
                     </div>
