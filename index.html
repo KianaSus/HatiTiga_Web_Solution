@@ -372,18 +372,25 @@
             const p = document.getElementById('password').value;
             const err = document.getElementById('login-error');
 
-            if (u === 'user' && p === '1234') {
-                appState.user = { id: 'user_001', username: u, email: 'user@example.com', role: 'user', verified: true };
+            const foundUser = typeof MOCK_USERS !== 'undefined' ? MOCK_USERS.find(user => user.username === u && user.password === p) : null;
+
+            if (foundUser) {
+                // Jangan simpan password di localStorage untuk best practice
+                const sessionUser = { ...foundUser };
+                delete sessionUser.password;
+                
+                appState.user = sessionUser;
                 localStorage.setItem(STORAGE_KEYS.session, JSON.stringify(appState.user));
                 err.classList.add('hidden');
                 updateAuthUI();
-                navigate('dashboard');
-            } else if (u === 'admin' && p === 'admin') {
-                appState.user = { id: 'admin_001', username: u, email: 'admin@hatitiga.com', role: 'admin', verified: true, permissions: ['manage_templates', 'manage_orders', 'edit_website'] };
-                localStorage.setItem(STORAGE_KEYS.session, JSON.stringify(appState.user));
-                err.classList.add('hidden');
-                updateAuthUI();
-                window.location.href = 'admin_panel.html';
+
+                if (sessionUser.role === 'admin') {
+                    window.location.href = 'admin_panel.html';
+                } else if (sessionUser.role === 'customer' && sessionUser.verifiedCustomer) {
+                    window.location.href = 'customer_dashboard.html';
+                } else {
+                    navigate('home');
+                }
             } else {
                 err.innerText = 'Username atau password salah!';
                 err.classList.remove('hidden');

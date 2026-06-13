@@ -115,3 +115,46 @@ if (!savedTemplates) {
     // Override DB.templates with localStorage data
     DB.templates = JSON.parse(savedTemplates);
 }
+
+const MOCK_USERS = [
+    {
+        id: "user_demo",
+        username: "user",
+        password: "1234",
+        role: "user",
+        verifiedCustomer: false,
+        customerStatus: "lead",
+        displayName: "User Demo",
+        permissions: []
+    },
+    {
+        id: "cust_001",
+        username: "UserC",
+        password: "123456",
+        role: "customer",
+        verifiedCustomer: true,
+        customerStatus: "live_active",
+        displayName: "CV. Maju Jaya",
+        projectId: "project_001",
+        subscriptionEndsAt: "2026-12-31",
+        permissions: [
+            "view_dashboard",
+            "edit_limited_content",
+            "request_update",
+            "upload_assets"
+        ]
+    },
+    {
+        id: "admin_001",
+        username: "admin",
+        password: "admin",
+        role: "admin",
+        verified: true,
+        permissions: [
+            "manage_templates",
+            "manage_orders",
+            "manage_customers",
+            "edit_website"
+        ]
+    }
+];
