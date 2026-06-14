@@ -53,11 +53,19 @@
                 <div class="flex items-center gap-3"><i class="fa-solid fa-wand-magic-sparkles w-5"></i> Website Editor</div>
                 <i class="fa-solid fa-lock text-xs"></i>
             </button>
+            <button onclick="switchTab('pending_updates')" id="nav-pending_updates" class="nav-btn w-full flex items-center justify-between px-4 py-3 hover:bg-slate-800 text-slate-300 hover:text-white rounded-xl font-medium text-sm transition relative">
+                <div class="flex items-center gap-3"><i class="fa-solid fa-code-pull-request w-5"></i> Pending Updates</div>
+                <div id="pending-badge" class="hidden bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">New</div>
+            </button>
             <button class="w-full flex items-center justify-between px-4 py-3 hover:bg-slate-800 text-slate-300 hover:text-white rounded-xl font-medium text-sm transition opacity-50 cursor-not-allowed">
                 <div class="flex items-center gap-3"><i class="fa-solid fa-users w-5"></i> Customers</div>
                 <i class="fa-solid fa-lock text-xs"></i>
             </button>
         </nav>
+        <div class="p-4 border-t border-slate-800">
+            <button onclick="window.resetDemoData()" class="w-full py-2 mb-4 bg-slate-800 border border-slate-700 text-slate-400 hover:text-white hover:bg-red-900/50 rounded-lg text-xs font-bold transition flex justify-center items-center gap-2">
+                <i class="fa-solid fa-rotate-left"></i> Reset Demo Data
+            </button>
         <div class="p-4 border-t border-slate-800">
             <div class="flex items-center gap-3 mb-4 px-2">
                 <div class="w-8 h-8 bg-brand-800 text-brand-200 rounded-full flex items-center justify-center font-bold text-sm">A</div>
@@ -115,6 +123,9 @@
             } else if (tabId === 'templates') {
                 document.getElementById('header-title').innerText = "Template Manager";
                 renderTemplateManager(contentArea);
+            } else if (tabId === 'pending_updates') {
+                document.getElementById('header-title').innerText = "Pending Customer Updates";
+                renderPendingUpdates(contentArea);
             }
         }
 
@@ -236,6 +247,129 @@
             renderTemplateManager(document.getElementById('content-area'));
         }
 
+        // --- PENDING UPDATES LOGIC ---
+        function renderPendingUpdates(container) {
+            const projects = window.loadCustomerProjects ? window.loadCustomerProjects() : [];
+            const pendingProjects = projects.filter(p => p.pendingUpdate && p.pendingUpdate.status === 'pending_review');
+
+            if (pendingProjects.length === 0) {
+                container.innerHTML = `
+                    <div class="fade-in bg-white rounded-2xl border border-slate-200 shadow-sm p-12 text-center">
+                        <div class="w-20 h-20 bg-slate-50 text-slate-300 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fa-solid fa-check-double text-4xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-800 mb-2">Semua Sudah Direview</h3>
+                        <p class="text-slate-500">Tidak ada pengajuan update dari customer yang menunggu persetujuan.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '<div class="fade-in grid grid-cols-1 gap-6">';
+            
+            pendingProjects.forEach(p => {
+                const update = p.pendingUpdate;
+                const submittedDate = new Date(update.submittedAt).toLocaleString('id-ID');
+                
+                html += `
+                    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col md:flex-row">
+                        <div class="p-6 md:w-1/3 bg-slate-50 border-r border-slate-200 flex flex-col justify-center">
+                            <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Customer</p>
+                            <h3 class="text-lg font-black text-slate-900 mb-4">${p.customerName} (@${p.customerUsername})</h3>
+                            
+                            <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Template Family</p>
+                            <p class="text-sm font-bold text-brand-600 mb-4">${p.templateFamily === 'company_profile' ? 'Company Profile' : 'Export Catalog'}</p>
+                            
+                            <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Waktu Submit</p>
+                            <p class="text-sm text-slate-700">${submittedDate}</p>
+                        </div>
+                        <div class="p-6 md:w-2/3 flex flex-col">
+                            <div class="flex-grow">
+                                <h4 class="font-bold text-slate-800 mb-2">Ringkasan Perubahan:</h4>
+                                <ul class="list-disc pl-5 text-sm text-slate-600 space-y-1 mb-6">
+                                    <li>Bisnis: <strong class="text-slate-800">${update.content.businessName || '-'}</strong></li>
+                                    <li>Hero Title: <strong class="text-slate-800">${update.content.heroTitle || '-'}</strong></li>
+                                    <li>Jumlah Item: <strong class="text-slate-800">${p.templateFamily === 'company_profile' ? (update.content.services?.length || 0) + ' Layanan' : (update.content.products?.length || 0) + ' Produk'}</strong></li>
+                                </ul>
+                            </div>
+                            <div class="flex gap-3 mt-auto pt-4 border-t border-slate-100">
+                                <button onclick="rejectUpdate('${p.id}')" class="px-5 py-2.5 bg-white border border-slate-300 text-slate-700 font-bold rounded-xl text-sm hover:bg-red-50 hover:text-red-600 hover:border-red-200 transition">Tolak Update</button>
+                                <button onclick="approveUpdate('${p.id}')" class="px-5 py-2.5 bg-brand-600 text-white font-bold rounded-xl text-sm hover:bg-brand-700 shadow-md transition flex items-center gap-2"><i class="fa-solid fa-check"></i> Setujui & Publish</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        window.approveUpdate = function(projectId) {
+            const projects = window.loadCustomerProjects();
+            const idx = projects.findIndex(p => p.id === projectId);
+            if (idx === -1) return;
+            
+            const p = projects[idx];
+            if (!p.pendingUpdate) return;
+
+            if (confirm(`Setujui update untuk ${p.customerName}? Perubahan akan menjadi live.`)) {
+                // Pindahkan konten ke liveContent
+                p.liveContent = JSON.parse(JSON.stringify(p.pendingUpdate.content));
+                
+                // Tambahkan ke history
+                if (!p.updateHistory) p.updateHistory = [];
+                p.updateHistory.push({
+                    approvedAt: new Date().toISOString(),
+                    approvedBy: 'admin',
+                    contentSnapshot: JSON.parse(JSON.stringify(p.liveContent))
+                });
+
+                // Hapus pending update
+                p.pendingUpdate = null;
+
+                window.saveCustomerProjects(projects);
+                alert('Update disetujui dan telah di-publish.');
+                updateBadgeStatus();
+                renderPendingUpdates(document.getElementById('content-area'));
+            }
+        };
+
+        window.rejectUpdate = function(projectId) {
+            const projects = window.loadCustomerProjects();
+            const idx = projects.findIndex(p => p.id === projectId);
+            if (idx === -1) return;
+            
+            const p = projects[idx];
+            if (!p.pendingUpdate) return;
+
+            const reason = prompt(`Masukkan alasan penolakan untuk ${p.customerName}:`, "Konten tidak sesuai pedoman");
+            if (reason !== null) {
+                p.pendingUpdate.status = 'rejected';
+                p.pendingUpdate.rejectionReason = reason;
+
+                window.saveCustomerProjects(projects);
+                alert('Update ditolak.');
+                updateBadgeStatus();
+                renderPendingUpdates(document.getElementById('content-area'));
+            }
+        };
+
+        function updateBadgeStatus() {
+            const projects = window.loadCustomerProjects ? window.loadCustomerProjects() : [];
+            const pendingCount = projects.filter(p => p.pendingUpdate && p.pendingUpdate.status === 'pending_review').length;
+            const badge = document.getElementById('pending-badge');
+            
+            if (pendingCount > 0) {
+                badge.innerText = pendingCount + ' New';
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+        }
+
+        // Initialize App
+        updateBadgeStatus();
         switchTab('dashboard');
     </script>
 </body>

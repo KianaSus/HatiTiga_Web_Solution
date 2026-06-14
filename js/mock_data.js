@@ -1,3 +1,37 @@
+const PRICING_MODEL = {
+    baseTotal: 1020000,
+    items: [
+        { id: 'template', name: 'Lisensi Template Premium & Hosting 1 Thn', price: 1020000 }
+    ],
+    addon: {
+        id: 'jasa',
+        name: 'Add-on: Jasa Pengerjaan Data (Setup Konten)',
+        price: 500000
+    }
+};
+
+function formatRp(num) {
+    return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(num);
+}
+
+function checkDomainMock() {
+    const domainInput = document.getElementById('input-domain-search').value;
+    const resultDiv = document.getElementById('domain-search-result');
+    const fDomain = document.getElementById('f-domain');
+    
+    if(!domainInput) return alert('Masukkan nama domain!');
+    
+    const isAvailable = Math.random() > 0.3; // 70% chance available
+    
+    if(isAvailable) {
+        resultDiv.innerHTML = `<div class="mt-3 p-3 bg-green-50 border border-green-200 rounded-lg flex items-center text-green-700 text-sm font-bold"><i class="fa-solid fa-circle-check mr-2 text-lg"></i> Domain ${domainInput} tersedia!</div>`;
+        fDomain.value = domainInput;
+    } else {
+        resultDiv.innerHTML = `<div class="mt-3 p-3 bg-red-50 border border-red-200 rounded-lg flex items-center text-red-700 text-sm font-bold"><i class="fa-solid fa-circle-xmark mr-2 text-lg"></i> Domain ${domainInput} sudah terdaftar. Coba nama lain.</div>`;
+        fDomain.value = '';
+    }
+}
+
 const DB = {
     categories: [
         "Semua",
@@ -128,21 +162,28 @@ const MOCK_USERS = [
         permissions: []
     },
     {
-        id: "cust_001",
-        username: "UserC",
-        password: "123456",
+        id: "cust_a",
+        username: "User A",
+        password: "123",
         role: "customer",
         verifiedCustomer: true,
         customerStatus: "live_active",
-        displayName: "CV. Maju Jaya",
-        projectId: "project_001",
+        displayName: "PT Global Rempah Nusantara",
+        projectId: "project_a",
         subscriptionEndsAt: "2026-12-31",
-        permissions: [
-            "view_dashboard",
-            "edit_limited_content",
-            "request_update",
-            "upload_assets"
-        ]
+        permissions: ["view_dashboard", "edit_limited_content", "request_update", "upload_assets"]
+    },
+    {
+        id: "cust_b",
+        username: "User B",
+        password: "1234",
+        role: "customer",
+        verifiedCustomer: true,
+        customerStatus: "live_active",
+        displayName: "CV Maju Jaya Digital",
+        projectId: "project_b",
+        subscriptionEndsAt: "2026-12-31",
+        permissions: ["view_dashboard", "edit_limited_content", "request_update", "upload_assets"]
     },
     {
         id: "admin_001",
@@ -150,11 +191,113 @@ const MOCK_USERS = [
         password: "admin",
         role: "admin",
         verified: true,
-        permissions: [
-            "manage_templates",
-            "manage_orders",
-            "manage_customers",
-            "edit_website"
-        ]
+        permissions: ["manage_templates", "manage_orders", "manage_customers", "edit_website"]
+    },
+    {
+        id: "cust_c",
+        username: "User C",
+        password: "123",
+        role: "customer",
+        verifiedCustomer: true,
+        customerStatus: "setup",
+        displayName: "User C Baru Beli",
+        projectId: "project_c",
+        subscriptionEndsAt: "2026-12-31",
+        permissions: ["view_dashboard"]
     }
 ];
+
+const INITIAL_MOCK_PROJECTS = [
+    {
+        id: "project_a",
+        customerUsername: "User A",
+        customerName: "PT Global Rempah Nusantara",
+        templateId: "globaltrade-pro",
+        templateFamily: "export_catalog",
+        status: "live_active",
+        liveContent: {
+            businessName: "PT Global Rempah Nusantara",
+            logoText: "Global Rempah",
+            heroTitle: "Premium Indonesian Spices Exporter",
+            heroSubtitle: "Supplying high-quality spices for global buyers.",
+            heroImage: "",
+            whatsapp: "6281200000001",
+            email: "sales@globalrempah.com",
+            address: "Balikpapan, Indonesia",
+            aboutText: "We supply selected Indonesian spices for international markets. We pride ourselves on the finest quality.",
+            featuredImage: "",
+            products: [
+                {
+                    id: "prod_1",
+                    name: "Nutmeg",
+                    description: "High-quality Indonesian nutmeg for export.",
+                    image: "",
+                    moq: "500 kg",
+                    packaging: "25 kg bag"
+                }
+            ]
+        },
+        pendingUpdate: null,
+        updateHistory: []
+    },
+    {
+        id: "project_b",
+        customerUsername: "User B",
+        customerName: "CV Maju Jaya Digital",
+        templateId: "corptrust-profile",
+        templateFamily: "company_profile",
+        status: "live_active",
+        liveContent: {
+            businessName: "CV Maju Jaya Digital",
+            logoText: "Maju Jaya",
+            heroTitle: "Professional Business Solution Partner",
+            heroSubtitle: "Helping local businesses grow with trusted services.",
+            heroImage: "",
+            whatsapp: "6281200000002",
+            email: "hello@majujaya.com",
+            address: "Jakarta, Indonesia",
+            aboutText: "We are a local company providing reliable business services with a focus on digital transformation.",
+            featuredImage: "",
+            services: [
+                {
+                    id: "srv_1",
+                    title: "Business Consulting",
+                    description: "Practical consulting for growing businesses."
+                }
+            ]
+        },
+        pendingUpdate: null,
+        updateHistory: []
+    },
+    {
+        id: "project_c",
+        customerUsername: "User C",
+        customerName: "User C Baru Beli",
+        templateId: null,
+        templateFamily: null,
+        status: "setup",
+        liveContent: {},
+        pendingUpdate: null,
+        updateHistory: []
+    }
+];
+
+window.loadCustomerProjects = function() {
+    const saved = localStorage.getItem('hatitiga_customer_projects_v1');
+    if (saved) {
+        return JSON.parse(saved);
+    }
+    localStorage.setItem('hatitiga_customer_projects_v1', JSON.stringify(INITIAL_MOCK_PROJECTS));
+    return INITIAL_MOCK_PROJECTS;
+};
+
+window.saveCustomerProjects = function(projects) {
+    localStorage.setItem('hatitiga_customer_projects_v1', JSON.stringify(projects));
+};
+
+window.resetDemoData = function() {
+    localStorage.removeItem('hatitiga_customer_projects_v1');
+    window.loadCustomerProjects();
+    alert('Demo data for customer projects has been reset to defaults.');
+    window.location.reload();
+};
