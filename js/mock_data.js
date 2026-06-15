@@ -273,30 +273,48 @@ const INITIAL_MOCK_PROJECTS = [
         id: "project_c",
         customerUsername: "User C",
         customerName: "User C Baru Beli",
-        templateId: null,
-        templateFamily: null,
-        status: "setup",
-        liveContent: {},
+        templateId: "lokalaja-umkm",
+        templateFamily: "company_profile",
+        status: "live_active",
+        liveContent: {
+            businessName: "Toko Kelontong Modern User C",
+            logoText: "Toko C",
+            heroTitle: "Kebutuhan Harian Anda, Lebih Mudah",
+            heroSubtitle: "Berbelanja kebutuhan pokok dan harian dengan harga bersahabat.",
+            heroImage: "",
+            whatsapp: "6281200000003",
+            email: "kontak@tokoc.com",
+            address: "Bandung, Indonesia",
+            aboutText: "Kami adalah toko lokal yang menyediakan berbagai macam kebutuhan harian sejak tahun 2024.",
+            featuredImage: "",
+            services: [
+                {
+                    id: "srv_c1",
+                    title: "Pesan Antar",
+                    description: "Gratis ongkir untuk wilayah sekitar toko."
+                }
+            ]
+        },
         pendingUpdate: null,
         updateHistory: []
     }
 ];
 
 window.loadCustomerProjects = function() {
-    const saved = localStorage.getItem('hatitiga_customer_projects_v1');
+    const saved = localStorage.getItem('hatitiga_customer_projects_v2');
     if (saved) {
         return JSON.parse(saved);
     }
-    localStorage.setItem('hatitiga_customer_projects_v1', JSON.stringify(INITIAL_MOCK_PROJECTS));
+    localStorage.setItem('hatitiga_customer_projects_v2', JSON.stringify(INITIAL_MOCK_PROJECTS));
     return INITIAL_MOCK_PROJECTS;
 };
 
 window.saveCustomerProjects = function(projects) {
-    localStorage.setItem('hatitiga_customer_projects_v1', JSON.stringify(projects));
+    localStorage.setItem('hatitiga_customer_projects_v2', JSON.stringify(projects));
 };
 
 window.resetDemoData = function() {
-    localStorage.removeItem('hatitiga_customer_projects_v1');
+    localStorage.removeItem('hatitiga_customer_projects_v2');
     window.loadCustomerProjects();
     alert('Demo data for customer projects has been reset to defaults.');
     window.location.reload();

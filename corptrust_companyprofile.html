@@ -76,7 +76,7 @@
                         <i class="fa-solid fa-building text-white text-xl"></i>
                     </div>
                     <div class="flex flex-col">
-                        <span class="font-black text-2xl tracking-tight text-corp-800 leading-tight">CorpTrust</span>
+                        <span id="logo-text" class="font-black text-2xl tracking-tight text-corp-800 leading-tight">CorpTrust</span>
                         <span class="text-[9px] font-bold text-slate-400 uppercase tracking-[.2em]">Professional
                             Services</span>
                     </div>
@@ -120,7 +120,7 @@
     <!-- Hero -->
     <section id="home" class="relative min-h-screen flex items-center pt-20">
         <div class="absolute inset-0 z-0">
-            <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1920&q=80"
+            <img id="hero-image" src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1920&q=80"
                 alt="Office" class="w-full h-full object-cover">
             <div class="absolute inset-0 hero-overlay"></div>
         </div>
@@ -130,10 +130,10 @@
                     class="inline-flex items-center mb-6 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-sm font-bold">
                     <i class="fa-solid fa-shield-halved text-corp-400 mr-2"></i> Terpercaya Sejak 2010
                 </div>
-                <h1 class="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-[1.1] mb-6">
+                <h1 id="hero-title" class="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-[1.1] mb-6">
                     Membangun Kepercayaan Melalui <span class="text-corp-300">Kualitas Layanan</span>
                 </h1>
-                <p class="text-lg md:text-xl text-gray-200 mb-8 max-w-xl leading-relaxed">
+                <p id="hero-subtitle" class="text-lg md:text-xl text-gray-200 mb-8 max-w-xl leading-relaxed">
                     Kami adalah mitra bisnis profesional yang berkomitmen memberikan solusi terbaik untuk pertumbuhan
                     perusahaan Anda.
                 </p>
@@ -176,7 +176,7 @@
                     <h2 class="text-corp-600 font-bold tracking-wider uppercase text-sm mb-3">Tentang Kami</h2>
                     <h3 class="text-3xl md:text-4xl font-black text-slate-900 mb-6 leading-tight">Solusi Profesional
                         untuk Pertumbuhan Bisnis Anda.</h3>
-                    <p class="text-gray-600 mb-6 leading-relaxed">CorpTrust didirikan dengan visi menjadi mitra
+                    <p id="about-text" class="text-gray-600 mb-6 leading-relaxed">CorpTrust didirikan dengan visi menjadi mitra
                         strategis bagi perusahaan lokal maupun nasional. Kami menyediakan layanan konsultasi, manajemen
                         proyek, dan solusi digital yang terukur.</p>
                     <p class="text-gray-600 mb-8 leading-relaxed">Dengan tim berpengalaman dan pendekatan berbasis data,
@@ -528,7 +528,7 @@
                                         <i class="fa-brands fa-whatsapp text-xl"></i></div>
                                     <div>
                                         <p class="text-sm text-gray-400">WhatsApp</p>
-                                        <p class="font-bold text-lg">+62 812 3456 7890</p>
+                                        <p id="contact-wa" class="font-bold text-lg">+62 812 3456 7890</p>
                                     </div>
                                 </div>
                                 <div class="flex items-center">
@@ -537,7 +537,7 @@
                                         <i class="fa-regular fa-envelope text-xl"></i></div>
                                     <div>
                                         <p class="text-sm text-gray-400">Email</p>
-                                        <p class="font-bold text-lg">info@corptrust.co.id</p>
+                                        <p id="contact-email" class="font-bold text-lg">info@corptrust.co.id</p>
                                     </div>
                                 </div>
                                 <div class="flex items-center">
@@ -679,6 +679,42 @@
         }
         window.addEventListener('scroll', reveal);
         reveal();
+
+        // Listen for live preview updates from Dashboard Editor
+        window.addEventListener('message', function (event) {
+            if (event.data && event.data.type === 'UPDATE_PREVIEW') {
+                const data = event.data.data;
+
+                if (data.businessName !== undefined) {
+                    const el = document.getElementById('logo-text');
+                    if (el) el.innerText = data.businessName;
+                }
+                if (data.heroTitle !== undefined) {
+                    const el = document.getElementById('hero-title');
+                    if (el) el.innerText = data.heroTitle;
+                }
+                if (data.heroSubtitle !== undefined) {
+                    const el = document.getElementById('hero-subtitle');
+                    if (el) el.innerText = data.heroSubtitle;
+                }
+                if (data.heroImage !== undefined && data.heroImage !== '') {
+                    const el = document.getElementById('hero-image');
+                    if (el) el.src = data.heroImage;
+                }
+                if (data.aboutText !== undefined) {
+                    const el = document.getElementById('about-text');
+                    if (el) el.innerText = data.aboutText;
+                }
+                if (data.whatsapp !== undefined) {
+                    const el = document.getElementById('contact-wa');
+                    if (el) el.innerText = data.whatsapp;
+                }
+                if (data.email !== undefined) {
+                    const el = document.getElementById('contact-email');
+                    if (el) el.innerText = data.email;
+                }
+            }
+        });
     </script>
 </body>
 

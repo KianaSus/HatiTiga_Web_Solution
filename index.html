@@ -386,10 +386,8 @@
 
                 if (sessionUser.role === 'admin') {
                     window.location.href = 'admin_panel.html';
-                } else if (sessionUser.role === 'customer' && sessionUser.verifiedCustomer) {
-                    navigate('home');
                 } else {
-                    navigate('home');
+                    window.location.href = 'customer_dashboard.html';
                 }
             } else {
                 err.innerText = 'Username atau password salah!';
@@ -427,7 +425,7 @@
                     dashboardLabel = 'Admin Panel';
                     dashboardIcon = 'fa-earth-americas';
                     buttonAction = `window.location.href='admin_panel.html'`;
-                } else if (isCustomer) {
+                } else {
                     buttonAction = `window.location.href='customer_dashboard.html'`;
                 }
                 
@@ -607,7 +605,6 @@
                     case 'pricing': html = pages.pricing(); break;
                     case 'faq': html = pages.faq(); break;
                     case 'login': html = pages.login(); break;
-                    case 'dashboard': html = pages.userDashboard(); break;
                     default: html = pages.home();
                 }
 
@@ -1352,69 +1349,6 @@
                         </div>
                     </div>
                 </div>
-            `,
-
-            userDashboard: () => `
-                <div class="bg-brand-600 pb-32">
-                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex justify-between items-center">
-                        <div>
-                            <h1 class="text-3xl font-black text-white">Dashboard Saya</h1>
-                            <p class="text-brand-100 mt-2">Selamat datang kembali! Pantau progress website Anda di sini.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-24 mb-20 fade-in relative z-10">
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                        <!-- Profil Customer -->
-                        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
-                            <div class="flex items-center gap-4 mb-6">
-                                <div class="w-16 h-16 bg-blue-100 text-blue-700 rounded-full flex items-center justify-center text-2xl font-bold">U</div>
-                                <div>
-                                    <h2 class="text-xl font-bold text-slate-900">User Customer</h2>
-                                    <p class="text-slate-500 text-sm">PT Makmur Jaya</p>
-                                </div>
-                            </div>
-                            <div class="space-y-3 mb-6 border-t border-slate-100 pt-6">
-                                <div class="flex justify-between text-sm">
-                                    <span class="text-slate-500">Email</span>
-                                    <span class="font-bold text-slate-800">user@example.com</span>
-                                </div>
-                                <div class="flex justify-between text-sm">
-                                    <span class="text-slate-500">Telepon</span>
-                                    <span class="font-bold text-slate-800">0812-3456-7890</span>
-                                </div>
-                            </div>
-                            <button class="w-full py-3 bg-white border border-slate-300 rounded-xl text-sm font-bold text-slate-700 hover:bg-slate-50 transition shadow-sm">Edit Profil</button>
-                        </div>
-
-                        <!-- Progress Project -->
-                        <div class="lg:col-span-2 space-y-8">
-                            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
-                                <div class="flex justify-between items-center mb-6">
-                                    <h3 class="text-xl font-black text-slate-900">Project Saat Ini</h3>
-                                    <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-lg text-xs font-bold uppercase tracking-wider">In Progress</span>
-                                </div>
-                                <div class="bg-slate-50 rounded-xl border border-slate-100 p-6 flex flex-col sm:flex-row gap-6 mb-8">
-                                    <div class="w-full sm:w-1/3 aspect-[16/10] bg-slate-200 rounded-lg overflow-hidden relative shadow-inner">
-                                        <div class="absolute inset-0 transform scale-[0.35] origin-top-left w-[300%] h-[300%] pointer-events-none">
-                                            ${components.previewBuilder(DB.templates[0])}
-                                        </div>
-                                    </div>
-                                    <div class="flex-grow">
-                                        <p class="text-xs font-bold text-brand-600 uppercase tracking-widest mb-1">Template Pilihan</p>
-                                        <h4 class="text-2xl font-black text-slate-900 mb-2">LokalAja UMKM Shop</h4>
-                                        <p class="text-sm text-slate-600 mb-4">Website toko online untuk PT Makmur Jaya.</p>
-                                        <div class="w-full bg-slate-200 rounded-full h-2.5 mb-2">
-                                            <div class="bg-brand-600 h-2.5 rounded-full" style="width: 45%"></div>
-                                        </div>
-                                        <p class="text-xs text-slate-500 font-medium text-right">Tahap 2: Desain & Input Konten (45%)</p>
-                                    </div>
-                                </div>
-
-                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                                    <button class="py-3 px-4 bg-brand-50 border border-brand-200 text-brand-700 rounded-xl font-bold text-sm hover:bg-brand-100 transition shadow-sm flex items-center justify-center gap-2"><i class="fa-solid fa-cloud-arrow-up"></i> Upload Asset</button>
-                                    <button class="py-3 px-4 bg-amber-50 border border-amber-200 text-amber-700 rounded-xl font-bold text-sm hover:bg-amber-100 transition shadow-sm flex items-center justify-center gap-2"><i class="fa-solid fa-comment-dots"></i> Request Revisi</button>
-                                    <button onclick="openWhatsApp('Halo HatiTiga, saya ingin menanyakan progres website saya.')" class="py-3 px-4 bg-white border border-slate-300 text-slate-700 rounded-xl font-bold text-sm hover:bg-slate-50 transition shadow-sm flex items-center justify-center gap-2"><i class="fa-brands fa-whatsapp text-green-500"></i> Hubungi Tim</button>
                                 </div>
                             </div>
                         </div>

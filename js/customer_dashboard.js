@@ -16,8 +16,8 @@ function initApp() {
     const session = JSON.parse(sessionStr);
     
     // Auth Check
-    if (session.role !== 'customer' || !session.verifiedCustomer) {
-        showAccessDenied();
+    if (session.role === 'admin') {
+        window.location.href = 'admin_panel.html';
         return;
     }
 
@@ -25,9 +25,19 @@ function initApp() {
     const projects = window.loadCustomerProjects ? window.loadCustomerProjects() : [];
     currentProject = projects.find(p => p.customerUsername === session.username);
 
+    // Provide a default empty project for users who haven't bought yet (like User Demo)
     if (!currentProject) {
-        showAccessDenied();
-        return;
+        currentProject = {
+            id: 'proj_' + Math.random().toString(36).substr(2, 9),
+            customerUsername: session.username,
+            customerName: session.displayName || session.username,
+            templateId: null,
+            templateFamily: null,
+            status: "setup",
+            liveContent: {},
+            pendingUpdate: null,
+            updateHistory: []
+        };
     }
 
     // Status Check
@@ -98,7 +108,17 @@ function initApp() {
     renderEditorForm();
     renderListItems();
     renderStatusHistory();
-    updateLivePreview();
+
+    const iframe = document.getElementById('live-editor-iframe');
+    if (iframe) {
+        const isProfile = currentProject.templateFamily === 'company_profile';
+        if (isProfile) {
+            iframe.src = 'corptrust_companyprofile.html';
+            iframe.onload = () => updateLivePreview();
+        } else {
+            updateLivePreview(); // Fallback generic render
+        }
+    }
 }
 
 function renderEditorForm() {
@@ -259,7 +279,18 @@ function updateLivePreview() {
     
     const isProfile = currentProject.templateFamily === 'company_profile';
     
-    // Generate simple HTML mockup based on draft data
+    if (isProfile) {
+        // Post message to the actual template HTML (Plek-ketiplek mode)
+        if (iframe.contentWindow) {
+            iframe.contentWindow.postMessage({
+                type: 'UPDATE_PREVIEW',
+                data: currentDraft
+            }, '*');
+        }
+        return;
+    }
+    
+    // Generate simple HTML mockup based on draft data for other templates
     const heroImageHtml = currentDraft.heroImage ? `background-image: url('${currentDraft.heroImage}'); background-size: cover; background-position: center;` : 'background-color: #f1f5f9;';
     
     let html = `
