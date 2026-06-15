@@ -207,7 +207,7 @@
                 <div class="fade-in">
                     <div class="flex justify-between items-center mb-6">
                         <p class="text-slate-500">Kelola master template yang ditampilkan di Katalog User.</p>
-                        <button class="px-4 py-2 bg-brand-600 text-white font-bold rounded-lg hover:bg-brand-700 transition shadow-sm"><i class="fa-solid fa-plus mr-2"></i> Tambah Template Baru</button>
+                        <button onclick="openTemplateModal()" class="px-4 py-2 bg-brand-600 text-white font-bold rounded-lg hover:bg-brand-700 transition shadow-sm"><i class="fa-solid fa-plus mr-2"></i> Tambah Template Baru</button>
                     </div>
 
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6" id="template-list-container">
@@ -223,7 +223,7 @@
                                 <p class="text-sm text-slate-600 mb-6 flex-grow">${t.description}</p>
                                 
                                 <div class="flex items-center gap-2 mt-auto border-t border-slate-100 pt-4">
-                                    <button class="flex-1 py-2 bg-slate-50 border border-slate-200 text-slate-700 font-bold rounded-lg text-sm hover:bg-slate-100 transition"><i class="fa-solid fa-pen mr-1"></i> Edit</button>
+                                    <button onclick="openTemplateModal('${t.id}')" class="flex-1 py-2 bg-slate-50 border border-slate-200 text-slate-700 font-bold rounded-lg text-sm hover:bg-slate-100 transition"><i class="fa-solid fa-pen mr-1"></i> Edit</button>
                                     <button onclick="toggleTemplateStatus(${idx})" class="flex-1 py-2 ${t.status === 'draft' ? 'bg-green-50 border border-green-200 text-green-700 hover:bg-green-100' : 'bg-amber-50 border border-amber-200 text-amber-700 hover:bg-amber-100'} font-bold rounded-lg text-sm transition">
                                         ${t.status === 'draft' ? '<i class="fa-solid fa-upload mr-1"></i> Publish' : '<i class="fa-solid fa-eye-slash mr-1"></i> Jadikan Draft'}
                                     </button>
@@ -368,9 +368,167 @@
             }
         }
 
+        // --- TEMPLATE MODAL LOGIC ---
+        window.openTemplateModal = function(id = null) {
+            const modal = document.getElementById('template-modal');
+            const title = document.getElementById('template-modal-title');
+            
+            // Reset Form
+            document.getElementById('template-form').reset();
+            document.getElementById('tpl-id').value = '';
+            document.getElementById('tpl-color').value = '#3b82f6';
+            
+            if (id) {
+                title.innerText = "Edit Template";
+                const tpl = DB.templates.find(t => t.id === id);
+                if (tpl) {
+                    document.getElementById('tpl-id').value = tpl.id;
+                    document.getElementById('tpl-name').value = tpl.name || '';
+                    document.getElementById('tpl-fileUrl').value = tpl.fileUrl || '';
+                    document.getElementById('tpl-category').value = tpl.category || '';
+                    document.getElementById('tpl-style').value = tpl.style || '';
+                    document.getElementById('tpl-description').value = tpl.description || '';
+                    if(tpl.colorPalette && tpl.colorPalette.primary) {
+                        document.getElementById('tpl-color').value = tpl.colorPalette.primary;
+                    }
+                }
+            } else {
+                title.innerText = "Tambah Template Baru";
+            }
+            
+            modal.classList.remove('hidden');
+        };
+
+        window.closeTemplateModal = function() {
+            document.getElementById('template-modal').classList.add('hidden');
+        };
+
+        window.saveTemplateForm = function() {
+            const idInput = document.getElementById('tpl-id').value;
+            const name = document.getElementById('tpl-name').value.trim();
+            const fileUrl = document.getElementById('tpl-fileUrl').value.trim();
+            const category = document.getElementById('tpl-category').value;
+            const style = document.getElementById('tpl-style').value;
+            const description = document.getElementById('tpl-description').value.trim();
+            const color = document.getElementById('tpl-color').value;
+
+            if(!name || !fileUrl || !description) {
+                alert("Semua data wajib diisi!");
+                return;
+            }
+
+            if(!fileUrl.toLowerCase().endsWith('.html')) {
+                alert("File URL harus berakhiran .html!");
+                return;
+            }
+
+            let targetId = idInput;
+            let isNew = false;
+            if(!targetId) {
+                targetId = "tpl_" + Math.random().toString(36).substr(2, 9);
+                isNew = true;
+            }
+
+            const tplData = {
+                id: targetId,
+                name: name,
+                category: category,
+                style: style,
+                description: description,
+                fileUrl: fileUrl,
+                colorPalette: { primary: color },
+                status: 'published',
+                badges: ["New"],
+                features: ["Standard Layout", "Responsive"],
+                recommendedFor: ["Umum"],
+                pagesIncluded: ["Beranda", "Kontak"],
+                ctaText: "Pilih Template Ini"
+            };
+
+            if (isNew) {
+                DB.templates.push(tplData);
+            } else {
+                const idx = DB.templates.findIndex(t => t.id === targetId);
+                if (idx > -1) {
+                    // Retain some old fields if editing
+                    const old = DB.templates[idx];
+                    tplData.status = old.status;
+                    tplData.badges = old.badges;
+                    tplData.features = old.features;
+                    tplData.recommendedFor = old.recommendedFor;
+                    tplData.pagesIncluded = old.pagesIncluded;
+                    tplData.ctaText = old.ctaText;
+                    
+                    DB.templates[idx] = tplData;
+                }
+            }
+
+            localStorage.setItem('hatitiga_templates_db', JSON.stringify(DB.templates));
+            closeTemplateModal();
+            renderTemplateManager(document.getElementById('content-area'));
+            alert('Template berhasil disimpan!');
+        };
+
         // Initialize App
         updateBadgeStatus();
         switchTab('dashboard');
     </script>
+    <!-- Template Modal -->
+    <div id="template-modal" class="fixed inset-0 z-[60] hidden bg-slate-900/50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-xl w-full max-w-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div class="px-6 py-4 border-b border-slate-200 flex justify-between items-center bg-slate-50">
+                <h3 class="font-bold text-lg text-slate-800" id="template-modal-title">Tambah Template Baru</h3>
+                <button onclick="closeTemplateModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-xl"></i></button>
+            </div>
+            <div class="p-6 overflow-y-auto space-y-4">
+                <form id="template-form">
+                    <input type="hidden" id="tpl-id">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-1">Nama Template *</label>
+                            <input type="text" id="tpl-name" required class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-brand-500 outline-none text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-1">File URL (.html) *</label>
+                            <input type="text" id="tpl-fileUrl" required placeholder="contoh_template.html" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-brand-500 outline-none text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-1">Kategori</label>
+                            <select id="tpl-category" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-brand-500 outline-none text-sm">
+                                <option>UMKM Online Shop</option>
+                                <option>Food & Agriculture Export</option>
+                                <option>Company Profile</option>
+                                <option>Export Company</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-1">Style</label>
+                            <select id="tpl-style" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-brand-500 outline-none text-sm">
+                                <option>Corporate</option>
+                                <option>Modern Clean</option>
+                                <option>Earthy</option>
+                                <option>Minimalist</option>
+                                <option>Bold Industrial</option>
+                                <option>Elegant</option>
+                            </select>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-bold text-slate-700 mb-1">Primary Color (HEX)</label>
+                            <input type="color" id="tpl-color" value="#3b82f6" class="w-16 h-10 p-1 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-bold text-slate-700 mb-1">Deskripsi Singkat *</label>
+                            <textarea id="tpl-description" required rows="3" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-brand-500 outline-none text-sm resize-none"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="px-6 py-4 border-t border-slate-200 bg-slate-50 flex justify-end gap-3">
+                <button type="button" onclick="closeTemplateModal()" class="px-5 py-2 text-slate-600 font-bold hover:bg-slate-200 rounded-lg transition">Batal</button>
+                <button type="button" onclick="saveTemplateForm()" class="px-5 py-2 bg-brand-600 text-white font-bold rounded-lg hover:bg-brand-700 shadow-sm transition">Simpan Template</button>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
