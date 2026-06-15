@@ -217,7 +217,7 @@
                     </div>
 
                     <!-- Desktop Menu -->
-                    <div class="hidden xl:flex items-center space-x-6">
+                    <div class="hidden xl:flex items-center gap-3 2xl:gap-5">
                         <button onclick="navigate('home')"
                             class="text-slate-600 hover:text-brand-600 font-bold transition whitespace-nowrap">Beranda</button>
                         <button onclick="navigate('templates')"
@@ -226,15 +226,15 @@
                             class="text-slate-600 hover:text-brand-600 font-bold transition whitespace-nowrap">Harga</button>
                         <button onclick="navigate('faq')"
                             class="text-slate-600 hover:text-brand-600 font-bold transition whitespace-nowrap">FAQ</button>
-                        <div class="flex space-x-3 pl-4 border-l border-slate-200">
+                        <div class="flex gap-2 pl-3 border-l border-slate-200">
                             <button
                                 onclick="openWhatsApp('Halo HatiTiga, saya ingin konsultasi gratis mengenai pembuatan website.')"
-                                class="px-5 py-2.5 text-slate-700 bg-slate-100 rounded-xl font-bold hover:bg-slate-200 transition whitespace-nowrap flex-shrink-0">Konsultasi</button>
+                                class="px-3 2xl:px-4 py-2 text-slate-700 bg-slate-100 rounded-xl font-bold hover:bg-slate-200 transition whitespace-nowrap flex-shrink-0">Konsultasi</button>
                             <button onclick="navigate('templates')"
-                                class="px-5 py-2.5 bg-brand-600 text-white rounded-xl font-bold hover:bg-brand-700 transition shadow-lg shadow-brand-500/30 whitespace-nowrap flex-shrink-0">Mulai
+                                class="px-3 2xl:px-4 py-2 bg-brand-600 text-white rounded-xl font-bold hover:bg-brand-700 transition shadow-lg shadow-brand-500/30 whitespace-nowrap flex-shrink-0">Mulai
                                 Bangun</button>
                         </div>
-                        <div id="auth-ui-container" class="flex items-center pl-4 border-l border-slate-200 ml-2 flex-shrink-0"></div>
+                        <div id="auth-ui-container" class="flex items-center pl-3 border-l border-slate-200 flex-shrink-0"></div>
                     </div>
 
                     <!-- Mobile Menu Button -->
@@ -431,17 +431,17 @@
                 
                 if (authContainer) {
                     authContainer.innerHTML = `
-                        <div class="flex items-center space-x-4">
-                            <div class="flex items-center space-x-3">
-                                <div class="w-10 h-10 bg-blue-100 text-blue-700 rounded-full flex items-center justify-center font-bold text-lg flex-shrink-0">
+                        <div class="flex items-center gap-2 2xl:gap-3">
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 bg-blue-100 text-blue-700 rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0">
                                     ${initial}
                                 </div>
-                                <span class="font-bold text-slate-800 text-base whitespace-nowrap hidden sm:block">${displayName}</span>
+                                <span class="font-bold text-slate-800 text-sm whitespace-nowrap hidden lg:block max-w-[120px] truncate">${displayName}</span>
                             </div>
-                            <button onclick="${buttonAction}" class="flex items-center px-4 py-2 bg-slate-50 text-blue-700 border border-slate-200 rounded-xl font-bold hover:bg-slate-100 transition shadow-sm text-sm whitespace-nowrap flex-shrink-0">
-                                <i class="fa-solid ${dashboardIcon} mr-2"></i> ${dashboardLabel}
+                            <button onclick="${buttonAction}" class="flex items-center px-3 py-1.5 bg-slate-50 text-blue-700 border border-slate-200 rounded-lg font-bold hover:bg-slate-100 transition shadow-sm text-xs whitespace-nowrap flex-shrink-0">
+                                <i class="fa-solid ${dashboardIcon} mr-1.5"></i> ${dashboardLabel}
                             </button>
-                            <button onclick="handleLogout()" class="text-red-500 hover:text-red-600 font-medium transition text-sm whitespace-nowrap flex-shrink-0">Logout</button>
+                            <button onclick="handleLogout()" class="text-red-500 hover:text-red-600 font-bold transition text-xs whitespace-nowrap flex-shrink-0 ml-1">Logout</button>
                         </div>
                     `;
                 }
