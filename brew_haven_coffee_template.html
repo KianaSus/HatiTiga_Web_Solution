@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brew Haven Coffee - Premium Cafe Template</title>
+    <meta name="description" content="Freshly Brewed Coffee for Your Everyday Moment. Nikmati kopi pilihan di Brew Haven Coffee.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        coffee: {
+                            900: '#2C1E16', /* Dark Brown / Black Coffee */
+                            800: '#4A3B32', /* Brown */
+                            700: '#5C4A3D',
+                        },
+                        caramel: {
+                            500: '#D4A373', /* Caramel / Gold Accent */
+                            600: '#C39062',
+                        },
+                        beige: {
+                            100: '#FAEDCD', /* Soft Beige */
+                            200: '#F0E3C2',
+                        },
+                        cream: '#FEFAE0', /* Cream */
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['"Playfair Display"', 'serif'],
+                    },
+                    boxShadow: {
+                        'soft': '0 10px 40px -10px rgba(44, 30, 22, 0.08)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Animations */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Hide scrollbar for category menu but keep functionality */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Active Tab Styling */
+        .tab-active {
+            background-color: #2C1E16; /* coffee-900 */
+            color: #FEFAE0; /* cream */
+            border-color: #2C1E16;
+        }
+        .tab-inactive {
+            background-color: transparent;
+            color: #4A3B32; /* coffee-800 */
+            border-color: #D4A373; /* caramel-500 */
+        }
+    </style>
+</head>
+<body class="bg-cream text-coffee-800 font-sans antialiased selection:bg-caramel-500 selection:text-white">
+
+    <!-- 1. Header / Navbar -->
+    <header class="fixed w-full top-0 z-50 bg-cream/90 backdrop-blur-md border-b border-beige-200 transition-all duration-300" id="navbar">
+        <div class="container mx-auto px-4 md:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <a href="#" class="flex items-center gap-2 group">
+                    <i class="fa-solid fa-mug-hot text-2xl text-caramel-500 group-hover:text-coffee-900 transition-colors"></i>
+                    <span class="font-serif text-2xl font-bold text-coffee-900 tracking-tight">Brew Haven</span>
+                </a>
+
+                <!-- Desktop Menu -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#home" class="text-sm font-medium hover:text-caramel-500 transition-colors">Home</a>
+                    <a href="#about" class="text-sm font-medium hover:text-caramel-500 transition-colors">About</a>
+                    <a href="#menu" class="text-sm font-medium hover:text-caramel-500 transition-colors">Menu</a>
+                    <a href="#gallery" class="text-sm font-medium hover:text-caramel-500 transition-colors">Gallery</a>
+                    <a href="#location" class="text-sm font-medium hover:text-caramel-500 transition-colors">Location</a>
+                </nav>
+
+                <!-- CTA & Mobile Toggle -->
+                <div class="flex items-center gap-4">
+                    <a href="https://wa.me/6281234567890" target="_blank" class="hidden lg:flex items-center gap-2 bg-coffee-900 text-cream px-5 py-2.5 rounded-full text-sm font-medium hover:bg-caramel-500 transition-all shadow-md hover:shadow-lg">
+                        <i class="fa-brands fa-whatsapp text-lg"></i>
+                        Order via WhatsApp
+                    </a>
+                    
+                    <!-- Mobile Menu Button -->
+                    <button id="mobile-menu-btn" class="md:hidden text-coffee-900 focus:outline-none p-2" aria-label="Toggle Menu">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="md:hidden hidden bg-cream border-t border-beige-200 absolute w-full left-0 top-20 shadow-lg">
+            <div class="flex flex-col px-4 pt-2 pb-6 space-y-3">
+                <a href="#home" class="mobile-link block px-3 py-2 text-base font-medium text-coffee-900 hover:bg-beige-100 rounded-lg">Home</a>
+                <a href="#about" class="mobile-link block px-3 py-2 text-base font-medium text-coffee-900 hover:bg-beige-100 rounded-lg">About</a>
+                <a href="#menu" class="mobile-link block px-3 py-2 text-base font-medium text-coffee-900 hover:bg-beige-100 rounded-lg">Menu</a>
+                <a href="#gallery" class="mobile-link block px-3 py-2 text-base font-medium text-coffee-900 hover:bg-beige-100 rounded-lg">Gallery</a>
+                <a href="#location" class="mobile-link block px-3 py-2 text-base font-medium text-coffee-900 hover:bg-beige-100 rounded-lg">Location</a>
+                <a href="https://wa.me/6281234567890" target="_blank" class="flex items-center justify-center gap-2 bg-coffee-900 text-cream px-4 py-3 rounded-xl text-base font-medium mt-4">
+                    <i class="fa-brands fa-whatsapp text-xl"></i>
+                    Order via WhatsApp
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- 2. Hero Section -->
+        <section id="home" class="relative pt-32 pb-20 lg:pt-40 lg:pb-28 overflow-hidden bg-beige-100/50">
+            <!-- Decorative Background Element -->
+            <div class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-beige-100 rounded-full blur-3xl opacity-60 pointer-events-none"></div>
+            
+            <div class="container mx-auto px-4 md:px-6 lg:px-8 relative z-10">
+                <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-8">
+                    
+                    <!-- Text Content -->
+                    <div class="lg:w-1/2 flex flex-col items-center text-center lg:items-start lg:text-left animate-on-scroll fade-in-up">
+                        <span class="text-caramel-500 font-semibold tracking-wider uppercase text-sm mb-4 inline-block">Welcome to Brew Haven</span>
+                        <h1 class="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-coffee-900 leading-tight mb-6">
+                            Freshly Brewed Coffee for Your <span class="text-caramel-500 italic">Everyday</span> Moment
+                        </h1>
+                        <p class="text-lg text-coffee-800 mb-8 max-w-xl">
+                            Nikmati kopi pilihan, suasana nyaman, dan menu favorit yang dibuat dengan sepenuh hati. Tempat sempurna untuk memulai harimu.
+                        </p>
+                        <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4">
+                            <a href="#menu" class="bg-coffee-900 text-cream px-8 py-3.5 rounded-full font-medium hover:bg-caramel-500 transition-all shadow-md hover:shadow-xl transform hover:-translate-y-1">
+                                Lihat Menu
+                            </a>
+                            <a href="#location" class="bg-transparent border-2 border-coffee-900 text-coffee-900 px-8 py-3.5 rounded-full font-medium hover:bg-coffee-900 hover:text-cream transition-all">
+                                Pesan Sekarang
+                            </a>
+                        </div>
+                        
+                        <!-- Mini Stats / Highlights below hero -->
+                        <div class="flex items-center gap-6 mt-10 pt-6 border-t border-coffee-900/10">
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-star text-caramel-500"></i>
+                                <span class="text-sm font-medium">4.9/5 Rating</span>
+                            </div>
+                            <div class="w-1 h-1 bg-coffee-900 rounded-full"></div>
+                            <span class="text-sm font-medium text-coffee-800">100% Premium Arabica</span>
+                        </div>
+                    </div>
+
+                    <!-- Visual Content -->
+                    <div class="lg:w-1/2 relative w-full max-w-md lg:max-w-none mx-auto animate-on-scroll fade-in-up" style="transition-delay: 200ms;">
+                        <!-- Main Image -->
+                        <div class="relative rounded-[2rem] overflow-hidden shadow-2xl aspect-[4/5] lg:aspect-square">
+                            <img src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Latte Art in Coffee Shop" class="w-full h-full object-cover">
+                            <!-- Overlay for slight warm tint -->
+                            <div class="absolute inset-0 bg-gradient-to-tr from-coffee-900/40 to-transparent"></div>
+                        </div>
+
+                        <!-- Floating Badges -->
+                        <div class="absolute -top-6 -right-6 lg:-right-8 bg-cream p-4 rounded-2xl shadow-xl flex items-center gap-3 animate-bounce" style="animation-duration: 3s;">
+                            <div class="bg-beige-100 p-2 rounded-full text-caramel-500">
+                                <i class="fa-solid fa-seedling text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-coffee-700 font-medium">100%</p>
+                                <p class="text-sm font-bold text-coffee-900">Fresh Beans</p>
+                            </div>
+                        </div>
+
+                        <div class="absolute -bottom-6 -left-6 lg:-left-8 bg-cream p-4 rounded-2xl shadow-xl flex items-center gap-3">
+                            <div class="bg-caramel-500 p-2 rounded-full text-white">
+                                <i class="fa-solid fa-couch text-lg"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-coffee-700 font-medium">Vibe</p>
+                                <p class="text-sm font-bold text-coffee-900">Cozy Place</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. About Section -->
+        <section id="about" class="py-20 lg:py-28 bg-cream">
+            <div class="container mx-auto px-4 md:px-6 lg:px-8">
+                <div class="flex flex-col lg:flex-row-reverse items-center gap-12 lg:gap-16">
+                    
+                    <div class="lg:w-1/2 animate-on-scroll fade-in-up">
+                        <h2 class="font-serif text-3xl md:text-4xl font-bold text-coffee-900 mb-6">Crafted Coffee, <br/><span class="text-caramel-500">Cozy Atmosphere</span></h2>
+                        <p class="text-coffee-800 mb-6 leading-relaxed">
+                            Bermula dari kecintaan kami pada kopi, Brew Haven didirikan untuk menjadi rumah kedua Anda. Kami menyajikan kopi berkualitas tinggi yang dipanggang dengan sempurna, dalam suasana hangat yang cocok untuk bekerja, bersantai, atau berkumpul bersama teman.
+                        </p>
+                        
+                        <div class="space-y-4 mt-8">
+                            <!-- Highlight 1 -->
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 rounded-full bg-beige-100 flex items-center justify-center flex-shrink-0 text-caramel-500">
+                                    <i class="fa-solid fa-leaf"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-coffee-900 text-lg">Premium Coffee Beans</h3>
+                                    <p class="text-sm text-coffee-700 mt-1">Biji kopi pilihan yang di-roast secara khusus untuk menghasilkan aroma dan rasa terbaik.</p>
+                                </div>
+                            </div>
+                            <!-- Highlight 2 -->
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 rounded-full bg-beige-100 flex items-center justify-center flex-shrink-0 text-caramel-500">
+                                    <i class="fa-solid fa-wifi"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-coffee-900 text-lg">Comfortable Space</h3>
+                                    <p class="text-sm text-coffee-700 mt-1">Fasilitas lengkap dengan WiFi cepat dan stopkontak di setiap meja. Nyaman untuk WFC.</p>
+                                </div>
+                            </div>
+                            <!-- Highlight 3 -->
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 rounded-full bg-beige-100 flex items-center justify-center flex-shrink-0 text-caramel-500">
+                                    <i class="fa-solid fa-face-smile"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-coffee-900 text-lg">Friendly Barista</h3>
+                                    <p class="text-sm text-coffee-700 mt-1">Pelayanan hangat dari barista kami yang siap merekomendasikan minuman sesuai seleramu.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lg:w-1/2 w-full animate-on-scroll fade-in-up" style="transition-delay: 200ms;">
+                        <div class="grid grid-cols-2 gap-4">
+                            <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Cafe Interior" class="rounded-2xl w-full h-64 object-cover shadow-lg mt-8">
+                            <img src="https://images.unsplash.com/photo-1511920170033-f8396924c348?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Barista making coffee" class="rounded-2xl w-full h-64 object-cover shadow-lg">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4 & 5. Menu Section (Categories & Featured) -->
+        <section id="menu" class="py-20 lg:py-28 bg-beige-100/30">
+            <div class="container mx-auto px-4 md:px-6 lg:px-8">
+                
+                <div class="text-center max-w-2xl mx-auto mb-12 animate-on-scroll fade-in-up">
+                    <span class="text-caramel-500 font-semibold tracking-wider uppercase text-sm mb-2 inline-block">Our Offerings</span>
+                    <h2 class="font-serif text-3xl md:text-4xl font-bold text-coffee-900 mb-4">Temukan Favoritmu</h2>
+                    <p class="text-coffee-800">Dari kopi klasik hingga kreasi signature kami, setiap cangkir disajikan dengan presisi dan cinta.</p>
+                </div>
+
+                <!-- Category Tabs (Interactive via JS) -->
+                <div class="flex overflow-x-auto no-scrollbar gap-3 justify-start md:justify-center mb-12 pb-2 animate-on-scroll fade-in-up">
+                    <button class="menu-tab tab-active px-6 py-2.5 rounded-full border text-sm font-medium whitespace-nowrap transition-all" data-target="all">All Menu</button>
+                    <button class="menu-tab tab-inactive px-6 py-2.5 rounded-full border border-caramel-500 text-sm font-medium whitespace-nowrap transition-all hover:bg-caramel-500 hover:text-white" data-target="coffee">Coffee</button>
+                    <button class="menu-tab tab-inactive px-6 py-2.5 rounded-full border border-caramel-500 text-sm font-medium whitespace-nowrap transition-all hover:bg-caramel-500 hover:text-white" data-target="non-coffee">Non-Coffee</button>
+                    <button class="menu-tab tab-inactive px-6 py-2.5 rounded-full border border-caramel-500 text-sm font-medium whitespace-nowrap transition-all hover:bg-caramel-500 hover:text-white" data-target="dessert">Dessert</button>
+                </div>
+
+                <!-- Featured Menu Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    
+                    <!-- Menu Item 1 -->
+                    <div class="menu-item bg-cream rounded-2xl p-4 shadow-soft hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 animate-on-scroll fade-in-up" data-category="coffee">
+                        <div class="relative h-64 rounded-xl overflow-hidden mb-5">
+                            <img src="https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Espresso" class="w-full h-full object-cover">
+                            <div class="absolute top-3 left-3 bg-coffee-900 text-white text-xs font-bold px-3 py-1 rounded-full">Classic</div>
+                        </div>
+                        <div class="px-2">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="font-serif font-bold text-xl text-coffee-900">Double Espresso</h3>
+                                <span class="font-bold text-caramel-500">25k</span>
+                            </div>
+                            <p class="text-sm text-coffee-700 mb-4 line-clamp-2">Ekstrak kopi murni yang intens dan kuat, menggunakan blend house special kami.</p>
+                            <a href="https://wa.me/6281234567890?text=Halo,%20saya%20mau%20pesan%20Double%20Espresso" target="_blank" class="block w-full text-center bg-transparent border border-coffee-900 text-coffee-900 py-2 rounded-lg font-medium hover:bg-coffee-900 hover:text-white transition-colors">
+                                Order
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Menu Item 2 -->
+                    <div class="menu-item bg-cream rounded-2xl p-4 shadow-soft hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 animate-on-scroll fade-in-up" style="transition-delay: 100ms;" data-category="coffee">
+                        <div class="relative h-64 rounded-xl overflow-hidden mb-5">
+                            <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Cafe Latte" class="w-full h-full object-cover">
+                            <div class="absolute top-3 left-3 bg-caramel-500 text-white text-xs font-bold px-3 py-1 rounded-full">Best Seller</div>
+                        </div>
+                        <div class="px-2">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="font-serif font-bold text-xl text-coffee-900">Classic Cafe Latte</h3>
+                                <span class="font-bold text-caramel-500">35k</span>
+                            </div>
+                            <p class="text-sm text-coffee-700 mb-4 line-clamp-2">Perpaduan seimbang antara espresso dan steamed milk yang lembut dan creamy.</p>
+                            <a href="https://wa.me/6281234567890?text=Halo,%20saya%20mau%20pesan%20Classic%20Cafe%20Latte" target="_blank" class="block w-full text-center bg-transparent border border-coffee-900 text-coffee-900 py-2 rounded-lg font-medium hover:bg-coffee-900 hover:text-white transition-colors">
+                                Order
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Menu Item 3 -->
+                    <div class="menu-item bg-cream rounded-2xl p-4 shadow-soft hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 animate-on-scroll fade-in-up" style="transition-delay: 200ms;" data-category="coffee">
+                        <div class="relative h-64 rounded-xl overflow-hidden mb-5">
+                            <img src="https://images.unsplash.com/photo-1576402100869-32d84784a92c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Caramel Macchiato" class="w-full h-full object-cover">
+                        </div>
+                        <div class="px-2">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="font-serif font-bold text-xl text-coffee-900">Caramel Macchiato</h3>
+                                <span class="font-bold text-caramel-500">42k</span>
+                            </div>
+                            <p class="text-sm text-coffee-700 mb-4 line-clamp-2">Espresso, vanilla syrup, susu panas, ditutup dengan saus karamel yang manis.</p>
+                            <a href="https://wa.me/6281234567890?text=Halo,%20saya%20mau%20pesan%20Caramel%20Macchiato" target="_blank" class="block w-full text-center bg-transparent border border-coffee-900 text-coffee-900 py-2 rounded-lg font-medium hover:bg-coffee-900 hover:text-white transition-colors">
+                                Order
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Menu Item 4 -->
+                    <div class="menu-item bg-cream rounded-2xl p-4 shadow-soft hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 animate-on-scroll fade-in-up" data-category="non-coffee">
+                        <div class="relative h-64 rounded-xl overflow-hidden mb-5">
+                            <img src="https://images.unsplash.com/photo-1515823662972-da6a2e4d3002?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Matcha Latte" class="w-full h-full object-cover">
+                            <div class="absolute top-3 left-3 bg-green-600 text-white text-xs font-bold px-3 py-1 rounded-full">New</div>
+                        </div>
+                        <div class="px-2">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="font-serif font-bold text-xl text-coffee-900">Premium Matcha Latte</h3>
+                                <span class="font-bold text-caramel-500">38k</span>
+                            </div>
+                            <p class="text-sm text-coffee-700 mb-4 line-clamp-2">Bubuk matcha autentik Jepang yang dipadukan dengan susu creamy.</p>
+                            <a href="https://wa.me/6281234567890?text=Halo,%20saya%20mau%20pesan%20Matcha%20Latte" target="_blank" class="block w-full text-center bg-transparent border border-coffee-900 text-coffee-900 py-2 rounded-lg font-medium hover:bg-coffee-900 hover:text-white transition-colors">
+                                Order
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Menu Item 5 -->
+                    <div class="menu-item bg-cream rounded-2xl p-4 shadow-soft hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 animate-on-scroll fade-in-up" style="transition-delay: 100ms;" data-category="dessert">
+                        <div class="relative h-64 rounded-xl overflow-hidden mb-5">
+                            <img src="https://images.unsplash.com/photo-1549903072-7e6e082916b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Croissant" class="w-full h-full object-cover">
+                            <div class="absolute top-3 left-3 bg-beige-200 text-coffee-900 text-xs font-bold px-3 py-1 rounded-full">Freshly Baked</div>
+                        </div>
+                        <div class="px-2">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="font-serif font-bold text-xl text-coffee-900">Butter Croissant</h3>
+                                <span class="font-bold text-caramel-500">28k</span>
+                            </div>
+                            <p class="text-sm text-coffee-700 mb-4 line-clamp-2">Flaky dan buttery croissant, teman sempurna untuk secangkir kopi panasmu.</p>
+                            <a href="https://wa.me/6281234567890?text=Halo,%20saya%20mau%20pesan%20Butter%20Croissant" target="_blank" class="block w-full text-center bg-transparent border border-coffee-900 text-coffee-900 py-2 rounded-lg font-medium hover:bg-coffee-900 hover:text-white transition-colors">
+                                Order
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Menu Item 6 -->
+                    <div class="menu-item bg-cream rounded-2xl p-4 shadow-soft hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 animate-on-scroll fade-in-up" style="transition-delay: 200ms;" data-category="dessert">
+                        <div class="relative h-64 rounded-xl overflow-hidden mb-5">
+                            <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Chocolate Cake" class="w-full h-full object-cover">
+                        </div>
+                        <div class="px-2">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="font-serif font-bold text-xl text-coffee-900">Dark Choco Slice</h3>
+                                <span class="font-bold text-caramel-500">35k</span>
+                            </div>
+                            <p class="text-sm text-coffee-700 mb-4 line-clamp-2">Kue cokelat pekat yang moist, tidak terlalu manis, cocok dengan espresso.</p>
+                            <a href="https://wa.me/6281234567890?text=Halo,%20saya%20mau%20pesan%20Dark%20Choco%20Slice" target="_blank" class="block w-full text-center bg-transparent border border-coffee-900 text-coffee-900 py-2 rounded-lg font-medium hover:bg-coffee-900 hover:text-white transition-colors">
+                                Order
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+                
+                <div class="mt-12 text-center animate-on-scroll fade-in-up">
+                    <a href="#" class="inline-flex items-center gap-2 text-coffee-900 font-medium hover:text-caramel-500 transition-colors">
+                        Lihat Full Menu <i class="fa-solid fa-arrow-right text-sm"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. Promo / Special Offer Section -->
+        <section class="py-16 bg-coffee-900 text-cream">
+            <div class="container mx-auto px-4 md:px-6 lg:px-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    
+                    <!-- Promo 1 -->
+                    <div class="bg-[#3D2B1F] rounded-2xl p-8 flex flex-col justify-between border border-coffee-700 animate-on-scroll fade-in-up">
+                        <div>
+                            <div class="w-12 h-12 bg-caramel-500/20 text-caramel-500 rounded-full flex items-center justify-center mb-6">
+                                <i class="fa-solid fa-tags text-xl"></i>
+                            </div>
+                            <h3 class="font-serif text-2xl font-bold mb-2">Buy 1 Get 1 Coffee</h3>
+                            <p class="text-beige-200 text-sm mb-6">Nikmati promo spesial setiap hari Jumat. Berlaku untuk semua varian Classic Coffee.</p>
+                        </div>
+                        <a href="https://wa.me/6281234567890" target="_blank" class="text-caramel-500 font-medium text-sm hover:text-white transition-colors inline-flex items-center gap-2">Klaim Promo <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+
+                    <!-- Promo 2 -->
+                    <div class="bg-[#3D2B1F] rounded-2xl p-8 flex flex-col justify-between border border-coffee-700 animate-on-scroll fade-in-up" style="transition-delay: 100ms;">
+                        <div>
+                            <div class="w-12 h-12 bg-caramel-500/20 text-caramel-500 rounded-full flex items-center justify-center mb-6">
+                                <i class="fa-solid fa-graduation-cap text-xl"></i>
+                            </div>
+                            <h3 class="font-serif text-2xl font-bold mb-2">Student Discount 10%</h3>
+                            <p class="text-beige-200 text-sm mb-6">Tunjukkan kartu pelajarmu dan dapatkan diskon 10% untuk semua menu makanan & minuman.</p>
+                        </div>
+                        <a href="https://wa.me/6281234567890" target="_blank" class="text-caramel-500 font-medium text-sm hover:text-white transition-colors inline-flex items-center gap-2">Info Lanjut <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+
+                    <!-- Promo 3 -->
+                    <div class="bg-[#3D2B1F] rounded-2xl p-8 flex flex-col justify-between border border-coffee-700 animate-on-scroll fade-in-up" style="transition-delay: 200ms;">
+                        <div>
+                            <div class="w-12 h-12 bg-caramel-500/20 text-caramel-500 rounded-full flex items-center justify-center mb-6">
+                                <i class="fa-solid fa-sun text-xl"></i>
+                            </div>
+                            <h3 class="font-serif text-2xl font-bold mb-2">Morning Package</h3>
+                            <p class="text-beige-200 text-sm mb-6">Espresso/Americano + Croissant hanya 45k. Berlaku setiap hari jam 07:00 - 10:00.</p>
+                        </div>
+                        <a href="https://wa.me/6281234567890" target="_blank" class="text-caramel-500 font-medium text-sm hover:text-white transition-colors inline-flex items-center gap-2">Pesan Sekarang <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. Gallery Section -->
+        <section id="gallery" class="py-20 lg:py-28 bg-cream">
+            <div class="container mx-auto px-4 md:px-6 lg:px-8">
+                <div class="text-center max-w-2xl mx-auto mb-12 animate-on-scroll fade-in-up">
+                    <span class="text-caramel-500 font-semibold tracking-wider uppercase text-sm mb-2 inline-block">Follow Our Journey</span>
+                    <h2 class="font-serif text-3xl md:text-4xl font-bold text-coffee-900 mb-4">Instagrammable Moments</h2>
+                    <p class="text-coffee-800">Setiap sudut Brew Haven didesain untuk kenyamanan dan estetika visual Anda.</p>
+                </div>
+
+                <!-- Masonry-like Grid -->
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4 lg:gap-6">
+                    <div class="overflow-hidden rounded-2xl shadow-sm hover:shadow-lg transition-shadow animate-on-scroll fade-in-up">
+                        <img src="https://images.unsplash.com/photo-1445116572660-236099ceabeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Coffee Cup" class="w-full h-full object-cover aspect-square hover:scale-105 transition-transform duration-500">
+                    </div>
+                    <div class="overflow-hidden rounded-2xl shadow-sm hover:shadow-lg transition-shadow animate-on-scroll fade-in-up" style="transition-delay: 100ms;">
+                        <img src="https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Cafe Interior Corner" class="w-full h-full object-cover aspect-square hover:scale-105 transition-transform duration-500">
+                    </div>
+                    <div class="overflow-hidden rounded-2xl shadow-sm hover:shadow-lg transition-shadow animate-on-scroll fade-in-up" style="transition-delay: 200ms;">
+                        <img src="https://images.unsplash.com/photo-1495474472204-518653683f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Coffee Beans" class="w-full h-full object-cover aspect-square hover:scale-105 transition-transform duration-500">
+                    </div>
+                    <div class="overflow-hidden rounded-2xl shadow-sm hover:shadow-lg transition-shadow animate-on-scroll fade-in-up">
+                        <img src="https://images.unsplash.com/photo-1463797221720-6b07e6426c24?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Outdoor Seating" class="w-full h-full object-cover aspect-square hover:scale-105 transition-transform duration-500">
+                    </div>
+                    <div class="overflow-hidden rounded-2xl shadow-sm hover:shadow-lg transition-shadow animate-on-scroll fade-in-up" style="transition-delay: 100ms;">
+                        <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Barista working" class="w-full h-full object-cover aspect-square hover:scale-105 transition-transform duration-500">
+                    </div>
+                    <div class="overflow-hidden rounded-2xl shadow-sm hover:shadow-lg transition-shadow animate-on-scroll fade-in-up" style="transition-delay: 200ms;">
+                        <img src="https://images.unsplash.com/photo-1559525839-b184a4d698c7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Dessert Plate" class="w-full h-full object-cover aspect-square hover:scale-105 transition-transform duration-500">
+                    </div>
+                </div>
+                
+                <div class="mt-10 text-center">
+                    <a href="#" class="inline-flex items-center gap-2 bg-beige-200 text-coffee-900 px-6 py-2.5 rounded-full font-medium hover:bg-caramel-500 hover:text-white transition-colors">
+                        <i class="fa-brands fa-instagram text-lg"></i> Follow @brewhaven
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. Testimonials Section -->
+        <section class="py-20 bg-beige-100/50">
+            <div class="container mx-auto px-4 md:px-6 lg:px-8">
+                <div class="text-center max-w-2xl mx-auto mb-16 animate-on-scroll fade-in-up">
+                    <h2 class="font-serif text-3xl md:text-4xl font-bold text-coffee-900 mb-4">Kata Mereka</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Testimonial 1 -->
+                    <div class="bg-cream p-8 rounded-2xl shadow-soft relative animate-on-scroll fade-in-up">
+                        <i class="fa-solid fa-quote-left text-4xl text-caramel-500/20 absolute top-6 left-6"></i>
+                        <div class="relative z-10">
+                            <div class="flex text-caramel-500 text-sm mb-4">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                            <p class="text-coffee-800 mb-6 italic">"Tempatnya nyaman banget buat kerja (WFC). WiFi-nya kenceng, colokan banyak, dan playlist lagunya enak nggak berisik. Kopi lattenya the best!"</p>
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-coffee-200 overflow-hidden">
+                                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="User" class="w-full h-full object-cover">
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-coffee-900 text-sm">Nadia P.</h4>
+                                    <span class="text-xs text-coffee-700">Freelancer</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Testimonial 2 -->
+                    <div class="bg-cream p-8 rounded-2xl shadow-soft relative animate-on-scroll fade-in-up" style="transition-delay: 100ms;">
+                        <i class="fa-solid fa-quote-left text-4xl text-caramel-500/20 absolute top-6 left-6"></i>
+                        <div class="relative z-10">
+                            <div class="flex text-caramel-500 text-sm mb-4">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                            <p class="text-coffee-800 mb-6 italic">"Kopinya enak dan harganya worth it banget buat ukuran cafe se-aesthetic ini. Croissant-nya juga selalu fresh. Bakal jadi langganan sih ini."</p>
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-coffee-200 overflow-hidden">
+                                    <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="User" class="w-full h-full object-cover">
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-coffee-900 text-sm">Bima A.</h4>
+                                    <span class="text-xs text-coffee-700">Mahasiswa</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Testimonial 3 -->
+                    <div class="bg-cream p-8 rounded-2xl shadow-soft relative animate-on-scroll fade-in-up" style="transition-delay: 200ms;">
+                        <i class="fa-solid fa-quote-left text-4xl text-caramel-500/20 absolute top-6 left-6"></i>
+                        <div class="relative z-10">
+                            <div class="flex text-caramel-500 text-sm mb-4">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+                            </div>
+                            <p class="text-coffee-800 mb-6 italic">"Cafe favorit buat nongkrong sore bareng temen-temen. Outdoor spacenya cakep pas golden hour. Baristanya juga ramah-ramah banget."</p>
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-coffee-200 overflow-hidden">
+                                    <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="User" class="w-full h-full object-cover">
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-coffee-900 text-sm">Sarah W.</h4>
+                                    <span class="text-xs text-coffee-700">Karyawan Swasta</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 9. Location Section -->
+        <section id="location" class="py-20 lg:py-28 bg-cream">
+            <div class="container mx-auto px-4 md:px-6 lg:px-8">
+                <div class="bg-coffee-900 rounded-[2rem] overflow-hidden shadow-2xl flex flex-col lg:flex-row animate-on-scroll fade-in-up">
+                    
+                    <!-- Contact Info -->
+                    <div class="p-8 md:p-12 lg:w-1/2 text-cream flex flex-col justify-center">
+                        <h2 class="font-serif text-3xl md:text-4xl font-bold mb-8">Kunjungi Kami</h2>
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-start gap-4">
+                                <div class="w-10 h-10 rounded-full bg-coffee-800 flex items-center justify-center flex-shrink-0 text-caramel-500">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold mb-1">Alamat</h4>
+                                    <p class="text-sm text-beige-200 leading-relaxed">Jl. Kopi Senja No. 123, Kel. Sudirman,<br>Kec. Pusat Kota, Jakarta 12345</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start gap-4">
+                                <div class="w-10 h-10 rounded-full bg-coffee-800 flex items-center justify-center flex-shrink-0 text-caramel-500">
+                                    <i class="fa-solid fa-clock"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold mb-1">Jam Operasional</h4>
+                                    <p class="text-sm text-beige-200">Senin - Jumat: 08:00 - 22:00<br>Sabtu - Minggu: 07:00 - 23:00</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-4">
+                                <div class="w-10 h-10 rounded-full bg-coffee-800 flex items-center justify-center flex-shrink-0 text-caramel-500">
+                                    <i class="fa-brands fa-whatsapp"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold mb-1">Kontak</h4>
+                                    <p class="text-sm text-beige-200">+62 812-3456-7890<br>hello@brewhaven.com</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-10">
+                            <a href="#" class="inline-flex items-center justify-center gap-2 w-full sm:w-auto bg-caramel-500 text-white px-8 py-3 rounded-xl font-medium hover:bg-caramel-600 transition-colors shadow-lg">
+                                Buka di Google Maps <i class="fa-solid fa-map-location-dot"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Map Placeholder -->
+                    <div class="lg:w-1/2 min-h-[300px] bg-beige-200 relative">
+                        <!-- In a real template, this would be an iframe -->
+                        <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Map View" class="w-full h-full object-cover opacity-60 mix-blend-multiply">
+                        <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                            <div class="bg-cream/90 backdrop-blur-sm p-4 rounded-xl text-center shadow-lg pointer-events-auto">
+                                <i class="fa-solid fa-location-dot text-3xl text-caramel-500 mb-2"></i>
+                                <p class="font-bold text-coffee-900">Brew Haven Coffee</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 10. Contact / CTA Final Section -->
+        <section class="py-24 bg-beige-100 text-center relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-caramel-500 to-transparent opacity-30"></div>
+            <div class="container mx-auto px-4 relative z-10 animate-on-scroll fade-in-up">
+                <i class="fa-solid fa-mug-hot text-4xl text-caramel-500 mb-6 opacity-80"></i>
+                <h2 class="font-serif text-3xl md:text-5xl font-bold text-coffee-900 mb-6">Ready to Enjoy Your<br>Favorite Coffee?</h2>
+                <p class="text-coffee-800 max-w-lg mx-auto mb-10 text-lg">
+                    Pesan menu favoritmu sekarang tanpa ribet, atau kunjungi cafe kami hari ini untuk pengalaman ngopi terbaik.
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="https://wa.me/6281234567890" target="_blank" class="bg-coffee-900 text-cream px-8 py-4 rounded-xl font-medium hover:bg-caramel-500 transition-colors shadow-lg flex items-center justify-center gap-2 text-lg">
+                        <i class="fa-brands fa-whatsapp text-xl"></i> Order via WhatsApp
+                    </a>
+                    <a href="#location" class="bg-cream border-2 border-coffee-900 text-coffee-900 px-8 py-4 rounded-xl font-medium hover:bg-coffee-900 hover:text-cream transition-colors flex items-center justify-center gap-2 text-lg">
+                        Lihat Lokasi
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 11. Footer -->
+    <footer class="bg-coffee-900 text-cream pt-16 pb-8 border-t-[6px] border-caramel-500">
+        <div class="container mx-auto px-4 md:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8 mb-12">
+                
+                <!-- Brand -->
+                <div class="col-span-1 md:col-span-2 lg:col-span-1">
+                    <a href="#" class="flex items-center gap-2 mb-4">
+                        <i class="fa-solid fa-mug-hot text-2xl text-caramel-500"></i>
+                        <span class="font-serif text-2xl font-bold text-cream">Brew Haven</span>
+                    </a>
+                    <p class="text-beige-200 text-sm leading-relaxed mb-6">
+                        Menyajikan kopi kualitas terbaik untuk setiap momenmu. Tempat nyaman, kopi nikmat, kenangan tak terlupakan.
+                    </p>
+                    <div class="flex items-center gap-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-coffee-800 flex items-center justify-center text-beige-200 hover:bg-caramel-500 hover:text-white transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-coffee-800 flex items-center justify-center text-beige-200 hover:bg-caramel-500 hover:text-white transition-colors"><i class="fa-brands fa-tiktok"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-coffee-800 flex items-center justify-center text-beige-200 hover:bg-caramel-500 hover:text-white transition-colors"><i class="fa-brands fa-facebook-f"></i></a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="font-bold text-lg mb-4 text-caramel-500">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-beige-200 hover:text-white text-sm transition-colors">Home</a></li>
+                        <li><a href="#about" class="text-beige-200 hover:text-white text-sm transition-colors">Tentang Kami</a></li>
+                        <li><a href="#menu" class="text-beige-200 hover:text-white text-sm transition-colors">Menu Favorit</a></li>
+                        <li><a href="#gallery" class="text-beige-200 hover:text-white text-sm transition-colors">Galeri</a></li>
+                    </ul>
+                </div>
+
+                <!-- Support -->
+                <div>
+                    <h4 class="font-bold text-lg mb-4 text-caramel-500">Layanan</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-beige-200 hover:text-white text-sm transition-colors">Reservasi Tempat</a></li>
+                        <li><a href="#" class="text-beige-200 hover:text-white text-sm transition-colors">Pesanan Catering</a></li>
+                        <li><a href="#" class="text-beige-200 hover:text-white text-sm transition-colors">Kerjasama & Franchise</a></li>
+                        <li><a href="#" class="text-beige-200 hover:text-white text-sm transition-colors">FAQ</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h4 class="font-bold text-lg mb-4 text-caramel-500">Hubungi Kami</h4>
+                    <ul class="space-y-3">
+                        <li class="flex items-start gap-3 text-sm text-beige-200">
+                            <i class="fa-solid fa-location-dot mt-1 text-caramel-500"></i>
+                            <span>Jl. Kopi Senja No. 123, Jakarta</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-sm text-beige-200">
+                            <i class="fa-solid fa-phone text-caramel-500"></i>
+                            <span>+62 812-3456-7890</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-sm text-beige-200">
+                            <i class="fa-solid fa-envelope text-caramel-500"></i>
+                            <span>hello@brewhaven.com</span>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="pt-8 border-t border-coffee-800 flex flex-col md:flex-row items-center justify-between gap-4">
+                <p class="text-sm text-beige-200/60">
+                    &copy; 2024 Brew Haven Coffee. All rights reserved.
+                </p>
+                <p class="text-sm text-beige-200/60">
+                    Powered by <a href="#" class="text-caramel-500 hover:text-white">HatiTiga Web Solution</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts for Interactivity -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // 1. Mobile Menu Toggle
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileLinks = document.querySelectorAll('.mobile-link');
+
+            if(mobileMenuBtn && mobileMenu) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                    // Toggle icon between bars and x
+                    const icon = mobileMenuBtn.querySelector('i');
+                    if(mobileMenu.classList.contains('hidden')){
+                        icon.classList.remove('fa-xmark');
+                        icon.classList.add('fa-bars');
+                    } else {
+                        icon.classList.remove('fa-bars');
+                        icon.classList.add('fa-xmark');
+                    }
+                });
+            }
+
+            // Close mobile menu when link is clicked
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                    const icon = mobileMenuBtn.querySelector('i');
+                    icon.classList.remove('fa-xmark');
+                    icon.classList.add('fa-bars');
+                });
+            });
+
+            // 2. Sticky Navbar Styling on Scroll
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 20) {
+                    navbar.classList.add('shadow-md');
+                } else {
+                    navbar.classList.remove('shadow-md');
+                }
+            });
+
+            // 3. Simple Menu Category Filtering
+            const menuTabs = document.querySelectorAll('.menu-tab');
+            const menuItems = document.querySelectorAll('.menu-item');
+
+            menuTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Update active tab styling
+                    menuTabs.forEach(t => {
+                        t.classList.remove('tab-active');
+                        t.classList.add('tab-inactive');
+                    });
+                    tab.classList.remove('tab-inactive');
+                    tab.classList.add('tab-active');
+
+                    // Filter items
+                    const targetCategory = tab.getAttribute('data-target');
+                    
+                    menuItems.forEach(item => {
+                        item.style.opacity = '0';
+                        item.style.transform = 'scale(0.95)';
+                        
+                        setTimeout(() => {
+                            if (targetCategory === 'all' || item.getAttribute('data-category') === targetCategory) {
+                                item.style.display = 'block';
+                                // small delay before fading back in
+                                setTimeout(() => {
+                                    item.style.opacity = '1';
+                                    item.style.transform = 'scale(1)';
+                                }, 50);
+                            } else {
+                                item.style.display = 'none';
+                            }
+                        }, 300); // Wait for fade out animation
+                    });
+                });
+            });
+
+            // 4. Scroll Reveal Animations (Intersection Observer)
+            const animatedElements = document.querySelectorAll('.animate-on-scroll');
+            
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15 // Trigger when 15% visible
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target); // Stop observing once visible
+                    }
+                });
+            }, observerOptions);
+
+            animatedElements.forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
