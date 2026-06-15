@@ -105,160 +105,96 @@ function initApp() {
         pkgDisplay.innerText = currentProject.templateFamily === 'company_profile' ? 'Premium (Company Profile)' : 'Enterprise (Export Catalog)';
     }
 
-    renderEditorForm();
-    renderListItems();
     renderStatusHistory();
 
     const iframe = document.getElementById('live-editor-iframe');
     if (iframe) {
-        const isProfile = currentProject.templateFamily === 'company_profile';
-        if (isProfile) {
-            iframe.src = 'corptrust_companyprofile.html';
-            iframe.onload = () => updateLivePreview();
-        } else {
-            updateLivePreview(); // Fallback generic render
-        }
+        // Universal Visual Editor logic
+        iframe.src = currentProject.templateFamily === 'company_profile' ? 'corptrust_companyprofile.html' : 'globaltrade_export.html';
+        
+        iframe.onload = () => {
+            injectUniversalEditor(iframe);
+        };
+    }
+
+    // Set up message listener for Activity Log and Export
+    window.addEventListener('message', handleIframeMessage);
+}
+
+// Activity Log State
+let activityLog = ['Menunggu aktivitas edit dari Anda...'];
+
+function handleIframeMessage(event) {
+    if (!event.data) return;
+    
+    if (event.data.type === 'LOG_ACTIVITY') {
+        activityLog.unshift(event.data.msg);
+        if(activityLog.length > 10) activityLog.pop();
+        renderActivityLog();
+        // Mark draft as modified visually if needed
+    }
+    
+    if (event.data.type === 'EXPORT_RESULT') {
+        processSubmission(event.data.html);
+    }
+}
+
+function renderActivityLog() {
+    const container = document.getElementById('activity-log-container');
+    if(!container) return;
+    
+    container.innerHTML = activityLog.map((log, idx) => `
+        <div class="flex items-start gap-3 text-sm text-slate-600 bg-white p-3 rounded-lg border border-slate-100 shadow-sm fade-in">
+            <div class="w-2 h-2 mt-1.5 rounded-full bg-blue-400 shrink-0"></div>
+            <span>${log}</span>
+        </div>
+    `).join('');
+}
+
+function setDeviceMode(mode) {
+    const wrapper = document.getElementById('iframe-wrapper');
+    const btnDesktop = document.getElementById('btn-desktop');
+    const btnMobile = document.getElementById('btn-mobile');
+    
+    if (!wrapper) return;
+    
+    // Reset classes
+    btnDesktop.className = "p-2 rounded-lg text-slate-500 hover:bg-slate-100 transition";
+    btnMobile.className = "p-2 rounded-lg text-slate-500 hover:bg-slate-100 transition";
+    
+    if (mode === 'desktop') {
+        wrapper.className = "w-full h-full bg-white shadow-2xl overflow-hidden transition-all duration-500 ease-in-out border border-slate-200 rounded-xl relative";
+        btnDesktop.classList.add('bg-brand-100', 'text-brand-700', 'shadow-sm');
+        btnDesktop.classList.remove('text-slate-500', 'hover:bg-slate-100');
+    } else {
+        wrapper.className = "w-[375px] h-[812px] min-h-[812px] bg-white shadow-2xl overflow-hidden transition-all duration-500 ease-in-out rounded-[3rem] ring-8 ring-slate-800 relative my-8";
+        btnMobile.classList.add('bg-brand-100', 'text-brand-700', 'shadow-sm');
+        btnMobile.classList.remove('text-slate-500', 'hover:bg-slate-100');
     }
 }
 
 function renderEditorForm() {
-    const form = document.getElementById('master-editor-form');
-    
-    // Base Fields for both templates
-    let html = `
-        <div class="space-y-5">
-            <div>
-                <label class="block text-sm font-bold text-slate-700 mb-1.5">Nama Bisnis</label>
-                <input type="text" id="edit-businessName" value="${currentDraft.businessName || ''}" oninput="handleFormChange('businessName')" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition" ${isReadOnly ? 'disabled' : ''}>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <div>
-                    <label class="block text-sm font-bold text-slate-700 mb-1.5">Judul Hero Utama</label>
-                    <input type="text" id="edit-heroTitle" value="${currentDraft.heroTitle || ''}" oninput="handleFormChange('heroTitle')" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition" ${isReadOnly ? 'disabled' : ''}>
-                </div>
-                <div>
-                    <label class="block text-sm font-bold text-slate-700 mb-1.5">Subjudul Hero</label>
-                    <input type="text" id="edit-heroSubtitle" value="${currentDraft.heroSubtitle || ''}" oninput="handleFormChange('heroSubtitle')" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition" ${isReadOnly ? 'disabled' : ''}>
-                </div>
-            </div>
-            <div>
-                <label class="block text-sm font-bold text-slate-700 mb-1.5">Gambar Hero Utama (Maks 1MB untuk Demo MVP)</label>
-                <input type="file" accept="image/*" onchange="handleImageUpload(event, 'heroImage')" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-bold file:bg-brand-50 file:text-brand-700 hover:file:bg-brand-100 transition" ${isReadOnly ? 'disabled' : ''}>
-                ${currentDraft.heroImage ? '<img src="'+currentDraft.heroImage+'" class="mt-2 h-20 rounded border border-slate-200 object-cover">' : ''}
-                <p class="text-xs text-amber-600 mt-1"><i class="fa-solid fa-triangle-exclamation"></i> Upload gambar dikonversi ke Base64, khusus untuk demo.</p>
-            </div>
-            <div>
-                <label class="block text-sm font-bold text-slate-700 mb-1.5">Teks Deskripsi (About Us)</label>
-                <textarea id="edit-aboutText" rows="3" oninput="handleFormChange('aboutText')" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition resize-none" ${isReadOnly ? 'disabled' : ''}>${currentDraft.aboutText || ''}</textarea>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <div>
-                    <label class="block text-sm font-bold text-slate-700 mb-1.5">WhatsApp</label>
-                    <input type="text" id="edit-whatsapp" value="${currentDraft.whatsapp || ''}" oninput="handleFormChange('whatsapp')" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition" ${isReadOnly ? 'disabled' : ''}>
-                </div>
-                <div>
-                    <label class="block text-sm font-bold text-slate-700 mb-1.5">Email</label>
-                    <input type="email" id="edit-email" value="${currentDraft.email || ''}" oninput="handleFormChange('email')" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition" ${isReadOnly ? 'disabled' : ''}>
-                </div>
-            </div>
-        </div>
-    `;
-    form.innerHTML = html;
+    // Disabled: Replaced by Universal Visual Editor
 }
 
 function handleFormChange(field) {
-    if (isReadOnly) return;
-    const val = document.getElementById('edit-' + field).value;
-    currentDraft[field] = val;
-    updateLivePreview();
+    // Disabled
 }
 
 function handleImageUpload(event, targetField) {
-    if (isReadOnly) return;
-    const file = event.target.files[0];
-    if (!file) return;
-
-    // MVP Limitation warning
-    if (file.size > 1024 * 1024 * 2) {
-        alert("Ukuran gambar terlalu besar untuk versi demo. Mohon gunakan gambar di bawah 2MB.");
-        event.target.value = '';
-        return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        currentDraft[targetField] = e.target.result;
-        updateLivePreview();
-        renderEditorForm(); // Re-render to show image preview
-    };
-    reader.readAsDataURL(file);
+    // Disabled
 }
 
-// --- Dynamic List (Products/Services) ---
 function renderListItems() {
-    const container = document.getElementById('list-items-container');
-    const items = currentProject.templateFamily === 'company_profile' ? (currentDraft.services || []) : (currentDraft.products || []);
-    
-    if (items.length === 0) {
-        container.innerHTML = '<div class="text-center py-8 text-slate-500 border-2 border-dashed border-slate-200 rounded-xl">Belum ada item. Tambahkan yang pertama!</div>';
-        return;
-    }
-
-    let html = '';
-    items.forEach((item, index) => {
-        const title = item.name || item.title || 'Item Baru';
-        html += `
-            <div class="bg-white border border-slate-200 rounded-xl p-4 flex justify-between items-center group hover:shadow-sm transition">
-                <div>
-                    <h4 class="font-bold text-slate-800">${title}</h4>
-                    <p class="text-sm text-slate-500 line-clamp-1">${item.description || ''}</p>
-                </div>
-                <div class="flex gap-2">
-                    <button onclick="editListItem(${index})" class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-brand-50 text-slate-600 hover:text-brand-600 flex items-center justify-center transition" ${isReadOnly ? 'disabled' : ''}><i class="fa-solid fa-pen"></i></button>
-                    <button onclick="removeListItem(${index})" class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-red-50 text-slate-600 hover:text-red-600 flex items-center justify-center transition" ${isReadOnly ? 'disabled' : ''}><i class="fa-solid fa-trash"></i></button>
-                </div>
-            </div>
-        `;
-    });
-    container.innerHTML = html;
+    // Disabled
 }
 
 function addNewListItem() {
-    if (isReadOnly) return;
-    const isProfile = currentProject.templateFamily === 'company_profile';
-    const title = prompt(`Masukkan nama ${isProfile ? 'layanan' : 'produk'} baru:`);
-    if (!title) return;
-
-    if (isProfile) {
-        if (!currentDraft.services) currentDraft.services = [];
-        currentDraft.services.push({ id: 'srv_' + Date.now(), title: title, description: 'Deskripsi layanan baru...' });
-    } else {
-        if (!currentDraft.products) currentDraft.products = [];
-        currentDraft.products.push({ id: 'prod_' + Date.now(), name: title, description: 'Deskripsi produk baru...', image: '', moq: '-', packaging: '-' });
-    }
-    renderListItems();
-    updateLivePreview();
+    // Disabled
 }
 
 function editListItem(index) {
-    if (isReadOnly) return;
-    const isProfile = currentProject.templateFamily === 'company_profile';
-    const items = isProfile ? currentDraft.services : currentDraft.products;
-    const item = items[index];
-
-    const newTitle = prompt("Update Judul/Nama:", item.title || item.name);
-    if (newTitle) {
-        if (isProfile) item.title = newTitle;
-        else item.name = newTitle;
-    }
-
-    const newDesc = prompt("Update Deskripsi:", item.description);
-    if (newDesc) {
-        item.description = newDesc;
-    }
-    
-    renderListItems();
-    updateLivePreview();
+    // Disabled
 }
 
 function removeListItem(index) {
@@ -273,108 +209,170 @@ function removeListItem(index) {
 }
 
 // --- Live Preview Renderer ---
-function updateLivePreview() {
-    const iframe = document.getElementById('live-editor-iframe');
-    if (!iframe) return;
+function injectUniversalEditor(iframe) {
+    if (isReadOnly) return;
     
-    const isProfile = currentProject.templateFamily === 'company_profile';
-    
-    if (isProfile) {
-        // Post message to the actual template HTML (Plek-ketiplek mode)
-        if (iframe.contentWindow) {
-            iframe.contentWindow.postMessage({
-                type: 'UPDATE_PREVIEW',
-                data: currentDraft
-            }, '*');
-        }
-        return;
-    }
-    
-    // Generate simple HTML mockup based on draft data for other templates
-    const heroImageHtml = currentDraft.heroImage ? `background-image: url('${currentDraft.heroImage}'); background-size: cover; background-position: center;` : 'background-color: #f1f5f9;';
-    
-    let html = `
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <script src="https://cdn.tailwindcss.com"></script>
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-        </head>
-        <body class="font-sans bg-white">
-            <!-- Header -->
-            <header class="bg-white shadow-sm px-6 py-4 flex justify-between items-center sticky top-0 z-50">
-                <div class="font-black text-xl text-brand-700">${currentDraft.businessName || 'Your Logo'}</div>
-                <nav class="hidden md:flex gap-6 text-sm font-bold text-slate-600">
-                    <span>Home</span>
-                    <span>About</span>
-                    <span>${isProfile ? 'Services' : 'Products'}</span>
-                    <span>Contact</span>
-                </nav>
-            </header>
-            
-            <!-- Hero -->
-            <div class="py-24 px-6 text-center text-slate-800 border-b border-slate-100 relative" style="${heroImageHtml}">
-                <div class="absolute inset-0 bg-white/70 backdrop-blur-sm"></div>
-                <div class="relative z-10 max-w-2xl mx-auto">
-                    <h1 class="text-4xl md:text-5xl font-black mb-4">${currentDraft.heroTitle || 'Your Hero Title'}</h1>
-                    <p class="text-lg text-slate-700 mb-8">${currentDraft.heroSubtitle || 'Your Hero Subtitle goes here.'}</p>
-                    <a href="https://wa.me/${currentDraft.whatsapp}" target="_blank" class="bg-brand-600 text-white px-8 py-3 rounded-full font-bold shadow-lg">Contact Us</a>
-                </div>
-            </div>
-            
-            <!-- About -->
-            <div class="py-16 px-6 max-w-4xl mx-auto text-center">
-                <h2 class="text-2xl font-black mb-6">About Us</h2>
-                <p class="text-slate-600 leading-relaxed">${currentDraft.aboutText || 'About your business...'}</p>
-            </div>
-            
-            <!-- Dynamic List -->
-            <div class="py-16 px-6 bg-slate-50">
-                <div class="max-w-5xl mx-auto">
-                    <h2 class="text-2xl font-black mb-10 text-center">${isProfile ? 'Our Services' : 'Our Products'}</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-    `;
-
-    const items = isProfile ? (currentDraft.services || []) : (currentDraft.products || []);
-    items.forEach(item => {
-        html += `
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-                <h3 class="text-lg font-black text-slate-800 mb-2">${item.name || item.title || 'Item'}</h3>
-                <p class="text-sm text-slate-600">${item.description || 'Description'}</p>
-                ${!isProfile && item.moq ? '<p class="text-xs text-slate-500 mt-4 font-bold">MOQ: ' + item.moq + '</p>' : ''}
-            </div>
-        `;
-    });
-
-    html += `
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Footer -->
-            <footer class="bg-slate-900 text-slate-400 py-12 px-6 text-center text-sm">
-                <div class="font-black text-white text-xl mb-4">${currentDraft.businessName || 'Business Name'}</div>
-                <p>${currentDraft.address || 'Address goes here'}</p>
-            </footer>
-        </body>
-        </html>
-    `;
-
     const doc = iframe.contentDocument || iframe.contentWindow.document;
-    doc.open();
-    doc.write(html);
-    doc.close();
+    if (!doc) return;
+
+    const magicScript = `
+      <style id="gemini-builder-style">
+        [contenteditable="true"] {
+           transition: all 0.2s ease;
+           border-radius: 4px;
+        }
+        [contenteditable="true"]:hover {
+           outline: 2px dashed #3b82f6 !important;
+           background-color: rgba(59, 130, 246, 0.1) !important;
+           cursor: text;
+        }
+        [contenteditable="true"]:focus {
+           outline: 2px solid #3b82f6 !important;
+           background-color: rgba(59, 130, 246, 0.05) !important;
+        }
+        img.gemini-img-editable {
+           transition: all 0.2s ease;
+        }
+        img.gemini-img-editable:hover {
+           outline: 4px dashed #10b981 !important;
+           cursor: pointer;
+           opacity: 0.85;
+        }
+      </style>
+      <script id="gemini-builder-script">
+        window.addEventListener('load', initEditor);
+        // Fallback in case it's already loaded
+        if(document.readyState === 'complete') initEditor();
+
+        function initEditor() {
+           const textElements = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, span, a, button, li, td, th, label');
+           textElements.forEach(el => {
+               if(el.children.length <= 1 || ['H1','H2','H3','P','A','BUTTON'].includes(el.tagName)) {
+                   el.setAttribute('contenteditable', 'true');
+                   if(el.tagName === 'A' || el.tagName === 'BUTTON') {
+                       el.addEventListener('click', (e) => e.preventDefault());
+                   }
+                   el.addEventListener('input', () => {
+                       window.parent.postMessage({ type: 'LOG_ACTIVITY', msg: 'Mengedit teks pada elemen ' + el.tagName.toLowerCase() }, '*');
+                   });
+               }
+           });
+
+           document.querySelectorAll('img').forEach(img => {
+               img.classList.add('gemini-img-editable');
+               img.addEventListener('click', (e) => {
+                   e.preventDefault();
+                   const newUrl = prompt('Ubah Gambar: Masukkan URL Gambar Baru\\n(Biarkan kosong jika tidak ingin mengubah)', img.src);
+                   if(newUrl && newUrl.trim() !== '') {
+                       img.src = newUrl;
+                       window.parent.postMessage({ type: 'LOG_ACTIVITY', msg: 'URL Gambar berhasil diganti' }, '*');
+                   }
+               });
+           });
+
+           window.addEventListener('message', (event) => {
+               if(event.data === 'REQUEST_EXPORT') {
+                   const cloneDOM = document.documentElement.cloneNode(true);
+                   cloneDOM.querySelectorAll('[contenteditable="true"]').forEach(el => el.removeAttribute('contenteditable'));
+                   cloneDOM.querySelectorAll('.gemini-img-editable').forEach(el => {
+                       el.classList.remove('gemini-img-editable');
+                       if(el.classList.length === 0) el.removeAttribute('class');
+                   });
+                   const styleTag = cloneDOM.querySelector('#gemini-builder-style');
+                   if(styleTag) styleTag.remove();
+                   const scriptTag = cloneDOM.querySelector('#gemini-builder-script');
+                   if(scriptTag) scriptTag.remove();
+                   
+                   const pureHTML = '<!DOCTYPE html>\\n<html lang="' + (cloneDOM.lang || 'en') + '">\\n' + cloneDOM.innerHTML + '\\n</html>';
+                   window.parent.postMessage({ type: 'EXPORT_RESULT', html: pureHTML }, '*');
+               }
+           });
+        }
+      </script>
+    `;
+
+    // Write directly into the iframe if needed, or just append elements
+    const styleEl = doc.createElement('div');
+    styleEl.innerHTML = magicScript;
+    doc.body.appendChild(styleEl);
+    
+    // To execute the script, we must inject a true script tag
+    const scriptEl = doc.createElement('script');
+    scriptEl.id = "gemini-builder-script";
+    scriptEl.textContent = `
+        const textElements = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, span, a, button, li, td, th, label');
+        textElements.forEach(el => {
+            if(el.children.length <= 1 || ['H1','H2','H3','P','A','BUTTON'].includes(el.tagName)) {
+                el.setAttribute('contenteditable', 'true');
+                if(el.tagName === 'A' || el.tagName === 'BUTTON') {
+                    el.addEventListener('click', (e) => e.preventDefault());
+                }
+                el.addEventListener('input', () => {
+                    window.parent.postMessage({ type: 'LOG_ACTIVITY', msg: 'Mengedit teks pada elemen ' + el.tagName.toLowerCase() }, '*');
+                });
+            }
+        });
+
+        document.querySelectorAll('img').forEach(img => {
+            img.classList.add('gemini-img-editable');
+            img.addEventListener('click', (e) => {
+                e.preventDefault();
+                const newUrl = prompt('Ubah Gambar: Masukkan URL Gambar Baru\\n(Biarkan kosong jika tidak ingin mengubah)', img.src);
+                if(newUrl && newUrl.trim() !== '') {
+                    img.src = newUrl;
+                    window.parent.postMessage({ type: 'LOG_ACTIVITY', msg: 'URL Gambar berhasil diganti' }, '*');
+                }
+            });
+        });
+
+        window.addEventListener('message', (event) => {
+            if(event.data === 'REQUEST_EXPORT') {
+                const cloneDOM = document.documentElement.cloneNode(true);
+                cloneDOM.querySelectorAll('[contenteditable="true"]').forEach(el => el.removeAttribute('contenteditable'));
+                cloneDOM.querySelectorAll('.gemini-img-editable').forEach(el => {
+                    el.classList.remove('gemini-img-editable');
+                    if(el.classList.length === 0) el.removeAttribute('class');
+                });
+                const styleTag = cloneDOM.querySelector('#gemini-builder-style');
+                if(styleTag) styleTag.remove();
+                const scriptTag = cloneDOM.querySelector('#gemini-builder-script');
+                if(scriptTag) scriptTag.remove();
+                
+                const pureHTML = '<!DOCTYPE html>\\n<html lang="' + (cloneDOM.lang || 'en') + '">\\n' + cloneDOM.innerHTML + '\\n</html>';
+                window.parent.postMessage({ type: 'EXPORT_RESULT', html: pureHTML }, '*');
+            }
+        });
+    `;
+    doc.body.appendChild(scriptEl);
 }
 
 function submitForApproval() {
     if (isReadOnly) return;
     
-    // Save draft to project data
+    // Set loading state on button
+    const btn = document.getElementById('btn-submit-approval');
+    if (btn) {
+        btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Menyimpan...';
+        btn.disabled = true;
+    }
+
+    const iframe = document.getElementById('live-editor-iframe');
+    if (iframe && iframe.contentWindow) {
+        // Request exported pure HTML from iframe
+        iframe.contentWindow.postMessage('REQUEST_EXPORT', '*');
+    } else {
+        processSubmission("HTML Error");
+    }
+}
+
+function processSubmission(exportedHtml) {
+    // Save draft to project data, now including the raw exported HTML from the builder
     currentProject.pendingUpdate = {
         status: 'pending_review',
         submittedAt: new Date().toISOString(),
         submittedBy: JSON.parse(localStorage.getItem('webkilat_session_v1')).username,
         content: JSON.parse(JSON.stringify(currentDraft)),
+        rawExportedHtml: exportedHtml, // The pure HTML string
         note: 'Customer submitted changes for review.'
     };
 
@@ -385,7 +383,7 @@ function submitForApproval() {
         window.saveCustomerProjects(projects);
     }
 
-    alert('Perubahan Anda telah dikirim dan menunggu persetujuan Admin.');
+    alert('Perubahan visual Anda telah dikirim beserta Export HTML murni dan menunggu persetujuan Admin.');
     window.location.reload();
 }
 
