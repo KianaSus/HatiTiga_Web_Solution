@@ -207,10 +207,11 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between h-20">
                     <div class="flex items-center cursor-pointer" onclick="navigate('home')">
-                        <img src="HatiTiga_Logo.png" alt="HatiTiga Logo" class="w-10 h-10 rounded-lg mr-3 shadow-md object-contain bg-white">
+                        <img src="HatiTiga_Logo.png" alt="HatiTiga Logo"
+                            class="w-10 h-10 rounded-lg mr-3 shadow-md object-contain bg-white">
                         <div class="flex flex-col">
-                            <span class="font-extrabold text-xl tracking-tight text-slate-900 leading-tight" translate="no"
-                                id="brand-name-nav">HatiTiga</span>
+                            <span class="font-extrabold text-xl tracking-tight text-slate-900 leading-tight"
+                                translate="no" id="brand-name-nav">HatiTiga</span>
                             <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Web
                                 Solution</span>
                         </div>
@@ -221,7 +222,8 @@
                         <button onclick="navigate('home')"
                             class="text-slate-600 hover:text-brand-600 font-bold transition whitespace-nowrap">Beranda</button>
                         <button onclick="navigate('templates')"
-                            class="text-slate-600 hover:text-brand-600 font-bold transition whitespace-nowrap">Katalog Template</button>
+                            class="text-slate-600 hover:text-brand-600 font-bold transition whitespace-nowrap">Katalog
+                            Template</button>
                         <button onclick="scrollToPricing()"
                             class="text-slate-600 hover:text-brand-600 font-bold transition whitespace-nowrap">Harga</button>
                         <button onclick="navigate('faq')"
@@ -234,7 +236,8 @@
                                 class="px-3 2xl:px-4 py-2 bg-brand-600 text-white rounded-xl font-bold hover:bg-brand-700 transition shadow-lg shadow-brand-500/30 whitespace-nowrap flex-shrink-0">Mulai
                                 Bangun</button>
                         </div>
-                        <div id="auth-ui-container" class="flex items-center pl-3 border-l border-slate-200 flex-shrink-0"></div>
+                        <div id="auth-ui-container"
+                            class="flex items-center pl-3 border-l border-slate-200 flex-shrink-0"></div>
                     </div>
 
                     <!-- Mobile Menu Button -->
@@ -279,8 +282,10 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-10">
                 <div class="col-span-1 md:col-span-2">
                     <div class="flex items-center mb-6">
-                        <img src="HatiTiga_Logo.png" alt="HatiTiga Logo" class="w-8 h-8 rounded mr-3 object-contain bg-white">
-                        <span class="font-extrabold text-2xl tracking-tight text-white" translate="no" id="brand-name-footer">HatiTiga Web Solution</span>
+                        <img src="HatiTiga_Logo.png" alt="HatiTiga Logo"
+                            class="w-8 h-8 rounded mr-3 object-contain bg-white">
+                        <span class="font-extrabold text-2xl tracking-tight text-white" translate="no"
+                            id="brand-name-footer">HatiTiga Web Solution</span>
                     </div>
                     <p class="text-slate-400 mb-8 max-w-md leading-relaxed">Mitra digital terpercaya untuk eksportir
                         lokal, UMKM, dan perusahaan. Menyediakan template website profesional siap pakai agar Anda tidak
@@ -327,7 +332,8 @@
             </div>
             <div
                 class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-8 border-t border-slate-800 text-sm text-center text-slate-500 font-medium">
-                &copy; <span id="current-year"></span> <span id="brand-name-copy" translate="no">HatiTiga Web Solution</span>. All
+                &copy; <span id="current-year"></span> <span id="brand-name-copy" translate="no">HatiTiga Web
+                    Solution</span>. All
                 rights reserved.
             </div>
         </footer>
@@ -378,7 +384,7 @@
                 // Jangan simpan password di localStorage untuk best practice
                 const sessionUser = { ...foundUser };
                 delete sessionUser.password;
-                
+
                 appState.user = sessionUser;
                 localStorage.setItem(STORAGE_KEYS.session, JSON.stringify(appState.user));
                 err.classList.add('hidden');
@@ -399,7 +405,7 @@
         function handleLogout() {
             appState.user = null;
             localStorage.removeItem(STORAGE_KEYS.session);
-            
+
             updateAuthUI();
             navigate('home');
             // alert("Berhasil Logout!");
@@ -408,7 +414,7 @@
         // Fungsi Update UI Navbar
         function updateAuthUI() {
             const authContainer = document.getElementById('auth-ui-container');
-            
+
             if (appState.user) {
                 // Logged in UI
                 const role = appState.user.role;
@@ -416,11 +422,11 @@
                 const isCustomer = role === 'customer' && appState.user.verifiedCustomer;
                 const displayName = appState.user.displayName || appState.user.username || 'User';
                 const initial = displayName.charAt(0).toUpperCase();
-                
+
                 let dashboardLabel = 'Dashboard Saya';
                 let dashboardIcon = 'fa-chart-pie';
                 let buttonAction = `navigate('dashboard')`;
-                
+
                 if (isAdmin) {
                     dashboardLabel = 'Admin Panel';
                     dashboardIcon = 'fa-earth-americas';
@@ -428,7 +434,7 @@
                 } else {
                     buttonAction = `window.location.href='customer_dashboard.html'`;
                 }
-                
+
                 if (authContainer) {
                     authContainer.innerHTML = `
                         <div class="flex items-center gap-2 2xl:gap-3">
@@ -582,7 +588,7 @@
 
             pricingCard: (pkg) => `
                 <div class="bg-white rounded-2xl border ${pkg.highlight ? 'border-brand-500 shadow-2xl relative scale-105 z-10' : 'border-slate-200 shadow-sm'} p-8 flex flex-col h-full transition duration-300">
-                    ${pkg.highlight ? '<div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-brand-500 text-white px-6 py-1.5 rounded-full text-sm font-bold shadow-lg uppercase tracking-wider">Paling Sering Dipilih</div>' : ''}
+                    ${pkg.highlight ? '<div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-brand-500 text-white px-6 py-1.5 rounded-full text-sm font-bold shadow-lg uppercase tracking-wider">Rekomendasi</div>' : ''}
                     <h3 class="text-2xl font-extrabold text-slate-900 mb-2">${pkg.name}</h3>
                     <p class="text-sm text-slate-500 font-medium mb-6 h-10 border-b border-slate-100 pb-4">${pkg.target}</p>
                     
@@ -1122,7 +1128,7 @@
             order: (id) => {
                 // Mencari data template yang dipilih berdasarkan ID
                 const tpl = DB.templates.find(t => t.id === id) || DB.templates[0];
-                
+
                 return `
                 <div class="bg-slate-50 min-h-screen py-12">
                     <div class="max-w-5xl mx-auto px-4">
@@ -1401,15 +1407,15 @@
         function calculateOrderTotal() {
             const addonCheckbox = document.getElementById('addon-jasa');
             let total = PRICING_MODEL.baseTotal;
-            
+
             if (addonCheckbox && addonCheckbox.checked) {
                 total += PRICING_MODEL.addon.price;
             }
             document.getElementById('total-display').innerText = formatRp(total);
-            
+
             const addonBox = document.getElementById('addon-box');
-            if(addonBox) {
-                if(addonCheckbox && addonCheckbox.checked) {
+            if (addonBox) {
+                if (addonCheckbox && addonCheckbox.checked) {
                     addonBox.classList.add('border-brand-500', 'bg-brand-50');
                     addonBox.classList.remove('border-slate-200', 'bg-white');
                 } else {
@@ -1424,10 +1430,10 @@
             if (form) {
                 form.addEventListener('submit', (e) => {
                     e.preventDefault();
-                    
+
                     const domain = document.getElementById('f-domain').value;
-                    
-                    if(!domain) {
+
+                    if (!domain) {
                         alert("Mohon lakukan pengecekan dan pilih domain yang tersedia terlebih dahulu!");
                         document.getElementById('input-domain-search').focus();
                         return;
@@ -1443,10 +1449,10 @@
                         const email = document.getElementById('f-email').value;
                         const wa = document.getElementById('f-wa').value;
                         const wantsAddon = document.getElementById('addon-jasa').checked;
-                        
+
                         let finalTotal = PRICING_MODEL.baseTotal;
                         let addonText = "-";
-                        if(wantsAddon) {
+                        if (wantsAddon) {
                             finalTotal += PRICING_MODEL.addon.price;
                             addonText = `Ya (+ ${formatRp(PRICING_MODEL.addon.price)})`;
                         }
