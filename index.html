@@ -585,17 +585,31 @@
                     ${pkg.highlight ? '<div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-brand-500 text-white px-6 py-1.5 rounded-full text-sm font-bold shadow-lg uppercase tracking-wider">Paling Sering Dipilih</div>' : ''}
                     <h3 class="text-2xl font-extrabold text-slate-900 mb-2">${pkg.name}</h3>
                     <p class="text-sm text-slate-500 font-medium mb-6 h-10 border-b border-slate-100 pb-4">${pkg.target}</p>
-                    <div class="mb-6">
-                        <span class="text-sm text-slate-500 font-bold uppercase tracking-wider">Mulai dari</span>
+                    
+                    <div class="bg-slate-50 rounded-xl p-5 mb-6 border border-slate-100 relative">
+                        <span class="absolute -top-3 left-4 bg-slate-900 text-white text-[10px] font-bold px-2 py-0.5 rounded tracking-wider uppercase">Biaya Jasa HatiTiga</span>
                         <div class="flex items-baseline mt-1">
-                            <span class="text-2xl font-bold text-slate-900 mr-1">${CONFIG.defaultCurrency}</span>
+                            <span class="text-xl font-bold text-slate-900 mr-1">${CONFIG.defaultCurrency}</span>
                             <span class="text-4xl font-black text-slate-900 tracking-tight">${pkg.price}</span>
                         </div>
+                        <p class="text-[10px] text-slate-500 mt-1 font-medium italic">Satu kali bayar untuk setup & kustomisasi.</p>
                     </div>
-                    <ul class="space-y-4 mb-8 flex-grow text-sm text-slate-700">
+
+                    <div class="mb-6 space-y-2">
+                        <p class="text-[11px] font-bold text-slate-700 uppercase tracking-wider flex items-center"><i class="fa-solid fa-server text-brand-500 mr-2"></i> + Biaya Infrastruktur (Tahunan)</p>
+                        <div class="flex justify-between items-center text-xs bg-white border border-slate-200 px-3 py-2.5 rounded-lg">
+                            <span class="text-slate-600 font-medium">Domain & Hosting</span>
+                            <span class="font-bold text-slate-800">${pkg.hostingEst}</span>
+                        </div>
+                        <div class="flex justify-between items-center text-sm px-1 mt-3 pt-2 border-t border-slate-100">
+                            <span class="text-slate-500 font-bold">Estimasi Total Awal:</span>
+                            <span class="font-black text-brand-600">~Rp ${pkg.totalEst}</span>
+                        </div>
+                    </div>
+
+                    <ul class="space-y-4 mb-8 flex-grow text-sm text-slate-700 pt-6 border-t border-slate-100">
                         ${pkg.features.map(f => `<li class="flex items-start"><i class="fa-solid fa-circle-check text-green-500 mt-0.5 mr-3 text-lg"></i><span class="leading-relaxed font-medium">${f}</span></li>`).join('')}
-                        <li class="flex items-start pt-3 border-t border-slate-100"><i class="fa-solid fa-server text-brand-500 mt-0.5 mr-3 text-lg"></i><span class="font-bold leading-relaxed">${pkg.hosting}</span></li>
-                        <li class="flex items-start"><i class="fa-solid fa-pen-ruler text-brand-500 mt-0.5 mr-3 text-lg"></i><span class="leading-relaxed">${pkg.revision}</span></li>
+                        <li class="flex items-start pt-3 border-t border-slate-100"><i class="fa-solid fa-pen-ruler text-brand-500 mt-0.5 mr-3 text-lg"></i><span class="leading-relaxed">${pkg.revision}</span></li>
                         <li class="flex items-start"><i class="fa-solid fa-clock text-brand-500 mt-0.5 mr-3 text-lg"></i><span class="leading-relaxed">Pengerjaan: <span class="font-bold">${pkg.time}</span></span></li>
                     </ul>
                     <button onclick="navigate('templates')" class="w-full py-4 rounded-xl font-bold text-center transition ${pkg.highlight ? 'bg-brand-600 text-white hover:bg-brand-700 shadow-lg shadow-brand-500/30' : 'bg-slate-100 text-slate-900 hover:bg-slate-200'}">Pilih Template Sekarang</button>
@@ -893,8 +907,8 @@
                 <section id="pricing-section" class="py-24 bg-slate-50">
                     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div class="text-center mb-16">
-                            <h2 class="text-3xl font-black text-slate-900 mb-4">Investasi Website di Bawah 6 Juta</h2>
-                            <p class="text-slate-600 max-w-2xl mx-auto text-lg">Pilih paket sesuai skala bisnis. Harga sudah termasuk template, kustomisasi awal, domain, dan hosting tahun pertama.</p>
+                            <h2 class="text-3xl font-black text-slate-900 mb-4">Transparan Tanpa Biaya Tersembunyi</h2>
+                            <p class="text-slate-600 max-w-2xl mx-auto text-lg">Pemisahan jelas antara Biaya Jasa HatiTiga (sekali bayar) dengan Biaya Infrastruktur Server tahunan (sesuai tagihan provider resmi).</p>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
                             ${DB.pricing.map(pkg => components.pricingCard(pkg)).join('')}

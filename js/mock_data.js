@@ -85,10 +85,11 @@ const DB = {
         {
             id: "pkg-basic",
             name: "Paket Basic",
-            price: "1.499.000",
+            price: "999.000",
+            totalEst: "1.499.000",
             target: "Cocok untuk UMKM Awal & Profil Sederhana",
             features: ["Template Profesional Siap Pakai", "Maksimal 5 Halaman Web", "Desain 100% Mobile Responsive", "Tombol Chat WhatsApp Langsung", "Basic SEO & Indexing Google"],
-            hosting: "Gratis Domain (.com/.id) & Hosting 1 Tahun",
+            hostingEst: "± Rp 500.000 / thn",
             revision: "2x Revisi Minor",
             time: "3-5 Hari Kerja",
             highlight: false
@@ -96,10 +97,11 @@ const DB = {
         {
             id: "pkg-export",
             name: "Paket Export Ready",
-            price: "3.499.000",
+            price: "2.499.000",
+            totalEst: "3.499.000",
             target: "Khusus Eksportir, Pabrik & Trading B2B",
             features: ["Semua Fitur Basic", "Maksimal 10 Halaman", "Katalog Produk B2B (Maks 30)", "Dual Bahasa (ID & EN)", "Form Inquiry Buyer Global", "Halaman Sertifikasi Spesifik"],
-            hosting: "Gratis Domain (.com) & Cloud Hosting Premium",
+            hostingEst: "± Rp 1.000.000 / thn",
             revision: "4x Revisi Detail",
             time: "7-10 Hari Kerja",
             highlight: true
@@ -107,10 +109,11 @@ const DB = {
         {
             id: "pkg-pro",
             name: "Paket Business Pro",
-            price: "4.999.000",
+            price: "3.499.000",
+            totalEst: "4.999.000",
             target: "Perusahaan Besar & Toko Online Aktif",
             features: ["Semua Fitur Export Ready", "Katalog hingga 100 Produk", "Fitur Keranjang & Checkout (Opsional)", "Integrasi Google Analytics", "Advanced On-page SEO", "Bantuan Input Konten Penuh"],
-            hosting: "Gratis Domain (.com) & Server High Performance",
+            hostingEst: "± Rp 1.500.000 / thn",
             revision: "Unlimited Revisi Minor (Masa Dev)",
             time: "10-14 Hari Kerja",
             highlight: false
