@@ -18,6 +18,7 @@
         }
     </script>
     <script src="js/mock_data.js"></script>
+    <script src="js/order_engine.js"></script>
     <script>
         // ROUTE GUARD (Security)
         const session = localStorage.getItem('webkilat_session_v1');
@@ -155,6 +156,8 @@
         }
 
         function renderOrderManager(container) {
+            const orders = JSON.parse(localStorage.getItem('htws_orders_v1') || '[]');
+            
             container.innerHTML = `
                 <div class="fade-in bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
                     <div class="px-6 py-5 border-b border-slate-200 bg-slate-50 flex justify-between items-center">
@@ -166,33 +169,112 @@
                                 <tr class="border-b border-slate-200">
                                     <th class="p-4 text-xs font-bold text-slate-500 uppercase tracking-wider">ID Order</th>
                                     <th class="p-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Customer</th>
-                                    <th class="p-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Template</th>
-                                    <th class="p-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Tanggal</th>
+                                    <th class="p-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Layanan</th>
+                                    <th class="p-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Total</th>
                                     <th class="p-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Status</th>
                                     <th class="p-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Action</th>
                                 </tr>
                             </thead>
                             <tbody class="text-sm">
-                                ${mockData.orders.map(o => `
-                                <tr class="border-b border-slate-100 hover:bg-slate-50">
-                                    <td class="p-4 font-bold text-slate-700">${o.id}</td>
-                                    <td class="p-4 text-slate-600">${o.customer}</td>
-                                    <td class="p-4 text-slate-600">${o.template}</td>
-                                    <td class="p-4 text-slate-600">${o.date}</td>
-                                    <td class="p-4">
-                                        <span class="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider ${o.status === 'In Progress' ? 'bg-blue-100 text-blue-700' : o.status === 'Pending Payment' ? 'bg-slate-200 text-slate-700' : 'bg-amber-100 text-amber-700'}">${o.status}</span>
-                                    </td>
-                                    <td class="p-4">
-                                        <button class="px-3 py-1.5 bg-brand-50 border border-brand-200 rounded text-xs font-bold text-brand-700 hover:bg-brand-100 transition shadow-sm mr-2">Detail</button>
-                                        <button class="px-3 py-1.5 bg-white border border-slate-300 rounded text-xs font-bold text-slate-700 hover:bg-slate-100 transition shadow-sm" title="Website Editor (Segera)">Editor</button>
-                                    </td>
-                                </tr>
-                                `).join('')}
+                                ${orders.length === 0 ? `<tr><td colspan="6" class="p-8 text-center text-slate-500">Belum ada order.</td></tr>` : 
+                                orders.reverse().map(o => {
+                                    let statusColor = 'bg-slate-200 text-slate-700';
+                                    if(o.status === 'payment_review') statusColor = 'bg-amber-100 text-amber-700';
+                                    if(o.status === 'paid') statusColor = 'bg-green-100 text-green-700';
+                                    if(o.status === 'in_progress') statusColor = 'bg-blue-100 text-blue-700';
+                                    if(o.status === 'live_active') statusColor = 'bg-purple-100 text-purple-700';
+                                    if(o.status === 'payment_rejected' || o.status === 'cancelled') statusColor = 'bg-red-100 text-red-700';
+
+                                    return `
+                                    <tr class="border-b border-slate-100 hover:bg-slate-50">
+                                        <td class="p-4 font-bold text-slate-700">
+                                            ${o.id}<br>
+                                            <span class="text-[10px] font-normal text-slate-400">${new Date(o.createdAt).toLocaleDateString('id-ID')}</span>
+                                        </td>
+                                        <td class="p-4 text-slate-600">
+                                            <span class="font-bold">${o.customerName}</span><br>
+                                            <span class="text-[10px]">${o.email} | ${o.whatsapp}</span>
+                                        </td>
+                                        <td class="p-4 text-slate-600">
+                                            <span class="font-bold">${o.fullDomain}</span><br>
+                                            <span class="text-[10px]">${o.packageName}</span>
+                                        </td>
+                                        <td class="p-4 font-bold text-brand-600">${new Intl.NumberFormat('id-ID', {style:'currency',currency:'IDR',minimumFractionDigits:0}).format(o.total)}</td>
+                                        <td class="p-4">
+                                            <span class="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider ${statusColor}">${o.status.replace('_', ' ')}</span>
+                                        </td>
+                                        <td class="p-4 space-y-2">
+                                            <div class="flex gap-2 flex-wrap">
+                                                <button onclick="window.viewOrder('${o.id}')" class="px-3 py-1.5 bg-white border border-slate-300 rounded text-[10px] font-bold text-slate-700 hover:bg-slate-100 transition shadow-sm">Detail</button>
+                                                ${o.status === 'payment_review' ? `
+                                                    <button onclick="window.updateOrderStatus('${o.id}', 'paid')" class="px-3 py-1.5 bg-green-50 border border-green-200 rounded text-[10px] font-bold text-green-700 hover:bg-green-100 transition shadow-sm">Verifikasi Bayar</button>
+                                                    <button onclick="window.updateOrderStatus('${o.id}', 'payment_rejected')" class="px-3 py-1.5 bg-red-50 border border-red-200 rounded text-[10px] font-bold text-red-700 hover:bg-red-100 transition shadow-sm">Tolak</button>
+                                                ` : ''}
+                                                ${o.status === 'paid' ? `
+                                                    <button onclick="window.updateOrderStatus('${o.id}', 'in_progress')" class="px-3 py-1.5 bg-blue-50 border border-blue-200 rounded text-[10px] font-bold text-blue-700 hover:bg-blue-100 transition shadow-sm">Mulai Proses</button>
+                                                ` : ''}
+                                                ${o.status === 'in_progress' ? `
+                                                    <button onclick="window.updateOrderStatus('${o.id}', 'live_active')" class="px-3 py-1.5 bg-purple-50 border border-purple-200 rounded text-[10px] font-bold text-purple-700 hover:bg-purple-100 transition shadow-sm">Set Live</button>
+                                                ` : ''}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    `;
+                                }).join('')}
                             </tbody>
                         </table>
                     </div>
                 </div>
             `;
+        }
+
+        window.viewOrder = function(id) {
+            const orders = JSON.parse(localStorage.getItem('htws_orders_v1') || '[]');
+            const order = orders.find(o => o.id === id);
+            if(!order) return;
+            alert('Bukti Pembayaran File: ' + order.proofFileName);
+        }
+
+        window.updateOrderStatus = function(id, newStatus) {
+            const orders = JSON.parse(localStorage.getItem('htws_orders_v1') || '[]');
+            const orderIndex = orders.findIndex(o => o.id === id);
+            if(orderIndex === -1) return;
+            
+            const o = orders[orderIndex];
+            o.status = newStatus;
+            
+            if(newStatus === 'paid') {
+                o.paidAt = new Date().toISOString();
+                o.paymentStatus = 'paid';
+            } else if (newStatus === 'in_progress') {
+                o.startedAt = new Date().toISOString();
+            } else if (newStatus === 'live_active') {
+                o.liveAt = new Date().toISOString();
+                // Calculate expiry from liveAt
+                let expiry = new Date();
+                expiry.setFullYear(expiry.getFullYear() + o.durationYears);
+                o.expiresAt = expiry.toISOString();
+                
+                // Create website record
+                const websites = JSON.parse(localStorage.getItem('htws_websites_v1') || '[]');
+                websites.push({
+                    id: 'web_' + Math.random().toString(36).substr(2, 6),
+                    orderId: o.id,
+                    customerId: o.customerId,
+                    domain: o.fullDomain,
+                    templateName: o.templateName,
+                    liveAt: o.liveAt,
+                    expiresAt: o.expiresAt,
+                    status: 'active'
+                });
+                localStorage.setItem('htws_websites_v1', JSON.stringify(websites));
+            } else if (newStatus === 'payment_rejected') {
+                o.paymentStatus = 'rejected';
+            }
+
+            orders[orderIndex] = o;
+            localStorage.setItem('htws_orders_v1', JSON.stringify(orders));
+            renderOrderManager(document.getElementById('content-area'));
         }
 
         function renderTemplateManager(container) {

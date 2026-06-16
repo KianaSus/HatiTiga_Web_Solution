@@ -83,39 +83,46 @@ const DB = {
 
     pricing: [
         {
-            id: "pkg-basic",
-            name: "Paket Basic",
-            price: "999.000",
-            totalEst: "1.499.000",
-            target: "Cocok untuk UMKM Awal & Profil Sederhana",
-            features: ["Template Profesional Siap Pakai", "Maksimal 5 Halaman Web", "Desain 100% Mobile Responsive", "Tombol Chat WhatsApp Langsung", "Basic SEO & Indexing Google"],
-            hostingEst: "± Rp 500.000 / thn",
-            revision: "2x Revisi Minor",
-            time: "3-5 Hari Kerja",
+            id: "pkg-1y",
+            name: "Paket 1 Tahun",
+            price: "1.499.000",
+            target: "Durasi standar untuk memulai online presence.",
+            features: [
+                "Domain (.com/.id) Aktif 1 Tahun",
+                "Cloud Hosting 1 Tahun",
+                "Template Website Bebas Pilih",
+                "SSL Security Gratis",
+                "Customer Dashboard",
+                "Support Dasar & Maintenance"
+            ],
             highlight: false
         },
         {
-            id: "pkg-export",
-            name: "Paket Export Ready",
+            id: "pkg-2y",
+            name: "Paket 2 Tahun",
             price: "2.499.000",
-            totalEst: "3.499.000",
-            target: "Khusus Eksportir, Pabrik & Trading B2B",
-            features: ["Semua Fitur Basic", "Maksimal 10 Halaman", "Katalog Produk B2B (Maks 30)", "Dual Bahasa (ID & EN)", "Form Inquiry Buyer Global", "Halaman Sertifikasi Spesifik"],
-            hostingEst: "± Rp 1.000.000 / thn",
-            revision: "4x Revisi Detail",
-            time: "7-10 Hari Kerja",
+            target: "Lebih hemat dan bebas repot perpanjang.",
+            features: [
+                "Semua di Paket 1 Tahun",
+                "Domain Aktif 2 Tahun",
+                "Cloud Hosting 2 Tahun",
+                "Gratis 1x Revisi Minor",
+                "Harga Lebih Hemat"
+            ],
             highlight: true
         },
         {
-            id: "pkg-pro",
-            name: "Paket Business Pro",
+            id: "pkg-3y",
+            name: "Paket 3 Tahun",
             price: "3.499.000",
-            totalEst: "4.999.000",
-            target: "Perusahaan Besar & Toko Online Aktif",
-            features: ["Semua Fitur Export Ready", "Katalog hingga 100 Produk", "Fitur Keranjang & Checkout (Opsional)", "Integrasi Google Analytics", "Advanced On-page SEO", "Bantuan Input Konten Penuh"],
-            hostingEst: "± Rp 1.500.000 / thn",
-            revision: "Unlimited Revisi Minor (Masa Dev)",
-            time: "10-14 Hari Kerja",
+            target: "Investasi jangka panjang harga mengikat.",
+            features: [
+                "Semua di Paket 1 Tahun",
+                "Domain Aktif 3 Tahun",
+                "Cloud Hosting 3 Tahun",
+                "Prioritas Support",
+                "Bebas Inflasi Harga Server"
+            ],
             highlight: false
         }
     ]

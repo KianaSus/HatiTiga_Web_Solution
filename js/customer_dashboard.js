@@ -21,12 +21,13 @@ function initApp() {
         return;
     }
 
-    // Load Projects
-    const projects = window.loadCustomerProjects ? window.loadCustomerProjects() : [];
-    currentProject = projects.find(p => p.customerUsername === session.username);
+    // Fetch Orders for Customer
+    const orders = JSON.parse(localStorage.getItem('htws_orders_v1') || '[]');
+    const userOrders = orders.filter(o => o.customerId === session.id || o.email === session.username);
+    const latestOrder = userOrders.length > 0 ? userOrders[userOrders.length - 1] : null;
 
-    // Provide a default empty project for users who haven't bought yet (like User Demo)
-    if (!currentProject) {
+    if (!latestOrder) {
+        // Fallback for user without orders
         currentProject = {
             id: 'proj_' + Math.random().toString(36).substr(2, 9),
             customerUsername: session.username,
@@ -38,17 +39,31 @@ function initApp() {
             pendingUpdate: null,
             updateHistory: []
         };
+    } else {
+        // Map latest order to project
+        currentProject = {
+            id: latestOrder.id,
+            customerUsername: session.username,
+            customerName: latestOrder.customerName || session.displayName || session.username,
+            templateId: latestOrder.templateId,
+            templateFamily: latestOrder.templateId === 'tpl_corptrust' ? 'company_profile' : 'export_catalog',
+            status: latestOrder.status,
+            fullDomain: latestOrder.fullDomain,
+            liveContent: {},
+            pendingUpdate: null,
+            updateHistory: []
+        };
     }
 
-    // Status Check
+    // Status Check Routing
     const status = currentProject.status;
-    if (status === 'suspended') {
+    if (status === 'payment_rejected' || status === 'cancelled') {
         showSuspendedScreen();
         return;
     } else if (status === 'grace_period') {
         showGracePeriodDashboardReadOnly();
-    } else if (status === 'pending_payment') {
-        showPendingPaymentScreen();
+    } else if (status === 'pending_payment' || status === 'payment_review') {
+        showPendingPaymentScreen(latestOrder);
         return;
     }
 
@@ -95,10 +110,9 @@ function initApp() {
 
     // Inject URL and Package if Status Web card exists
     const urlDisplay = document.getElementById('web-url-display');
-    if (urlDisplay && currentProject.customerUsername) {
-        const domain = currentProject.customerUsername.toLowerCase().replace(/\s+/g, '') + '.hatitiga.site';
-        urlDisplay.innerText = 'https://' + domain;
-        urlDisplay.href = 'https://' + domain;
+    if (urlDisplay && currentProject.fullDomain) {
+        urlDisplay.innerText = 'https://' + currentProject.fullDomain;
+        urlDisplay.href = 'https://' + currentProject.fullDomain;
     }
     const pkgDisplay = document.getElementById('web-pkg-display');
     if (pkgDisplay) {
@@ -478,6 +492,36 @@ function showAccessDenied() {
         <h2 class="text-2xl font-black text-slate-900 mb-3">Akses Ditolak</h2>
         <p class="text-slate-600 mb-6">Dashboard hanya tersedia untuk customer aktif.</p>
         <button onclick="window.location.href='index.html'" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-3 rounded-xl transition-colors">Kembali ke Beranda</button>
+    `;
+}
+
+function showPendingPaymentScreen(order) {
+    const statusText = order && order.status === 'payment_review' 
+        ? "Pembayaran Anda sedang kami tinjau." 
+        : "Menunggu Upload Bukti Pembayaran.";
+        
+    const btnUpload = order && order.status === 'payment_review'
+        ? ""
+        : `<button onclick="window.location.href='index.html'" class="mt-4 px-6 py-2 bg-brand-600 text-white rounded-lg font-bold">Upload Bukti</button>`;
+
+    document.getElementById('mobile-backdrop').style.display = 'none';
+    document.querySelector('aside').style.display = 'none';
+    document.querySelector('main').innerHTML = `
+        <div class="h-screen flex items-center justify-center bg-slate-50 p-6">
+            <div class="bg-white p-8 rounded-2xl shadow-xl max-w-md text-center border border-slate-200 fade-in">
+                <div class="w-20 h-20 bg-amber-100 text-amber-500 rounded-full flex items-center justify-center mx-auto mb-6 text-3xl shadow-sm">
+                    <i class="fa-solid fa-clock"></i>
+                </div>
+                <h2 class="text-2xl font-black text-slate-900 mb-2">Menunggu Pembayaran</h2>
+                <p class="text-slate-500 mb-6">${statusText}</p>
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 text-left mb-6">
+                    <p class="text-sm text-slate-600 mb-2">ID Order: <span class="font-bold text-slate-900">${order ? order.id : '-'}</span></p>
+                    <p class="text-sm text-slate-600 mb-2">Total Tagihan: <span class="font-bold text-brand-600">${order ? new Intl.NumberFormat('id-ID', {style:'currency',currency:'IDR',minimumFractionDigits:0}).format(order.total) : '-'}</span></p>
+                </div>
+                ${btnUpload}
+                <button onclick="handleLogout()" class="block w-full text-center mt-4 text-sm font-bold text-slate-500 hover:text-slate-800">Logout</button>
+            </div>
+        </div>
     `;
 }
 
