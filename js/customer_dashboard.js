@@ -147,6 +147,11 @@ function initApp() {
     if (iframe) {
         // Universal Visual Editor logic
         const templateMap = {
+            'corptrust-profile': 'corptrust_companyprofile.html',
+            'export-global-trade': 'globaltrade_export.html',
+            'agri-organic-supply': 'agriorganic_template.html',
+            'lokal-onlineshop': 'lokalonlineshop.html',
+            'brew-haven-coffee': 'brew_haven_coffee_template.html',
             'tpl_corptrust': 'corptrust_companyprofile.html',
             'tpl_globaltrade': 'globaltrade_export.html',
             'tpl_agriorganic': 'agriorganic_template.html',
