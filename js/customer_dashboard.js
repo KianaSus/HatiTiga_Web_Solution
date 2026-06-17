@@ -23,10 +23,31 @@ function initApp() {
 
     // Fetch Orders for Customer
     const orders = JSON.parse(localStorage.getItem('htws_orders_v1') || '[]');
-    const userOrders = orders.filter(o => o.customerId === session.id || o.email === session.username);
-    const latestOrder = userOrders.length > 0 ? userOrders[userOrders.length - 1] : null;
+    window.allUserOrders = orders.filter(o => o.customerId === session.id || o.email === session.username);
+    
+    let activeOrderId = window.location.hash.replace('#project-', '');
+    let activeOrder = window.allUserOrders.find(o => o.id === activeOrderId);
+    if (!activeOrder && window.allUserOrders.length > 0) {
+        activeOrder = window.allUserOrders[window.allUserOrders.length - 1]; // default to latest
+    }
+    const latestOrderForProfile = window.allUserOrders.length > 0 ? window.allUserOrders[window.allUserOrders.length - 1] : null;
 
-    if (!latestOrder) {
+    // Setup Editor Project Selector if > 1 order
+    const selectorContainer = document.getElementById('editor-project-selector-container');
+    const selector = document.getElementById('editor-project-selector');
+    if (window.allUserOrders.length > 0) {
+        if (selectorContainer) {
+            selectorContainer.classList.remove('hidden');
+            selectorContainer.classList.add('flex');
+        }
+        if (selector) {
+            selector.innerHTML = window.allUserOrders.map(o => 
+                `<option value="${o.id}" ${o.id === activeOrder?.id ? 'selected' : ''}>${o.templateName || 'Template'} - ${o.fullDomain}</option>`
+            ).join('');
+        }
+    }
+
+    if (!activeOrder) {
         // Fallback for user without orders
         currentProject = {
             id: 'proj_' + Math.random().toString(36).substr(2, 9),
@@ -40,15 +61,16 @@ function initApp() {
             updateHistory: []
         };
     } else {
-        // Map latest order to project
+        // Map active order to project
         currentProject = {
-            id: latestOrder.id,
+            id: activeOrder.id,
             customerUsername: session.username,
-            customerName: latestOrder.customerName || session.displayName || session.username,
-            templateId: latestOrder.templateId,
-            templateFamily: latestOrder.templateId === 'tpl_corptrust' ? 'company_profile' : 'export_catalog',
-            status: latestOrder.status,
-            fullDomain: latestOrder.fullDomain,
+            customerName: activeOrder.customerName || session.displayName || session.username,
+            templateId: activeOrder.templateId,
+            templateName: activeOrder.templateName || 'Template Website',
+            templateFamily: activeOrder.templateId === 'tpl_corptrust' ? 'company_profile' : 'export_catalog',
+            status: activeOrder.status,
+            fullDomain: activeOrder.fullDomain,
             liveContent: {},
             pendingUpdate: null,
             updateHistory: []
@@ -63,7 +85,7 @@ function initApp() {
     } else if (status === 'grace_period') {
         showGracePeriodDashboardReadOnly();
     } else if (status === 'pending_payment' || status === 'payment_review') {
-        showPendingPaymentScreen(latestOrder);
+        showPendingPaymentScreen(activeOrder);
         return;
     }
 
@@ -72,12 +94,12 @@ function initApp() {
 
     // Update UI elements based on new HTML structure
     document.getElementById('user-company').innerText = currentProject.customerName || 'Perusahaan';
-    document.getElementById('user-initial').innerText = (currentProject.customerName || 'U').charAt(0);
+    document.getElementById('user-initial').innerText = (currentProject.customerName || 'U').charAt(0).toUpperCase();
     
     const welcomeTitles = document.querySelectorAll('h2.text-2xl, h2.text-3xl');
     if(welcomeTitles.length > 0) welcomeTitles[0].innerHTML = `Halo, ${currentProject.customerName}! 👋`;
 
-    const domainStr = (currentProject.customerUsername || 'user').toLowerCase().replace(/\s+/g, '') + '.hatitiga.site';
+    const domainStr = currentProject.fullDomain || ((currentProject.customerUsername || 'user').toLowerCase().replace(/\s+/g, '') + '.hatitiga.site');
     const domainEl = document.getElementById('info-domain');
     if(domainEl) domainEl.innerText = domainStr;
     
@@ -85,10 +107,10 @@ function initApp() {
     if(previewUrlEl) previewUrlEl.innerText = `https://${domainStr}`;
     
     const infoTemplateEl = document.getElementById('info-template-name');
-    if(infoTemplateEl) infoTemplateEl.innerText = currentProject.templateFamily === 'company_profile' ? 'Premium (Company Profile)' : (currentProject.templateFamily === 'export_catalog' ? 'Enterprise (Export Catalog)' : 'Belum Memilih Template');
+    if(infoTemplateEl) infoTemplateEl.innerText = currentProject.templateName;
 
     // Handle Setup User C View
-    if (currentProject.status === 'setup' || !currentProject.templateFamily) {
+    if (currentProject.status === 'setup' || !currentProject.templateId) {
         document.getElementById('menu-status').style.display = 'none';
         document.getElementById('menu-editor').style.display = 'none';
         document.getElementById('menu-updates').style.display = 'none';
@@ -116,7 +138,7 @@ function initApp() {
     }
     const pkgDisplay = document.getElementById('web-pkg-display');
     if (pkgDisplay) {
-        pkgDisplay.innerText = currentProject.templateFamily === 'company_profile' ? 'Premium (Company Profile)' : 'Enterprise (Export Catalog)';
+        pkgDisplay.innerText = currentProject.templateName;
     }
 
     renderStatusHistory();
@@ -124,7 +146,14 @@ function initApp() {
     const iframe = document.getElementById('live-editor-iframe');
     if (iframe) {
         // Universal Visual Editor logic
-        iframe.src = currentProject.templateFamily === 'company_profile' ? 'corptrust_companyprofile.html' : 'globaltrade_export.html';
+        const templateMap = {
+            'tpl_corptrust': 'corptrust_companyprofile.html',
+            'tpl_globaltrade': 'globaltrade_export.html',
+            'tpl_agriorganic': 'agriorganic_template.html',
+            'tpl_lokalshop': 'lokalonlineshop.html',
+            'tpl_brewhaven': 'brew_haven_coffee_template.html'
+        };
+        iframe.src = templateMap[currentProject.templateId] || 'corptrust_companyprofile.html';
         
         iframe.onload = () => {
             injectUniversalEditor(iframe);
@@ -135,8 +164,14 @@ function initApp() {
     window.addEventListener('message', handleIframeMessage);
     
     // Render new tabs
-    renderProfileTab(session, latestOrder);
-    renderOrdersTab(userOrders);
+    renderProfileTab(session, latestOrderForProfile);
+    renderOrdersTab(window.allUserOrders);
+}
+
+// Global function to switch projects
+window.switchProject = function(orderId) {
+    window.location.hash = '#project-' + orderId;
+    window.location.reload();
 }
 
 // --- PROFILE LOGIC ---

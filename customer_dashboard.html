@@ -340,12 +340,20 @@
                 <div class="flex flex-col lg:flex-row gap-6 h-full">
                     <!-- Left: Editor Panel -->
                     <div class="w-full lg:w-1/3 bg-white rounded-2xl shadow-sm border border-slate-200 flex flex-col h-full overflow-hidden shrink-0">
-                        <div class="p-5 border-b border-slate-100 bg-slate-50 flex justify-between items-center shrink-0">
+                        <div class="p-5 border-b border-slate-100 bg-slate-50 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 shrink-0">
                             <div>
                                 <h2 class="font-black text-slate-900">Website Editor</h2>
                                 <p class="text-xs text-slate-500">Ubah teks & gambar tanpa coding</p>
                             </div>
-                            <span class="px-2 py-1 bg-amber-100 text-amber-700 text-[10px] font-bold uppercase rounded border border-amber-200">Mode Draft</span>
+                            
+                            <div class="flex items-center gap-3">
+                                <div id="editor-project-selector-container" class="hidden flex-col items-end">
+                                    <label class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Pilih Website</label>
+                                    <select id="editor-project-selector" onchange="window.switchProject(this.value)" class="text-xs border border-slate-300 rounded-lg py-1.5 px-3 bg-white text-slate-700 font-bold focus:ring-2 focus:ring-brand-500 outline-none max-w-[200px] truncate">
+                                    </select>
+                                </div>
+                                <span class="px-2 py-1 bg-amber-100 text-amber-700 text-[10px] font-bold uppercase rounded border border-amber-200 whitespace-nowrap">Mode Draft</span>
+                            </div>
                         </div>
                         
                         <div class="flex-1 overflow-y-auto p-5 space-y-6 custom-scrollbar relative">
