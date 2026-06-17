@@ -133,6 +133,159 @@ function initApp() {
 
     // Set up message listener for Activity Log and Export
     window.addEventListener('message', handleIframeMessage);
+    
+    // Render new tabs
+    renderProfileTab(session, latestOrder);
+    renderOrdersTab(userOrders);
+}
+
+// --- PROFILE LOGIC ---
+function renderProfileTab(session, latestOrder) {
+    const profiles = JSON.parse(localStorage.getItem('htws_customer_profiles_v1') || '{}');
+    let profile = profiles[session.id];
+    
+    if (!profile) {
+        profile = {
+            fullName: session.displayName || latestOrder?.customerName || session.username,
+            businessName: latestOrder?.businessName || '',
+            whatsapp: latestOrder?.whatsapp || '',
+            email: session.username
+        };
+        profiles[session.id] = profile;
+        localStorage.setItem('htws_customer_profiles_v1', JSON.stringify(profiles));
+    }
+
+    document.getElementById('profile-avatar').innerText = (profile.fullName || 'U').charAt(0).toUpperCase();
+    document.getElementById('profile-display-name').innerText = profile.fullName;
+    document.getElementById('profile-display-email').innerText = profile.email;
+
+    document.getElementById('f-profile-name').value = profile.fullName;
+    document.getElementById('f-profile-email').value = profile.email;
+    document.getElementById('f-profile-business').value = profile.businessName;
+    document.getElementById('f-profile-wa').value = profile.whatsapp;
+
+    document.getElementById('form-profile').addEventListener('submit', function(e) {
+        e.preventDefault();
+        profile.fullName = document.getElementById('f-profile-name').value;
+        profile.businessName = document.getElementById('f-profile-business').value;
+        profile.whatsapp = document.getElementById('f-profile-wa').value;
+        
+        profiles[session.id] = profile;
+        localStorage.setItem('htws_customer_profiles_v1', JSON.stringify(profiles));
+        
+        alert("Profil berhasil diperbarui!");
+        document.getElementById('profile-avatar').innerText = (profile.fullName || 'U').charAt(0).toUpperCase();
+        document.getElementById('profile-display-name').innerText = profile.fullName;
+        
+        // Update top right header
+        document.getElementById('user-company').innerText = profile.businessName || profile.fullName;
+        document.getElementById('user-initial').innerText = (profile.businessName || profile.fullName || 'U').charAt(0).toUpperCase();
+    });
+}
+
+// --- ORDERS LOGIC ---
+function renderOrdersTab(userOrders) {
+    const container = document.getElementById('orders-container');
+    if (!userOrders || userOrders.length === 0) {
+        container.innerHTML = `<div class="p-8 text-center text-slate-500">Belum ada pesanan.</div>`;
+        return;
+    }
+
+    const tableHeader = `
+        <div class="overflow-x-auto hidden md:block">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="border-b border-slate-200 bg-slate-50">
+                        <th class="p-4 text-xs font-bold text-slate-500 uppercase tracking-wider">ID Order</th>
+                        <th class="p-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Layanan</th>
+                        <th class="p-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Total</th>
+                        <th class="p-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Status</th>
+                        <th class="p-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody class="text-sm">
+    `;
+    
+    let tableRows = '';
+    let mobileCards = '<div class="md:hidden divide-y divide-slate-100">';
+
+    userOrders.reverse().forEach(o => {
+        let statusBadge = '';
+        let actions = '';
+        
+        if (o.status === 'pending_payment') {
+            statusBadge = `<span class="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-slate-200 text-slate-700">Menunggu Pembayaran</span>`;
+            actions = `<button onclick="handlePayNow('${o.id}')" class="px-3 py-1.5 bg-brand-600 text-white rounded text-xs font-bold hover:bg-brand-700 transition shadow-sm mb-1 w-full md:w-auto">Bayar Sekarang</button>`;
+        } else if (o.status === 'payment_review') {
+            statusBadge = `<span class="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-amber-100 text-amber-700">Menunggu Verifikasi</span>`;
+            actions = `<button class="px-3 py-1.5 bg-white border border-slate-300 rounded text-xs font-bold text-slate-700 hover:bg-slate-100 transition shadow-sm w-full md:w-auto">Detail</button>`;
+        } else if (o.status === 'paid') {
+            statusBadge = `<span class="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-green-100 text-green-700">Pembayaran Diterima</span>`;
+            actions = `<button class="px-3 py-1.5 bg-white border border-slate-300 rounded text-xs font-bold text-slate-700 hover:bg-slate-100 transition shadow-sm w-full md:w-auto">Detail</button>`;
+        } else if (o.status === 'in_progress') {
+            statusBadge = `<span class="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-blue-100 text-blue-700">Sedang Diproses</span>`;
+            actions = `<button onclick="switchTab('status', document.getElementById('menu-status'))" class="px-3 py-1.5 bg-brand-50 border border-brand-200 text-brand-700 rounded text-xs font-bold hover:bg-brand-100 transition shadow-sm w-full md:w-auto">Lihat Progress</button>`;
+        } else if (o.status === 'live_active') {
+            statusBadge = `<span class="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-purple-100 text-purple-700">Website Aktif</span>`;
+            actions = `<button onclick="window.open('https://${o.fullDomain}', '_blank')" class="px-3 py-1.5 bg-purple-600 text-white rounded text-xs font-bold hover:bg-purple-700 transition shadow-sm mb-1 w-full md:w-auto">Lihat Website</button>
+                       <button onclick="openWhatsApp()" class="px-3 py-1.5 bg-white border border-slate-300 rounded text-xs font-bold text-slate-700 hover:bg-slate-100 transition shadow-sm w-full md:w-auto">Perpanjang</button>`;
+        } else {
+            statusBadge = `<span class="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-red-100 text-red-700">${o.status}</span>`;
+            actions = `<button onclick="openWhatsApp()" class="px-3 py-1.5 bg-white border border-slate-300 rounded text-xs font-bold text-slate-700 hover:bg-slate-100 transition shadow-sm w-full md:w-auto">Hubungi Admin</button>`;
+        }
+
+        const dateStr = new Date(o.createdAt).toLocaleDateString('id-ID');
+        const priceStr = new Intl.NumberFormat('id-ID', {style:'currency',currency:'IDR',minimumFractionDigits:0}).format(o.total);
+
+        // Table Row (Desktop)
+        tableRows += `
+            <tr class="border-b border-slate-100 hover:bg-slate-50">
+                <td class="p-4 font-bold text-slate-700">
+                    ${o.id}<br><span class="text-[10px] font-normal text-slate-400">${dateStr}</span>
+                </td>
+                <td class="p-4 text-slate-600">
+                    <span class="font-bold">${o.templateName || 'Template'}</span><br>
+                    <span class="text-[10px]">${o.fullDomain}</span>
+                </td>
+                <td class="p-4 font-bold text-brand-600">${priceStr}</td>
+                <td class="p-4">${statusBadge}</td>
+                <td class="p-4 flex flex-col items-start gap-1">${actions}</td>
+            </tr>
+        `;
+
+        // Card (Mobile)
+        mobileCards += `
+            <div class="p-4 space-y-3">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-xs font-bold text-slate-400 mb-1">${o.id} &bull; ${dateStr}</p>
+                        <p class="font-bold text-slate-900">${o.templateName || 'Template'}</p>
+                        <p class="text-xs text-brand-600">${o.fullDomain}</p>
+                    </div>
+                    ${statusBadge}
+                </div>
+                <div class="flex justify-between items-center pt-2">
+                    <p class="font-black text-slate-800">${priceStr}</p>
+                </div>
+                <div class="pt-2 flex flex-col gap-2">
+                    ${actions}
+                </div>
+            </div>
+        `;
+    });
+
+    const tableFooter = `</tbody></table></div>`;
+    mobileCards += `</div>`;
+
+    container.innerHTML = tableHeader + tableRows + tableFooter + mobileCards;
+}
+
+window.handlePayNow = function(orderId) {
+    const orders = JSON.parse(localStorage.getItem('htws_orders_v1') || '[]');
+    const order = orders.find(o => o.id === orderId);
+    if(order) {
+        showPendingPaymentScreen(order);
+    }
 }
 
 // Activity Log State
