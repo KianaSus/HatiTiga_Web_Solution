@@ -242,8 +242,9 @@
                             class="flex items-center pl-3 border-l border-slate-200 flex-shrink-0"></div>
                     </div>
 
-                    <!-- Mobile Menu Button -->
-                    <div class="xl:hidden flex items-center">
+                    <!-- Mobile Menu Button & Auth -->
+                    <div class="xl:hidden flex items-center gap-3">
+                        <div id="mobile-auth-ui-container" class="flex items-center"></div>
                         <button id="mobile-menu-btn"
                             class="text-slate-600 hover:text-brand-600 focus:outline-none p-2 bg-slate-100 rounded-lg">
                             <i class="fa-solid fa-bars text-xl"></i>
@@ -416,6 +417,7 @@
         // Fungsi Update UI Navbar
         function updateAuthUI() {
             const authContainer = document.getElementById('auth-ui-container');
+            const mobileAuthContainer = document.getElementById('mobile-auth-ui-container');
 
             if (appState.user) {
                 // Logged in UI
@@ -437,30 +439,39 @@
                     buttonAction = `window.location.href='customer_dashboard.html'`;
                 }
 
-                if (authContainer) {
-                    authContainer.innerHTML = `
-                        <div class="flex items-center gap-2 2xl:gap-3">
-                            <div class="flex items-center gap-2">
-                                <div class="w-8 h-8 bg-blue-100 text-blue-700 rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0">
-                                    ${initial}
-                                </div>
-                                <span class="font-bold text-slate-800 text-sm whitespace-nowrap hidden lg:block max-w-[120px] truncate">${displayName}</span>
+                const authUIHtml = `
+                    <div class="flex items-center gap-2 2xl:gap-3 scale-90 sm:scale-100 origin-right">
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 bg-blue-100 text-blue-700 rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0">
+                                ${initial}
                             </div>
-                            <button onclick="${buttonAction}" class="flex items-center px-3 py-1.5 bg-slate-50 text-blue-700 border border-slate-200 rounded-lg font-bold hover:bg-slate-100 transition shadow-sm text-xs whitespace-nowrap flex-shrink-0">
-                                <i class="fa-solid ${dashboardIcon} mr-1.5"></i> ${dashboardLabel}
-                            </button>
-                            <button onclick="handleLogout()" class="text-red-500 hover:text-red-600 font-bold transition text-xs whitespace-nowrap flex-shrink-0 ml-1">Logout</button>
+                            <span class="font-bold text-slate-800 text-sm whitespace-nowrap max-w-[80px] sm:max-w-[120px] truncate">${displayName}</span>
                         </div>
-                    `;
+                        <button onclick="${buttonAction}" class="flex items-center px-3 py-1.5 bg-slate-50 text-blue-700 border border-slate-200 rounded-lg font-bold hover:bg-slate-100 transition shadow-sm text-xs whitespace-nowrap flex-shrink-0">
+                            <i class="fa-solid ${dashboardIcon} mr-1.5"></i> ${dashboardLabel}
+                        </button>
+                        <button onclick="handleLogout()" class="text-red-500 hover:text-red-600 font-bold transition text-xs whitespace-nowrap flex-shrink-0 ml-1">Logout</button>
+                    </div>
+                `;
+
+                if (authContainer) {
+                    authContainer.innerHTML = authUIHtml;
+                }
+                if (mobileAuthContainer) {
+                    mobileAuthContainer.innerHTML = authUIHtml;
                 }
             } else {
                 // Logged out UI
+                const loggedOutHtml = `
+                    <button onclick="navigate('login')" class="px-6 py-2.5 bg-slate-900 text-white rounded-xl font-bold hover:bg-slate-800 transition shadow-lg text-sm whitespace-nowrap flex-shrink-0">
+                        Login
+                    </button>
+                `;
                 if (authContainer) {
-                    authContainer.innerHTML = `
-                        <button onclick="navigate('login')" class="px-6 py-2.5 bg-slate-900 text-white rounded-xl font-bold hover:bg-slate-800 transition shadow-lg text-sm whitespace-nowrap flex-shrink-0">
-                            Login
-                        </button>
-                    `;
+                    authContainer.innerHTML = loggedOutHtml;
+                }
+                if (mobileAuthContainer) {
+                    mobileAuthContainer.innerHTML = loggedOutHtml;
                 }
             }
         }
@@ -645,22 +656,22 @@
                 <!-- Hero Section -->
                 <section class="overflow-hidden relative border-b border-slate-100">
                     <div class="absolute inset-0 bg-[url('Background.png')] bg-cover bg-center bg-no-repeat z-0"></div>
-                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-20 relative z-10">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-16 md:pt-16 md:pb-20 relative z-10">
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                             <div>
                                 <div class="inline-flex items-center mb-6 px-4 py-2 rounded-full bg-brand-50 border border-brand-100 text-brand-700 text-sm font-bold shadow-sm">
                                     <i class="fa-solid fa-rocket mr-2 text-brand-500"></i> Platform Pembuatan Website
                                 </div>
-                                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight mb-6 leading-[1.15]">
+                                <h1 class="text-[2rem] leading-tight sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight mb-6">
                                     Website Profesional <br>Siap Pakai untuk <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-blue-400">Eksportir & UMKM</span>
                                 </h1>
-                                <p class="text-lg md:text-xl text-slate-600 mb-8 leading-relaxed max-w-xl">
+                                <p class="text-base md:text-xl text-slate-600 mb-8 leading-relaxed max-w-xl">
                                     Pilih template desain premium, tentukan domain & hosting, dan tim HatiTiga akan menyulapnya menjadi website siap pakai. Cepat, hemat, dan profesional untuk menjangkau pembeli luar negeri.
                                 </p>
                                 
-                                <div class="flex flex-col sm:flex-row gap-4 mb-8">
-                                    <button onclick="navigate('templates')" class="w-full sm:w-auto px-8 py-4 bg-brand-600 text-white rounded-xl font-bold text-lg hover:bg-brand-700 transition shadow-[0_10px_20px_rgba(37,99,235,0.2)]">Lihat Template</button>
-                                    <button onclick="openWhatsApp('Halo HatiTiga, saya mau konsultasi buat website.')" class="w-full sm:w-auto px-8 py-4 bg-white text-slate-800 border-2 border-slate-200 rounded-xl font-bold text-lg hover:bg-slate-50 transition flex items-center justify-center"><i class="fa-brands fa-whatsapp text-green-500 text-xl mr-2"></i> Konsultasi Gratis</button>
+                                <div class="flex flex-row gap-2 sm:gap-4 mb-8">
+                                    <button onclick="navigate('templates')" class="flex-1 sm:flex-none px-2 sm:px-8 py-3.5 sm:py-4 bg-brand-600 text-white rounded-xl font-bold text-[13px] sm:text-lg hover:bg-brand-700 transition shadow-[0_10px_20px_rgba(37,99,235,0.2)] flex items-center justify-center text-center leading-tight">Lihat Template</button>
+                                    <button onclick="openWhatsApp('Halo HatiTiga, saya mau konsultasi buat website.')" class="flex-1 sm:flex-none px-2 sm:px-8 py-3.5 sm:py-4 bg-white text-slate-800 border-2 border-slate-200 rounded-xl font-bold text-[13px] sm:text-lg hover:bg-slate-50 transition flex items-center justify-center leading-tight"><i class="fa-brands fa-whatsapp text-green-500 text-base sm:text-xl mr-1.5 sm:mr-2"></i> Konsultasi<span class="hidden sm:inline">&nbsp;Gratis</span></button>
                                 </div>
                                 
                                 <div class="flex items-center text-sm font-bold text-slate-500 gap-4">
@@ -670,19 +681,19 @@
                             </div>
                             
                             <!-- Hero Visual Mockup using pure CSS Engine -->
-                            <div class="relative w-full h-80 sm:h-[450px] hidden lg:block perspective-1000">
+                            <div class="relative w-full h-64 sm:h-[450px] block mt-8 lg:mt-0 perspective-1000">
                                 <!-- Desktop Mockup -->
-                                <div class="absolute right-0 top-4 w-[90%] h-64 sm:h-[320px] bg-slate-800 rounded-t-2xl rounded-b p-2.5 shadow-2xl transform rotate-2 hover:rotate-0 transition duration-500 z-10 border-b-[8px] border-slate-900">
-                                    <div class="w-full h-full bg-white overflow-hidden rounded-lg">
+                                <div class="absolute right-0 top-0 sm:top-4 w-[85%] sm:w-[90%] h-56 sm:h-[320px] bg-slate-800 rounded-t-xl sm:rounded-t-2xl rounded-b p-1.5 sm:p-2.5 shadow-2xl transform rotate-2 hover:rotate-0 transition duration-500 z-10 border-b-[4px] sm:border-b-[8px] border-slate-900">
+                                    <div class="w-full h-full bg-white overflow-hidden rounded sm:rounded-lg">
                                         ${components.previewBuilder(DB.templates[0])}
                                     </div>
                                 </div>
                                 <!-- Mobile Mockup -->
-                                <div class="absolute left-4 bottom-0 w-[35%] h-[280px] bg-slate-900 rounded-[2rem] p-2.5 shadow-[0_20px_50px_rgba(0,0,0,0.3)] transform -rotate-3 hover:rotate-0 transition duration-500 z-20 border-[6px] border-slate-800">
-                                    <div class="w-full h-full bg-white overflow-hidden rounded-[1.2rem]">
+                                <div class="absolute left-2 sm:left-4 bottom-0 w-[40%] sm:w-[35%] h-[220px] sm:h-[280px] bg-slate-900 rounded-[1.5rem] sm:rounded-[2rem] p-1.5 sm:p-2.5 shadow-[0_20px_50px_rgba(0,0,0,0.3)] transform -rotate-3 hover:rotate-0 transition duration-500 z-20 border-[4px] sm:border-[6px] border-slate-800">
+                                    <div class="w-full h-full bg-white overflow-hidden rounded-[1rem] sm:rounded-[1.2rem]">
                                          ${components.previewBuilder(DB.templates[1])}
                                     </div>
-                                    <div class="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-10 h-1 bg-slate-700 rounded-full"></div>
+                                    <div class="absolute bottom-1 sm:bottom-1 left-1/2 transform -translate-x-1/2 w-6 sm:w-10 h-1 bg-slate-700 rounded-full"></div>
                                 </div>
                             </div>
                         </div>
@@ -690,7 +701,7 @@
                 </section>
 
                 <!-- Template Categories -->
-                <section class="py-24 bg-white border-b border-slate-100">
+                <section class="py-16 md:py-24 bg-white border-b border-slate-100">
                     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div class="text-center mb-16">
                             <h2 class="text-3xl font-black text-slate-900 mb-4">Kategori Industri</h2>
@@ -714,7 +725,7 @@
                 </section>
 
                 <!-- Featured Templates -->
-                <section class="py-24 bg-slate-50">
+                <section class="py-16 md:py-24 bg-slate-50">
                     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
                             <div>
@@ -733,7 +744,7 @@
                 </section>
 
                 <!-- Problem Section -->
-                <section class="py-24 bg-slate-50">
+                <section class="py-16 md:py-24 bg-slate-50">
                     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div class="text-center mb-16 max-w-3xl mx-auto">
                             <span class="text-red-500 font-bold tracking-wider uppercase text-sm mb-2 block">Identifikasi Masalah</span>
@@ -758,10 +769,10 @@
                 </section>
 
                 <!-- Solution Section -->
-                <section class="py-24 bg-slate-900 text-white relative overflow-hidden">
+                <section class="py-16 md:py-24 bg-slate-900 text-white relative overflow-hidden">
                     <div class="absolute top-0 right-0 -mr-20 -mt-20 w-[500px] h-[500px] bg-brand-600 rounded-full blur-[100px] opacity-20"></div>
                     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16 items-center">
                             <div>
                                 <span class="text-brand-400 font-bold tracking-wider uppercase text-sm mb-3 block">Solusi HatiTiga</span>
                                 <h2 class="text-3xl md:text-5xl font-black mb-6 leading-tight text-white">Website Ekspor Profesional Tanpa Mulai Dari Nol</h2>
@@ -806,9 +817,9 @@
                 </section>
 
                 <!-- How It Works Stepper -->
-                <section class="py-24 bg-white border-t border-slate-100">
+                <section class="py-16 md:py-24 bg-white border-t border-slate-100">
                     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div class="text-center mb-20">
+                        <div class="text-center mb-12 md:mb-20">
                             <h2 class="text-3xl font-black text-slate-900 mb-4">Proses Sederhana Tanpa Pusing</h2>
                             <p class="text-slate-600 max-w-2xl mx-auto text-lg">Tidak perlu paham teknis coding atau server. Cukup ikuti alur ini dan website Anda siap online.</p>
                         </div>
@@ -816,7 +827,8 @@
                         <div class="relative max-w-5xl mx-auto">
                             <!-- Connecting Line -->
                             <div class="hidden lg:block absolute top-10 left-[10%] right-[10%] h-1 bg-slate-100 z-0 rounded-full"></div>
-                            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-10 text-center relative z-10">
+                            <div class="lg:hidden absolute top-10 bottom-10 left-1/2 w-1 -ml-0.5 bg-slate-100 z-0 rounded-full"></div>
+                            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 md:gap-10 text-center relative z-10">
                                 ${[
                     { s: "1", t: "Pilih Domain", d: "Tentukan alamat website (.com/.id) bisnis Anda." },
                     { s: "2", t: "Pilih Template", d: "Eksplorasi katalog dan pilih desain yang sesuai." },
@@ -838,13 +850,13 @@
                 </section>
 
                 <!-- Why Choose Us -->
-                <section class="py-24 bg-brand-50 border-y border-brand-100">
+                <section class="py-16 md:py-24 bg-brand-50 border-y border-brand-100">
                     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                             <div class="order-2 lg:order-1 relative">
                                 <!-- Abstract Composition -->
-                                <div class="grid grid-cols-2 gap-4">
-                                    <div class="bg-white p-6 rounded-3xl shadow-lg transform translate-y-8">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+                                    <div class="bg-white p-6 rounded-3xl shadow-lg transform sm:translate-y-8">
                                         <div class="w-12 h-12 bg-green-100 text-green-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-bolt"></i></div>
                                         <h4 class="font-bold text-slate-900 mb-2">Lebih Cepat</h4>
                                         <p class="text-xs text-slate-500">Website live dalam 3-10 hari tanpa coding dari awal.</p>
@@ -854,7 +866,7 @@
                                         <h4 class="font-bold text-slate-900 mb-2">Lebih Hemat</h4>
                                         <p class="text-xs text-slate-500">Harga masuk akal untuk UMKM dengan kualitas enterprise.</p>
                                     </div>
-                                    <div class="bg-white p-6 rounded-3xl shadow-lg transform translate-y-8">
+                                    <div class="bg-white p-6 rounded-3xl shadow-lg transform sm:translate-y-8">
                                         <div class="w-12 h-12 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-palette"></i></div>
                                         <h4 class="font-bold text-slate-900 mb-2">Desain Premium</h4>
                                         <p class="text-xs text-slate-500">Ratusan template yang dirancang khusus untuk konversi.</p>
@@ -898,7 +910,7 @@
                 </section>
 
                 <!-- Pricing Preview -->
-                <section id="pricing-section" class="py-24 bg-slate-50">
+                <section id="pricing-section" class="py-16 md:py-24 bg-slate-50">
                     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div class="text-center mb-16">
                             <h2 class="text-3xl font-black text-slate-900 mb-4">Paket Website Tahunan</h2>
@@ -911,7 +923,7 @@
                 </section>
 
                 <!-- Final CTA -->
-                <section class="py-24 bg-slate-900 text-center px-4 relative overflow-hidden">
+                <section class="py-16 md:py-24 bg-slate-900 text-center px-4 relative overflow-hidden">
                     <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20"></div>
                     <div class="relative z-10 max-w-3xl mx-auto">
                         <h2 class="text-4xl md:text-5xl font-black text-white mb-6">Mulai Bangun Website Bisnis Anda Hari Ini</h2>
@@ -993,7 +1005,7 @@
                                     ${filteredTemplates.map(tpl => components.templateCard(tpl)).join('')}
                                 </div>
                             ` : `
-                                <div class="text-center py-24 bg-white rounded-2xl border border-slate-200 shadow-sm">
+                                <div class="text-center py-16 md:py-24 bg-white rounded-2xl border border-slate-200 shadow-sm">
                                     <i class="fa-solid fa-box-open text-6xl text-slate-200 mb-4"></i>
                                     <h3 class="text-xl font-bold text-slate-900 mb-2">Template tidak ditemukan</h3>
                                     <p class="text-slate-500">Coba gunakan kata kunci atau pilih kategori yang berbeda.</p>
