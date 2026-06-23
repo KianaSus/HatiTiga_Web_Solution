@@ -722,4 +722,21 @@ function dashToast(msg, type='success') {
     alert(msg); // Simplified for MVP
 }
 
+window.toggleMobilePreview = function() {
+    const panel = document.getElementById('preview-panel');
+    const overlay = document.getElementById('preview-overlay');
+    
+    if (panel.classList.contains('translate-y-full')) {
+        // Open
+        panel.classList.remove('translate-y-full');
+        overlay.classList.remove('hidden');
+        setTimeout(() => overlay.classList.remove('opacity-0'), 10);
+    } else {
+        // Close
+        panel.classList.add('translate-y-full');
+        overlay.classList.add('opacity-0');
+        setTimeout(() => overlay.classList.add('hidden'), 300);
+    }
+}
+
 window.onload = initApp;

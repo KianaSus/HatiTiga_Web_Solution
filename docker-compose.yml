@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  hatitiga-frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: hatitiga_mvp_frontend
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+    volumes:
+      # Volume mounting agar bisa live reload tanpa harus build ulang container saat ngoding
+      - .:/usr/share/nginx/html
